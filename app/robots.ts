@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin/", "/api/", "/checkout/verify/"],
       },
     ],
-    sitemap: "https://basmat-hatify-store.com/sitemap.xml",
-    host: "https://basmat-hatify-store.com",
+    sitemap: "https://sahlnaha-store.com/sitemap.xml",
+    host: "https://sahlnaha-store.com",
   };
 }

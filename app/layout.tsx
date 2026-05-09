@@ -4,7 +4,7 @@ import ClientLayout from "./components/ClientLayout";
 import Footer from "./components/Footer";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
-const SITE_URL = "https://basmat-hatify-store.com";
+const SITE_URL = "https://sahlnaha-store.com";
 
 async function getCompany() {
   try {
@@ -18,8 +18,8 @@ async function getCompany() {
 export async function generateMetadata(): Promise<Metadata> {
   const c = await getCompany();
 
-  const siteName = c.nameAr || "بصمة هاتفي المعتمد";
-  const description = c.details || "متجر بصمة هاتفي المعتمد - أجهزة إلكترونية بالأقساط داخل المملكة العربية السعودية. أفضل الأسعار على الجوالات، اللابتوبات، الأجهزة اللوحية والإكسسوارات.";
+  const siteName = c.nameAr || "سهلناها";
+  const description = c.details || "متجر سهلناها - أجهزة إلكترونية بالأقساط داخل المملكة العربية السعودية. أفضل الأسعار على الجوالات، اللابتوبات، الأجهزة اللوحية والإكسسوارات.";
   const ogImage = `${SITE_URL}/android-chrome-512x512.png`;
 
   return {
@@ -31,12 +31,12 @@ export async function generateMetadata(): Promise<Metadata> {
     description,
     keywords: [
       siteName,
-      c.nameEn || "Basmat Hatify Store",
+      c.nameEn || "Sahlnaha Store",
       "أقساط", "جوالات", "لابتوب", "أجهزة إلكترونية",
       "سامسونج", "آبل", "أيفون", "شاومي", "هواوي", "أوبو",
       "السعودية", "الرياض", "جدة", "مكة", "الدمام",
       "شراء بالتقسيط", "أقساط بدون فوائد", "متجر إلكتروني",
-      "بصمة هاتفي", "بسمة هاتفي",
+      "سهلناها", "مؤسسة سهلناها التقنية",
     ],
     authors: [{ name: siteName, url: SITE_URL }],
     creator: siteName,

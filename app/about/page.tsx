@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import AboutClient from "./AboutClient";
 
 export const metadata: Metadata = {
-  title: "عن بصمة هاتفي المعتمد",
+  title: "عن سهلناها",
   description: "تعرف على نشاط المتجر ورؤيتنا والخدمات التي نقدمها لعملائنا",
 };
 

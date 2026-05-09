@@ -67,7 +67,7 @@ export default async function Footer() {
           </h3>
           <div className="w-8 h-0.5 rounded" style={{ background: "#2dd4bf" }} />
           <p className="text-sm leading-7 text-gray-300">
-            {c.details || "بصمة هاتفي المعتمد هو اختيارك الأول لشراء أجهزتك بالأقساط داخل السعودية، ضمان موثوق وخدمة محلية."}
+            {c.details || "مؤسسة سهلناها التقنية هي اختيارك الأول لشراء أجهزتك بالأقساط داخل السعودية، ضمان موثوق وخدمة محلية."}
           </p>
         </div>
 
@@ -173,7 +173,7 @@ export default async function Footer() {
             <Image src="/mada975b.png" alt="mada" width={50} height={30} className="object-contain" style={{ width: "auto", height: "28px" }} />
           </div>
           <span className="text-xs" style={{ color: "rgba(167,243,208,0.6)" }}>
-            الحقوق محفوظة بصمة هاتفي المعتمد © 2026
+            الحقوق محفوظة مؤسسة سهلناها التقنية © 2026
           </span>
         </div>
       </div>

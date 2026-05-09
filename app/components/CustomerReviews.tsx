@@ -26,7 +26,7 @@ function StarRating({ rating, size = "sm" }: { rating: number; size?: "sm" | "lg
 
 function Avatar({ name, gender }: { name: string; gender: string }) {
   return (
-    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center text-white font-black text-base shrink-0 shadow-md ${gender === "female" ? "bg-gradient-to-br from-pink-400 to-rose-500" : "bg-gradient-to-br from-blue-500 to-blue-700"}`}>
+    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center text-white font-black text-base shrink-0 shadow-md ${gender === "female" ? "bg-gradient-to-br from-pink-400 to-rose-500" : ""}`} style={gender !== "female" ? { background: "linear-gradient(135deg, #053132, #0a6b6e)" } : {}}>
       {name.trim().charAt(0).toUpperCase()}
     </div>
   );
@@ -86,7 +86,7 @@ export default function CustomerReviews() {
 
         {/* Header */}
         <div className="text-center mb-12">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest text-blue-600 border border-blue-500/30 bg-blue-500/10 mb-4">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest mb-4" style={{ color: "#053132", border: "1px solid rgba(5,49,50,0.3)", background: "rgba(5,49,50,0.08)" }}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-3.5 h-3.5">
               <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clipRule="evenodd" />
             </svg>
@@ -94,19 +94,19 @@ export default function CustomerReviews() {
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 leading-tight">
             ماذا يقول
-            <span className="block bg-gradient-to-l from-blue-600 to-blue-400 bg-clip-text text-transparent">
+            <span className="block bg-clip-text text-transparent" style={{ backgroundImage: "linear-gradient(to left, #053132, #0a9396)" }}>
               زبايننا عنّا؟
             </span>
           </h2>
 
           {reviews.length > 0 && (
-            <div className="flex items-center justify-center gap-6 mt-6">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mt-6">
               <div className="flex flex-col items-center">
                 <span className="text-4xl font-black text-gray-900">{avgRating}</span>
                 <StarRating rating={Math.round(avgRating)} />
                 <span className="text-gray-400 text-xs mt-1">{reviews.length} تقييم</span>
               </div>
-              <div className="w-px h-16 bg-gray-200" />
+              <div className="hidden sm:block w-px h-16 bg-gray-200" />
               <div className="flex flex-col gap-1">
                 {[5, 4, 3].map((star) => {
                   const count = reviews.filter((r) => r.rating === star).length;
@@ -134,8 +134,8 @@ export default function CustomerReviews() {
             {/* Desktop grid */}
             <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
               {reviews.map((r) => (
-                <div key={r._id} className="group relative bg-white border border-gray-100 rounded-2xl p-5 flex flex-col gap-4 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 hover:-translate-y-1 shadow-sm">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="absolute top-4 left-4 w-8 h-8 text-blue-100 group-hover:text-blue-200 transition-colors">
+                <div key={r._id} className="group relative bg-white border border-gray-100 rounded-2xl p-5 flex flex-col gap-4 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 shadow-sm" style={{ ['--hover-border' as string]: 'rgba(5,49,50,0.2)' }} onMouseEnter={e=>{e.currentTarget.style.borderColor='rgba(5,49,50,0.2)'}} onMouseLeave={e=>{e.currentTarget.style.borderColor=''}}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="absolute top-4 left-4 w-8 h-8 transition-colors" style={{ color: "rgba(5,49,50,0.1)" }}>
                     <path fillRule="evenodd" d="M4.848 2.771A49.144 49.144 0 0 1 12 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 0 1-3.476.383.39.39 0 0 0-.297.17l-2.755 4.133a.75.75 0 0 1-1.248 0l-2.755-4.133a.39.39 0 0 0-.297-.17 48.9 48.9 0 0 1-3.476-.384c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97Z" clipRule="evenodd" />
                   </svg>
                   <StarRating rating={r.rating} />
@@ -144,7 +144,7 @@ export default function CustomerReviews() {
                   </p>
                   {r.comment.length > 100 && (
                     <button onClick={() => setExpanded(expanded === r._id ? null : r._id)}
-                      className="text-blue-500 text-xs font-semibold hover:text-blue-600 transition-colors text-right">
+                      className="text-xs font-semibold transition-colors text-right" style={{ color: "#053132" }}>
                       {expanded === r._id ? "أقل ▲" : "المزيد ▼"}
                     </button>
                   )}
@@ -163,7 +163,7 @@ export default function CustomerReviews() {
             <div className="md:hidden mb-8">
               <div className="overflow-hidden">
                 <div className="flex transition-transform duration-500 ease-out"
-                  style={{ transform: `translateX(${activeIdx * 100}%)` }}>
+                  style={{ transform: `translateX(${activeIdx * -100}%)` }}>
                   {reviews.map((r) => (
                     <div key={r._id} className="w-full shrink-0 px-1">
                       <div className="bg-white border border-gray-100 rounded-2xl p-5 flex flex-col gap-4 shadow-sm">
@@ -184,7 +184,7 @@ export default function CustomerReviews() {
               <div className="flex justify-center gap-1.5 mt-4">
                 {reviews.map((_, i) => (
                   <button key={i} onClick={() => setActiveIdx(i)}
-                    className={`rounded-full transition-all duration-300 ${i === activeIdx ? "w-6 h-2 bg-blue-600" : "w-2 h-2 bg-gray-300 hover:bg-gray-400"}`} />
+                    className={`rounded-full transition-all duration-300 ${i === activeIdx ? "w-6 h-2" : "w-2 h-2 bg-gray-300 hover:bg-gray-400"}`} style={i === activeIdx ? { background: "#053132" } : {}} />
                 ))}
               </div>
             </div>
@@ -203,7 +203,7 @@ export default function CustomerReviews() {
         {/* CTA */}
         <div className="flex flex-col items-center gap-4">
           {submitted ? (
-            <div className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-blue-50 border border-blue-200 text-blue-600 text-sm font-semibold">
+            <div className="flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-semibold" style={{ background: "rgba(5,49,50,0.07)", border: "1px solid rgba(5,49,50,0.2)", color: "#053132" }}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
                 <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
               </svg>
@@ -211,7 +211,7 @@ export default function CustomerReviews() {
             </div>
           ) : (
             <button onClick={() => setShowForm((v) => !v)}
-              className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-lg shadow-blue-500/20 hover:-translate-y-0.5 transition-all duration-300">
+              className="flex items-center gap-2 px-6 py-3 rounded-2xl text-white font-bold text-sm hover:-translate-y-0.5 transition-all duration-300" style={{ background: "#053132", boxShadow: "0 8px 20px rgba(5,49,50,0.25)" }}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
                 <path fillRule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
               </svg>
@@ -224,13 +224,13 @@ export default function CustomerReviews() {
               className="w-full max-w-lg bg-white border border-gray-100 rounded-2xl p-6 flex flex-col gap-4 shadow-xl">
               <input type="text" placeholder="اسمك" value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30 transition-all"
-                required />
+                className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition-all"
+                onFocus={e=>{e.currentTarget.style.borderColor='#053132';e.currentTarget.style.boxShadow='0 0 0 3px rgba(5,49,50,0.15)';}} onBlur={e=>{e.currentTarget.style.borderColor='';e.currentTarget.style.boxShadow='';}} required />
               <textarea placeholder="اكتب تجربتك مع المتجر..." value={form.comment}
                 onChange={(e) => setForm({ ...form, comment: e.target.value })}
                 rows={3}
-                className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30 transition-all resize-none"
-                required />
+                className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition-all resize-none"
+                onFocus={e=>{e.currentTarget.style.borderColor='#053132';e.currentTarget.style.boxShadow='0 0 0 3px rgba(5,49,50,0.15)';}} onBlur={e=>{e.currentTarget.style.borderColor='';e.currentTarget.style.boxShadow='';}} required />
               <div className="flex items-center gap-3">
                 <span className="text-gray-600 text-sm">تقييمك:</span>
                 <div className="flex gap-1">
@@ -247,7 +247,7 @@ export default function CustomerReviews() {
                 </div>
               </div>
               <button type="submit" disabled={submitting}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 shadow-lg shadow-blue-500/20 text-sm">
+                className="text-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 text-sm" style={{ background: "#053132", boxShadow: "0 4px 14px rgba(5,49,50,0.25)" }}>
                 {submitting ? "جاري الإرسال..." : "إرسال التعليق"}
               </button>
             </form>

@@ -75,7 +75,7 @@ const sections = [
     bg: "bg-blue-50",
     iconText: "text-blue-600",
     content: [
-      "باستخدامك لهذا الموقع فإنك توافق على الالتزام بالشروط والأحكام والسياسات المعمول بها داخل مؤسسة  بصمة هاتفي المعتمد .",
+      "باستخدامك لهذا الموقع فإنك توافق على الالتزام بالشروط والأحكام والسياسات المعمول بها داخل مؤسسة سهلناها التقنية.",
     ],
   },
   {
@@ -157,8 +157,7 @@ export default function PrivacyPage() {
             </span>
           </h1>
           <p {...anim(360)} className="text-blue-100/90 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed">
-            الشروط العامة المنظمة لاستخدام موقع مؤسسة بصمة هاتفي المعتمد 
-          </p>
+            الشروط العامة المنظمة لاستخدام موقع مؤسسة سهلناها التقنية
         </div>
         <div className="absolute bottom-0 left-0 w-full">
           <svg viewBox="0 0 1440 70" className="w-full h-12 sm:h-16" preserveAspectRatio="none">

@@ -107,7 +107,7 @@ export default function Navbar() {
 
       {/* ── Row 2: Logo + Search + Icons ── */}
       <div className="bg-white border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+        <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between gap-3">
 
           {/* Right: Hamburger + Logo */}
           <div className="flex items-center gap-2 shrink-0">
@@ -125,7 +125,7 @@ export default function Navbar() {
                   alt={nameAr || "logo"}
                   width={180}
                   height={72}
-                  className="object-contain h-16 w-auto sm:h-16 lg:h-20"
+                  className="object-contain h-20 w-auto lg:h-24"
                   unoptimized
                 />
               ) : (
