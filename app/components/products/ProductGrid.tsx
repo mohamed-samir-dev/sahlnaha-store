@@ -63,44 +63,42 @@ const categoryPageMap: Record<string, string> = {
   "العاب": "/games/ps5-games",
 };
 
-/* ── alternating accent colors per category row ── */
-const accents = [
-  { gradient: "linear-gradient(135deg, #0d9488, #059669)", shadow: "rgba(13,148,136,0.3)" },
-  { gradient: "linear-gradient(135deg, #059669, #16a34a)", shadow: "rgba(5,150,105,0.3)" },
-  { gradient: "linear-gradient(135deg, #0891b2, #0d9488)", shadow: "rgba(8,145,178,0.3)" },
+const accentColors = [
+  { bar: "#2563eb", light: "#eff6ff", text: "#2563eb" },
+  { bar: "#7c3aed", light: "#f5f3ff", text: "#7c3aed" },
+  { bar: "#0891b2", light: "#ecfeff", text: "#0891b2" },
+  { bar: "#059669", light: "#ecfdf5", text: "#059669" },
+  { bar: "#dc2626", light: "#fef2f2", text: "#dc2626" },
 ];
 
 function CategoryRow({ category, items, isFirst, accentIdx }: { category: string; items: Product[]; isFirst?: boolean; accentIdx: number }) {
   const visible = items.slice(0, LIMIT);
   const href = categoryPageMap[category] ?? categoryPageMap[category.toLowerCase()] ?? "#";
-  const accent = accents[accentIdx % accents.length];
+  const accent = accentColors[accentIdx % accentColors.length];
 
   return (
-    <div
-      className="rounded-3xl overflow-hidden mb-6 border border-gray-100/80 bg-white"
-      style={{ boxShadow: "0 2px 20px -4px rgba(0,0,0,0.06)" }}
-      dir="rtl"
-    >
-      <div
-        className="flex items-center justify-between px-4 sm:px-6 py-3.5"
-        style={{ background: accent.gradient, boxShadow: `0 4px 16px -4px ${accent.shadow}` }}
-      >
-        <h2 className="text-sm sm:text-base md:text-lg font-bold text-white truncate">{category}</h2>
+    <div className="mb-8" dir="rtl">
+      {/* ── Header ── */}
+      <div className="flex items-center justify-between mb-4 px-1">
+        <div className="flex items-center gap-3">
+          <span className="w-1 h-7 rounded-full shrink-0" style={{ background: accent.bar }} />
+          <h2 className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">{category}</h2>
+        </div>
         <Link
           href={href}
-          className="shrink-0 flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-white bg-white/15 hover:bg-white/30 backdrop-blur-sm px-4 py-2 rounded-full transition-all duration-300 border border-white/10 hover:border-white/25"
+          className="flex items-center gap-1.5 text-xs font-bold px-4 py-2 rounded-full border transition-all duration-200 hover:opacity-80"
+          style={{ color: accent.text, borderColor: accent.bar, background: accent.light }}
         >
           عرض الكل
           <IoArrowBack size={13} />
         </Link>
       </div>
 
-      <div className="p-3 sm:p-5">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-          {visible.map((p, i) => (
-            <ProductCard key={p._id} product={p} priority={isFirst && i === 0} />
-          ))}
-        </div>
+      {/* ── Cards ── */}
+      <div className="grid grid-cols-2 min-[480px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-4">
+        {visible.map((p, i) => (
+          <ProductCard key={p._id} product={p} priority={isFirst && i === 0} />
+        ))}
       </div>
     </div>
   );
@@ -161,21 +159,24 @@ export default function ProductGrid() {
     return [...orderedCats, ...unconfigured];
   }, [grouped, homeConfig]);
 
-  /* ── Loading skeleton ── */
   if (loading) return (
     <section className="w-full max-w-6xl mx-auto px-3 sm:px-6 py-8">
       {[1, 2, 3].map((g) => (
-        <div key={g} className="mb-6 rounded-3xl overflow-hidden border border-gray-100">
-          <div className="h-12 bg-gray-100 animate-pulse" />
-          <div className="p-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div key={g} className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-1 h-7 rounded-full bg-gray-200 animate-pulse" />
+            <div className="h-5 w-40 bg-gray-200 animate-pulse rounded-full" />
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-4">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="bg-white rounded-2xl overflow-hidden border border-gray-50">
-                <div className="w-full aspect-square bg-gray-50 animate-pulse" />
+              <div key={i} className="bg-white rounded-2xl overflow-hidden border border-gray-100">
+                <div className="w-full aspect-square bg-gray-100 animate-pulse" />
                 <div className="p-3 space-y-2.5">
+                  <div className="h-3 bg-gray-100 animate-pulse rounded-full w-1/2" />
                   <div className="h-4 bg-gray-100 animate-pulse rounded-full w-3/4" />
                   <div className="h-4 bg-gray-100 animate-pulse rounded-full w-1/2" />
+                  <div className="h-9 bg-gray-100 animate-pulse rounded-xl mt-2" />
                 </div>
-                <div className="h-11 bg-gray-50 animate-pulse mx-3 mb-3 rounded-xl" />
               </div>
             ))}
           </div>
@@ -187,7 +188,7 @@ export default function ProductGrid() {
   if (!products.length) return <p className="text-center text-gray-400 py-10">لا توجد منتجات حالياً</p>;
 
   return (
-    <section className="w-full py-6 sm:py-8 overflow-hidden">
+    <section className="w-full py-8 sm:py-10">
       <div className="max-w-6xl mx-auto px-3 sm:px-6">
         {orderedCategories.map((category, catIdx) => (
           <div key={category}>

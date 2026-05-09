@@ -1,5 +1,7 @@
 import HeroSection from "./components/HeroSection";
 import StaticCategories from "./components/StaticCategories";
+import HomeCategorySections from "./components/HomeCategorySections";
+import CustomerReviews from "./components/CustomerReviews";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
 const SITE_URL = "https://www.pasmthatfee.com";
@@ -80,6 +82,8 @@ export default async function Home() {
       <main className="min-h-screen bg-gradient-to-b from-white via-gray-50/50 to-teal-50/30">
         <HeroSection />
         <StaticCategories />
+        <HomeCategorySections />
+        <CustomerReviews />
       </main>
     </>
   );

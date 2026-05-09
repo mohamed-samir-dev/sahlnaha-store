@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import {
   IoHomeOutline,
   IoChevronBack,
@@ -13,13 +12,11 @@ import {
   IoFlash,
   IoShieldCheckmarkOutline,
   IoRocketOutline,
-  IoSparkles,
 } from "react-icons/io5";
 import { motion, AnimatePresence } from "framer-motion";
 import ProductCard from "../../components/products/ProductCard";
 import type { Product } from "../../components/products/types";
 import { slugConfigs } from "../../lib/categoryConfig";
-import { categoryBanners } from "../../lib/categoryBanners";
 import { sortProducts } from "../../lib/sortProducts";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
@@ -41,60 +38,6 @@ function filterProducts(products: Product[], slug: string): Product[] {
   });
 }
 
-// Animated fallback when no banner image
-function AnimatedHeroBg() {
-  return (
-    <div className="absolute inset-0 overflow-hidden">
-      {/* Floating orbs */}
-      <motion.div
-        className="absolute w-[400px] h-[400px] rounded-full opacity-20"
-        style={{ background: "radial-gradient(circle, rgba(20,184,166,.6) 0%, transparent 70%)", top: "-10%", right: "-5%" }}
-        animate={{ x: [0, 30, -20, 0], y: [0, -20, 15, 0], scale: [1, 1.05, 0.97, 1] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute w-[350px] h-[350px] rounded-full opacity-15"
-        style={{ background: "radial-gradient(circle, rgba(52,211,153,.5) 0%, transparent 70%)", bottom: "-10%", left: "-5%" }}
-        animate={{ x: [0, -25, 20, 0], y: [0, 20, -15, 0], scale: [1, 0.95, 1.05, 1] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute w-[250px] h-[250px] rounded-full opacity-10"
-        style={{ background: "radial-gradient(circle, rgba(16,185,129,.4) 0%, transparent 70%)", top: "40%", left: "30%" }}
-        animate={{ x: [0, 15, -10, 0], y: [0, -10, 20, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-      />
-      {/* Grid pattern */}
-      <div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }}
-      />
-      {/* Animated lines */}
-      <motion.div
-        className="absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"
-        animate={{ opacity: [0, 0.5, 0] }}
-        transition={{ duration: 4, repeat: Infinity }}
-      />
-      <motion.div
-        className="absolute top-1/3 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-300/10 to-transparent"
-        animate={{ opacity: [0, 0.3, 0] }}
-        transition={{ duration: 5, repeat: Infinity, delay: 1.5 }}
-      />
-      {/* Floating sparkles */}
-      {[...Array(5)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 bg-white rounded-full"
-          style={{ top: `${20 + i * 15}%`, left: `${10 + i * 18}%` }}
-          animate={{ opacity: [0, 1, 0], scale: [0, 1.5, 0] }}
-          transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.6 }}
-        />
-      ))}
-    </div>
-  );
-}
 
 const features = [
   { icon: IoRocketOutline, text: "شحن سريع" },
@@ -109,11 +52,7 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const [imgError, setImgError] = useState(false);
   const ITEMS_PER_PAGE = 12;
-
-  const bannerImage = categoryBanners[slug] || null;
-  const hasBanner = bannerImage && !imgError;
 
   useEffect(() => {
     if (!slug) return;
@@ -133,140 +72,72 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
 
   return (
     <>
-      <style>{`
-        @keyframes heroShimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
-        .hero-shimmer{background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);background-size:200% 100%;animation:heroShimmer 3s infinite}
-      `}</style>
-
       <main className="min-h-screen bg-[#f8f9fb]" dir="rtl">
-        {/* ═══════════ HERO BANNER ═══════════ */}
-        <div
-          className="relative overflow-hidden h-[280px] sm:h-[340px] md:h-[400px] lg:h-[440px]"
-          style={{ background: "linear-gradient(135deg, #0c4a4e 0%, #0a6b5a 30%, #147a6e 60%, #0f5e52 100%)" }}
-        >
-          {/* Background: Image (visible & clear) or Animated fallback */}
-          {hasBanner ? (
-            <>
-              <Image
-                src={bannerImage}
-                alt={label}
-                fill
-                className="object-cover opacity-60 sm:opacity-70"
-                style={{ objectPosition: "center 30%" }}
-                priority
-                sizes="100vw"
-                onError={() => setImgError(true)}
-              />
-              {/* Bottom gradient so text is readable */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0a3d3f] via-[#0a3d3f]/50 to-transparent" />
-              {/* RTL side gradient for text area */}
-              <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-[#0a3d3f]/40" />
-            </>
-          ) : (
-            <AnimatedHeroBg />
-          )}
+        {/* ═══════════ HERO HEADER ═══════════ */}
+        <div className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-teal-900 to-slate-950">
 
-          {/* Overlay shimmer */}
-          <div className="absolute inset-0 hero-shimmer pointer-events-none" />
+          {/* Background decorations */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "linear-gradient(white 1px,transparent 1px),linear-gradient(90deg,white 1px,transparent 1px)", backgroundSize: "44px 44px" }} />
+            <motion.div animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.25, 0.15] }} transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-teal-500/20 blur-3xl" />
+            <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }} transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+              className="absolute -bottom-32 -left-32 w-[400px] h-[400px] rounded-full bg-cyan-500/15 blur-3xl" />
+          </div>
 
-          {/* Content - centered on the image background */}
-          <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 h-full flex flex-col justify-between">
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-12 sm:pb-16">
+
             {/* Breadcrumb */}
-            <motion.nav
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="flex items-center gap-1.5 text-[11px] sm:text-xs text-white/70 pt-5 sm:pt-7"
-            >
-              <Link href="/" className="hover:text-white transition flex items-center gap-1">
+            <motion.nav initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
+              className="flex items-center gap-1.5 text-xs text-white/40 mb-8">
+              <Link href="/" className="hover:text-white/70 transition flex items-center gap-1">
                 <IoHomeOutline size={13} />
                 الرئيسية
               </Link>
-              <IoChevronBack size={11} className="opacity-60" />
-              <Link href={parentHref} className="hover:text-white transition">{parentLabel}</Link>
-              <IoChevronBack size={11} className="opacity-60" />
-              <span className="text-white font-medium">{label}</span>
+              <IoChevronBack size={11} />
+              <Link href={parentHref} className="hover:text-white/70 transition">{parentLabel}</Link>
+              <IoChevronBack size={11} />
+              <span className="text-white/70">{label}</span>
             </motion.nav>
 
-            {/* Main hero text - bottom aligned */}
-            <div className="pb-10 sm:pb-14 md:pb-16">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="inline-flex items-center gap-2 text-[11px] font-bold text-white/90 bg-white/[.12] backdrop-blur-md px-4 py-2 rounded-full border border-white/[.15] mb-3 sm:mb-4"
-              >
-                <IoSparkles size={13} className="text-emerald-300" />
-                {parentLabel}
-              </motion.div>
+            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
 
-              <motion.h1
-                initial={{ opacity: 0, y: 25 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.15 }}
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight mb-3 sm:mb-4 max-w-xl"
-                style={{ textShadow: "0 2px 24px rgba(0,0,0,.35)" }}
-              >
-                {label}
-              </motion.h1>
+              {/* Title */}
+              <div>
+                <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}
+                  className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight">
+                  {label}
+                  <span className="block mt-1 bg-gradient-to-l from-teal-400 to-cyan-300 bg-clip-text text-transparent">
+                    {parentLabel}
+                  </span>
+                </motion.h1>
+              </div>
 
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.25 }}
-                className="text-xs sm:text-sm md:text-base text-white/70 mb-5 max-w-md"
-                style={{ textShadow: "0 1px 8px rgba(0,0,0,.2)" }}
-              >
-                اكتشف أفضل العروض والأسعار مع ضمان معتمد وتقسيط مريح
-              </motion.p>
-
-              {/* Feature pills + count */}
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.35 }}
-                className="flex gap-2 sm:gap-3 flex-wrap items-center"
-              >
-                {features.map((f, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.3, delay: 0.4 + i * 0.08 }}
-                    className="flex items-center gap-1.5 sm:gap-2 bg-white/[.1] backdrop-blur-sm px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl border border-white/[.12] text-white/90 text-[10px] sm:text-xs font-medium"
-                  >
-                    <f.icon size={14} className="text-emerald-300" />
-                    {f.text}
+              {/* Badges */}
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.35 }}
+                className="flex flex-wrap gap-3">
+                {features.map((b, i) => (
+                  <motion.div key={i} initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3, delay: 0.4 + i * 0.08 }}
+                    className="flex items-center gap-2 bg-white/[0.06] hover:bg-white/[0.1] border border-white/10 backdrop-blur-sm text-white/80 text-xs font-medium px-4 py-2.5 rounded-2xl transition-colors cursor-default">
+                    <b.icon size={14} className="text-teal-300" />
+                    {b.text}
                   </motion.div>
                 ))}
-
-                {!loading && products.length > 0 && (
-                  <motion.span
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.4, delay: 0.5 }}
-                    className="inline-flex items-center gap-1.5 bg-emerald-500/20 backdrop-blur-sm px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl border border-emerald-400/20 text-emerald-200 text-[10px] sm:text-xs font-bold"
-                  >
-                    <IoGridOutline size={13} />
-                    {products.length} منتج
-                  </motion.span>
-                )}
               </motion.div>
+
             </div>
           </div>
 
-          {/* Curved bottom */}
-          <div className="absolute bottom-0 left-0 right-0">
-            <svg viewBox="0 0 1440 60" preserveAspectRatio="none" className="w-full h-[30px] sm:h-[50px]">
-              <path d="M0,30 C360,60 720,0 1080,40 C1260,52 1380,42 1440,30 L1440,60 L0,60Z" fill="#f8f9fb" />
-            </svg>
-          </div>
+          {/* Bottom wave */}
+          <svg viewBox="0 0 1440 40" preserveAspectRatio="none" className="w-full h-8 sm:h-10 block relative z-10">
+            <path d="M0,40 L0,15 Q360,40 720,15 Q1080,-10 1440,15 L1440,40 Z" fill="#f8f9fb" />
+          </svg>
         </div>
 
         {/* ═══════════ PRODUCTS GRID ═══════════ */}
         <div className="max-w-6xl mx-auto px-3 sm:px-6 py-6 sm:py-10">
           {loading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-4">
               {Array.from({ length: 8 }).map((_, i) => (
                 <div key={i} className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
                   <div className="w-full aspect-square bg-gradient-to-br from-gray-50 to-gray-100 animate-pulse" />
@@ -324,7 +195,7 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
               </motion.div>
 
               {/* Products */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-4">
                 <AnimatePresence mode="wait">
                   {products.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE).map((p, i) => (
                     <motion.div

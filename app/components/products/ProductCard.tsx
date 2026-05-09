@@ -15,7 +15,6 @@ import type { Product } from "./types";
 import { useCartStore } from "../../store/cartStore";
 
 const fmt = (n: number) => n.toLocaleString("en-US");
-
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 const resolveImg = (src: string) =>
   src.startsWith("http") ? src : `${API}${src.startsWith("/") ? src : "/" + src}`;
@@ -47,160 +46,149 @@ export default function ProductCard({ product, priority = false }: { product: Pr
     }, 1000);
   };
 
-  const tags = [color, storage].filter(Boolean);
-
   return (
     <>
       {toast && (
-        <div className="fixed top-4 right-4 z-50 bg-emerald-600 text-white px-6 py-3 rounded-2xl shadow-2xl flex items-center gap-2 text-base font-medium animate-fade-in-down">
-          <IoCheckmarkCircleOutline size={18} />
+        <div className="fixed top-5 right-5 z-50 bg-blue-600 text-white px-5 py-3 rounded-2xl shadow-2xl shadow-blue-500/25 flex items-center gap-2.5 text-sm font-semibold animate-fade-in-down">
+          <IoCheckmarkCircleOutline size={19} />
           تمت إضافة المنتج للسلة
         </div>
       )}
 
       <Link
         href={`/product/${product._id}`}
-        className="product-card group relative flex flex-col h-full rounded-[20px] sm:rounded-[24px] bg-white overflow-hidden"
+        className="product-card group relative flex flex-col h-full bg-white rounded-2xl overflow-hidden"
         dir="rtl"
       >
 
+        {/* ══════════ IMAGE ZONE ══════════ */}
+        <div className="relative w-full aspect-square overflow-hidden bg-white">
 
-        {/* ── Image Section ── */}
-        <div className="relative w-full aspect-[4/3] sm:aspect-square overflow-hidden bg-gradient-to-br from-gray-50 via-white to-slate-50">
-          {/* Discount badge - premium ribbon style */}
+          {/* top-right: discount */}
           {discountPercent > 0 && (
-            <div className="absolute z-10 top-2.5 right-2.5 sm:top-3 sm:right-3">
-              <div className="relative bg-gradient-to-l from-rose-500 to-red-600 text-white text-[9px] sm:text-[11px] font-black px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg shadow-lg shadow-red-500/30">
-                <IoFlash size={10} className="inline-block ml-0.5 -mt-0.5" />
-                {discountPercent}%−
+            <div className="absolute top-2.5 right-2.5 z-10">
+              <div className="flex items-center gap-0.5 bg-red-500 text-white text-[10px] font-black px-2 py-[3px] rounded-lg shadow-lg shadow-red-500/30 leading-none">
+                <IoFlash size={8} className="shrink-0" />
+                {discountPercent}%
               </div>
             </div>
           )}
 
-          {/* Stock indicator */}
-          <div className={`absolute z-10 top-2.5 left-2.5 sm:top-3 sm:left-3 flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded-lg text-[8px] sm:text-[10px] font-bold backdrop-blur-xl border ${
+          {/* top-left: stock */}
+          <div className={`absolute top-2.5 left-2.5 z-10 flex items-center gap-1 px-2 py-[3px] rounded-lg text-[9px] font-bold border leading-none ${
             inStock
-              ? "bg-emerald-50/80 text-emerald-700 border-emerald-200/60"
-              : "bg-red-50/80 text-red-600 border-red-200/60"
+              ? "bg-white/95 text-emerald-600 border-emerald-200/80"
+              : "bg-white/95 text-red-500 border-red-200/80"
           }`}>
-            <span className={`h-1.5 w-1.5 rounded-full ${inStock ? "bg-emerald-500" : "bg-red-500"}`} />
+            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${inStock ? "bg-emerald-500 animate-pulse" : "bg-red-500"}`} />
             {inStock ? "متوفر" : "نفذ"}
           </div>
 
-          {/* Installment badge */}
+          {/* bottom-left: installment */}
           {installment?.available && (
-            <div className="absolute z-10 bottom-2.5 left-2.5 sm:bottom-3 sm:left-3 flex items-center gap-1 bg-gradient-to-l from-amber-500 to-orange-500 text-white px-2 sm:px-2.5 py-1 rounded-lg text-[8px] sm:text-[10px] font-bold shadow-lg shadow-amber-500/25">
-              <IoFlash size={10} />
+            <div className="absolute bottom-2.5 left-2.5 z-10 flex items-center gap-1 bg-amber-500 text-white px-2 py-[3px] rounded-lg text-[9px] font-bold leading-none shadow-md shadow-amber-500/20">
+              <IoFlash size={8} />
               تقسيط
             </div>
           )}
 
+          {/* product image */}
           {resolvedImage ? (
             <Image
               src={resolvedImage}
               alt={name}
               fill
-              className="object-contain p-4 sm:p-8"
+              className="object-contain p-5 sm:p-7 transition-transform duration-500 ease-out group-hover:scale-[1.08]"
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
               priority={priority}
               loading={priority ? "eager" : "lazy"}
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-gray-200 text-4xl">📱</div>
+            <div className="w-full h-full flex items-center justify-center text-5xl text-gray-200">📱</div>
           )}
         </div>
 
-        {/* ── Separator line ── */}
-        <div className="h-[1px] bg-gradient-to-l from-transparent via-teal-200/60 to-transparent mx-4" />
+        {/* ══════════ CONTENT ZONE ══════════ */}
+        <div className="flex flex-col flex-1 px-3 pt-3 pb-3 sm:px-3.5 sm:pt-3.5 sm:pb-3.5 gap-2">
 
-        {/* ── Content ── */}
-        <div className="flex flex-col flex-1 px-3 sm:px-4 pt-3 sm:pt-4 pb-2 gap-1.5 sm:gap-2">
-          {/* Brand + Tags */}
-          <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
-            {brand && (
-              <span className="text-[9px] sm:text-[11px] font-extrabold text-white bg-gradient-to-l from-teal-600 to-emerald-600 px-2 sm:px-2.5 py-0.5 rounded-md tracking-wide uppercase shadow-sm">
+          {/* ── Brand pill ── */}
+          {brand && (
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <span className="text-[11px] sm:text-xs font-extrabold text-blue-600 bg-blue-50 border border-blue-100 px-2.5 py-1 rounded-md uppercase tracking-wide leading-none">
                 {brand}
               </span>
-            )}
-            {tags.map((t, i) => (
-              <span key={i} className="text-[9px] sm:text-[11px] font-semibold text-white bg-gradient-to-l from-teal-600 to-emerald-600  px-1.5 sm:px-2 py-0.5 rounded-md">
-                {t}
-              </span>
-            ))}
-          </div>
+              {color && (
+                <span className="text-[11px] sm:text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-md leading-none">
+                  {color}
+                </span>
+              )}
+              {storage && (
+                <span className="text-[11px] sm:text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-md leading-none">
+                  {storage}
+                </span>
+              )}
+            </div>
+          )}
 
-          {/* Name */}
-          <h3 className="text-[12px] sm:text-[14px] font-bold text-gray-800 leading-[1.6] line-clamp-2 group-hover:text-teal-700 transition-colors duration-300">
+          {/* ── Product name ── */}
+          <h3 className="text-[13px] sm:text-[14px] font-bold text-gray-800 leading-[1.6] line-clamp-2 group-hover:text-blue-600 transition-colors duration-200 flex-1">
             {name}
           </h3>
 
-          <div className="flex-1" />
-
-          {/* Price section */}
-          <div className="bg-gradient-to-l from-slate-50/80 to-gray-50/80 rounded-xl p-2 sm:p-2.5 -mx-0.5">
-            <div className="flex items-end justify-between gap-1">
-              <div className="flex flex-col">
+          {/* ── Price block ── */}
+          <div className="mt-auto">
+            <div className="flex items-end justify-between gap-1 mb-2.5">
+              <div className="flex flex-col gap-1">
                 {hasDiscount && (
-                  <span className="text-[9px] sm:text-[11px] text-gray-400 line-through decoration-red-400/60">
+                  <span className="text-xs text-gray-400 line-through">
                     {fmt(originalPrice)} ر.س
                   </span>
                 )}
                 <div className="flex items-baseline gap-1">
-                  <span className="text-[17px] sm:text-[22px] font-black text-gray-900 tracking-tight leading-none">
-                    {fmt(displayPrice)}
+                  <span className="text-[22px] sm:text-[26px] font-black text-gray-900 leading-none tracking-tight">
+                    {fmt(displayPrice!)}
                   </span>
-                  <span className="text-[9px] sm:text-[11px] font-bold text-gray-400">ر.س</span>
+                  <span className="text-xs font-bold text-gray-400">ر.س</span>
                 </div>
               </div>
+
               {hasDiscount && savings > 0 && (
-                <span className="text-[8px] sm:text-[10px] font-extrabold text-white bg-gradient-to-l from-rose-500 to-red-500 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-lg shadow-sm shadow-red-500/20">
-                  وفّر {fmt(savings)}
-                </span>
+                <div className="flex flex-col items-end gap-1 shrink-0">
+                  <span className="text-[10px] text-gray-400">وفّرت</span>
+                  <span className="text-xs font-extrabold text-red-500 bg-red-50 border border-red-100 px-2.5 py-1 rounded-lg">
+                    {fmt(savings)} ر.س
+                  </span>
+                </div>
               )}
             </div>
-          </div>
 
-          {/* Warranty + Delivery badges */}
-          {(warrantyYears > 0 || freeDelivery) && (
-            <div className="flex items-center gap-1.5 sm:gap-2.5 pt-1">
-              {warrantyYears > 0 && (
-                <span className="flex items-center gap-0.5 sm:gap-1 text-[8px] sm:text-[10px] font-bold text-violet-600 bg-violet-50 px-1.5 sm:px-2 py-0.5 rounded-md">
-                  <IoShieldCheckmarkOutline size={10} className="sm:hidden" />
-                  <IoShieldCheckmarkOutline size={12} className="hidden sm:block" />
-                  {warrantyYears} سنة
-                </span>
-              )}
-              {freeDelivery && (
-                <span className="flex items-center gap-0.5 sm:gap-1 text-[8px] sm:text-[10px] font-bold text-sky-600 bg-sky-50 px-1.5 sm:px-2 py-0.5 rounded-md">
-                  <IoCarOutline size={10} className="sm:hidden" />
-                  <IoCarOutline size={12} className="hidden sm:block" />
-                  توصيل مجاني
-                </span>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* ── Cart button ── */}
-        <div className="px-3 sm:px-4 pb-3 sm:pb-4">
-          <button
-            onClick={handleAddToCart}
-            className={`cart-btn ${added ? "added" : ""}`}
-          >
-            {added ? (
-              <>
-                <IoCheckmarkCircleOutline size={16} className="sm:hidden" />
-                <IoCheckmarkCircleOutline size={18} className="hidden sm:block" />
-                تمت الإضافة
-              </>
-            ) : (
-              <>
-                <IoCartOutline size={16} className="sm:hidden" />
-                <IoCartOutline size={18} className="hidden sm:block" />
-                أضف للسلة
-              </>
+            {/* ── Trust badges ── */}
+            {(warrantyYears > 0 || freeDelivery) && (
+              <div className="flex items-center gap-2 mb-3 flex-wrap">
+                {warrantyYears > 0 && (
+                  <span className="flex items-center gap-1 text-[11px] sm:text-xs font-bold text-violet-600 bg-violet-50 border border-violet-100 px-2 py-1 rounded-md">
+                    <IoShieldCheckmarkOutline size={12} className="shrink-0" />
+                    ضمان {warrantyYears} سنة
+                  </span>
+                )}
+                {freeDelivery && (
+                  <span className="flex items-center gap-1 text-[11px] sm:text-xs font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-1 rounded-md">
+                    <IoCarOutline size={12} className="shrink-0" />
+                    توصيل مجاني
+                  </span>
+                )}
+              </div>
             )}
-          </button>
+
+            {/* ── Cart button ── */}
+            <button onClick={handleAddToCart} className={`cart-btn ${added ? "added" : ""}`}>
+              {added ? (
+                <><IoCheckmarkCircleOutline size={17} />تمت الإضافة</>
+              ) : (
+                <><IoCartOutline size={17} />أضف للسلة</>
+              )}
+            </button>
+          </div>
         </div>
       </Link>
     </>

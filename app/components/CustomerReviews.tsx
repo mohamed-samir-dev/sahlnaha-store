@@ -1,9 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Keyboard, Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/pagination";
 
 interface Review {
   _id: string;
@@ -14,27 +10,56 @@ interface Review {
   createdAt: string;
 }
 
+function StarRating({ rating, size = "sm" }: { rating: number; size?: "sm" | "lg" }) {
+  return (
+    <div className="flex gap-0.5">
+      {[1, 2, 3, 4, 5].map((s) => (
+        <svg key={s} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+          fill={s <= rating ? "currentColor" : "none"} stroke="currentColor" strokeWidth={1.5}
+          className={`${size === "lg" ? "w-5 h-5" : "w-4 h-4"} ${s <= rating ? "text-amber-400" : "text-gray-300"}`}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+        </svg>
+      ))}
+    </div>
+  );
+}
+
+function Avatar({ name, gender }: { name: string; gender: string }) {
+  return (
+    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center text-white font-black text-base shrink-0 shadow-md ${gender === "female" ? "bg-gradient-to-br from-pink-400 to-rose-500" : "bg-gradient-to-br from-blue-500 to-blue-700"}`}>
+      {name.trim().charAt(0).toUpperCase()}
+    </div>
+  );
+}
+
 export default function CustomerReviews() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ name: "", comment: "", rating: 5 });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [selectedReview, setSelectedReview] = useState<Review | null>(null);
+  const [expanded, setExpanded] = useState<string | null>(null);
+  const [activeIdx, setActiveIdx] = useState(0);
 
   useEffect(() => {
-    fetch(`/api/reviews`)
+    fetch("/api/reviews")
       .then((r) => r.json())
       .then((data) => Array.isArray(data) && setReviews(data))
       .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (reviews.length <= 1) return;
+    const t = setInterval(() => setActiveIdx((i) => (i + 1) % reviews.length), 4500);
+    return () => clearInterval(t);
+  }, [reviews.length]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!form.name.trim() || !form.comment.trim()) return;
     setSubmitting(true);
     try {
-      await fetch(`/api/reviews`, {
+      await fetch("/api/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -46,149 +71,189 @@ export default function CustomerReviews() {
     setSubmitting(false);
   }
 
-  const avatarGradient = (gender: string) =>
-    gender === "female"
-      ? "from-pink-400 to-rose-500"
-      : "from-teal-500 to-emerald-600";
+  const avgRating = reviews.length
+    ? Math.round((reviews.reduce((s, r) => s + r.rating, 0) / reviews.length) * 10) / 10
+    : 0;
 
   return (
-    <section className="w-full bg-gradient-to-b from-white via-teal-50/60 to-teal-100/80 py-10" dir="rtl">
-    <div className="max-w-6xl mx-auto px-3 sm:px-6">
-      <div className="flex items-center gap-3 mb-8">
-        <div className="flex-1 h-px bg-gradient-to-l from-teal-300 to-transparent" />
-        <div className="flex items-center gap-2 bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-5 py-2 rounded-full shadow-md">
-          <span className="text-sm sm:text-base font-bold">آراء العملاء</span>
-        </div>
-        <div className="flex-1 h-px bg-gradient-to-r from-teal-300 to-transparent" />
+    <section dir="rtl" className="w-full bg-white py-16 sm:py-20 overflow-hidden relative">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-teal-50 rounded-full blur-3xl opacity-60" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-50 rounded-full blur-3xl opacity-60" />
       </div>
 
-      {reviews.length > 0 ? (
-        <div className="mb-10">
-          <Swiper
-            modules={[Autoplay, Keyboard, Pagination]}
-            spaceBetween={16}
-            slidesPerView={1}
-            breakpoints={{
-              640: { slidesPerView: 2, spaceBetween: 20 },
-              1024: { slidesPerView: 3, spaceBetween: 24 },
-            }}
-            autoplay={{ delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true }}
-            keyboard={{ enabled: true }}
-            pagination={{ clickable: true }}
-            loop={reviews.length > 3}
-            className="pb-10!"
-          >
-            {reviews.map((r) => (
-              <SwiperSlide key={r._id}>
-                <div
-                  onClick={() => setSelectedReview(r)}
-                  className="relative bg-white rounded-2xl border border-teal-100/60 p-5 flex flex-col gap-3 hover:shadow-lg hover:border-teal-200 transition-all duration-300 h-full cursor-pointer group overflow-hidden"
-                >
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-teal-50 to-transparent rounded-bl-full opacity-60" />
-                  <div className="flex gap-0.5 relative z-10">
-                    {[1, 2, 3, 4, 5].map((s) => (
-                      <span key={s} className={`text-lg ${s <= r.rating ? "text-amber-400" : "text-gray-200"}`}>★</span>
-                    ))}
-                  </div>
-                  <p className="text-gray-600 text-sm leading-relaxed flex-1 relative z-10 line-clamp-3">{r.comment}</p>
-                  {r.comment.length > 120 && (
-                    <span className="text-teal-500 text-xs font-medium group-hover:text-teal-700 transition-colors">اضغط لقراءة المزيد...</span>
-                  )}
-                  <div className="h-px bg-gradient-to-r from-transparent via-teal-100 to-transparent" />
-                  <div className="flex items-center gap-3">
-                    <div className={`w-9 h-9 rounded-xl bg-linear-to-br ${avatarGradient(r.gender)} flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-sm`}>
-                      {r.name.trim().charAt(0).toUpperCase()}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+
+        {/* Header */}
+        <div className="text-center mb-12">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest text-blue-600 border border-blue-500/30 bg-blue-500/10 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-3.5 h-3.5">
+              <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clipRule="evenodd" />
+            </svg>
+            آراء عملاءنا
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 leading-tight">
+            ماذا يقول
+            <span className="block bg-gradient-to-l from-blue-600 to-blue-400 bg-clip-text text-transparent">
+              زبايننا عنّا؟
+            </span>
+          </h2>
+
+          {reviews.length > 0 && (
+            <div className="flex items-center justify-center gap-6 mt-6">
+              <div className="flex flex-col items-center">
+                <span className="text-4xl font-black text-gray-900">{avgRating}</span>
+                <StarRating rating={Math.round(avgRating)} />
+                <span className="text-gray-400 text-xs mt-1">{reviews.length} تقييم</span>
+              </div>
+              <div className="w-px h-16 bg-gray-200" />
+              <div className="flex flex-col gap-1">
+                {[5, 4, 3].map((star) => {
+                  const count = reviews.filter((r) => r.rating === star).length;
+                  const pct = reviews.length ? Math.round((count / reviews.length) * 100) : 0;
+                  return (
+                    <div key={star} className="flex items-center gap-2">
+                      <span className="text-gray-400 text-xs w-3">{star}</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3 text-amber-400">
+                        <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clipRule="evenodd" />
+                      </svg>
+                      <div className="w-24 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                        <div className="h-full bg-gradient-to-r from-amber-400 to-amber-300 rounded-full transition-all duration-700" style={{ width: `${pct}%` }} />
+                      </div>
+                      <span className="text-gray-400 text-xs w-6">{pct}%</span>
                     </div>
-                    <span className="font-semibold text-gray-800 text-sm">{r.name}</span>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {reviews.length > 0 ? (
+          <>
+            {/* Desktop grid */}
+            <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+              {reviews.map((r) => (
+                <div key={r._id} className="group relative bg-white border border-gray-100 rounded-2xl p-5 flex flex-col gap-4 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 hover:-translate-y-1 shadow-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="absolute top-4 left-4 w-8 h-8 text-blue-100 group-hover:text-blue-200 transition-colors">
+                    <path fillRule="evenodd" d="M4.848 2.771A49.144 49.144 0 0 1 12 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 0 1-3.476.383.39.39 0 0 0-.297.17l-2.755 4.133a.75.75 0 0 1-1.248 0l-2.755-4.133a.39.39 0 0 0-.297-.17 48.9 48.9 0 0 1-3.476-.384c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97Z" clipRule="evenodd" />
+                  </svg>
+                  <StarRating rating={r.rating} />
+                  <p className={`text-gray-600 text-sm leading-relaxed flex-1 ${expanded !== r._id ? "line-clamp-3" : ""}`}>
+                    {r.comment}
+                  </p>
+                  {r.comment.length > 100 && (
+                    <button onClick={() => setExpanded(expanded === r._id ? null : r._id)}
+                      className="text-blue-500 text-xs font-semibold hover:text-blue-600 transition-colors text-right">
+                      {expanded === r._id ? "أقل ▲" : "المزيد ▼"}
+                    </button>
+                  )}
+                  <div className="flex items-center gap-3 pt-2 border-t border-gray-100">
+                    <Avatar name={r.name} gender={r.gender} />
+                    <div>
+                      <p className="text-gray-900 font-bold text-sm">{r.name}</p>
+                      <p className="text-gray-400 text-xs">عميل موثوق</p>
+                    </div>
                   </div>
                 </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-      ) : (
-        <p className="text-center text-gray-400 text-sm mb-6">لا توجد آراء بعد، كن أول من يعلق!</p>
-      )}
-
-      {selectedReview && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4"
-          onClick={() => setSelectedReview(null)}
-        >
-          <div
-            className="bg-white rounded-3xl shadow-2xl p-6 max-w-md w-full flex flex-col gap-4 relative border border-teal-100"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setSelectedReview(null)}
-              className="absolute top-3 left-3 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 text-sm transition-colors"
-            >✕</button>
-            <div className="flex gap-0.5">
-              {[1, 2, 3, 4, 5].map((s) => (
-                <span key={s} className={`text-xl ${s <= selectedReview.rating ? "text-amber-400" : "text-gray-200"}`}>★</span>
               ))}
             </div>
-            <p className="text-gray-700 text-sm leading-relaxed">{selectedReview.comment}</p>
-            <div className="h-px bg-gradient-to-r from-transparent via-teal-100 to-transparent" />
-            <div className="flex items-center gap-3">
-              <div className={`w-10 h-10 rounded-xl bg-linear-to-br ${avatarGradient(selectedReview.gender)} flex items-center justify-center text-white font-bold shrink-0 shadow-sm`}>
-                {selectedReview.name.trim().charAt(0).toUpperCase()}
+
+            {/* Mobile carousel */}
+            <div className="md:hidden mb-8">
+              <div className="overflow-hidden">
+                <div className="flex transition-transform duration-500 ease-out"
+                  style={{ transform: `translateX(${activeIdx * 100}%)` }}>
+                  {reviews.map((r) => (
+                    <div key={r._id} className="w-full shrink-0 px-1">
+                      <div className="bg-white border border-gray-100 rounded-2xl p-5 flex flex-col gap-4 shadow-sm">
+                        <StarRating rating={r.rating} />
+                        <p className="text-gray-600 text-sm leading-relaxed">{r.comment}</p>
+                        <div className="flex items-center gap-3 pt-2 border-t border-gray-100">
+                          <Avatar name={r.name} gender={r.gender} />
+                          <div>
+                            <p className="text-gray-900 font-bold text-sm">{r.name}</p>
+                            <p className="text-gray-400 text-xs">عميل موثوق</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <span className="font-semibold text-gray-800">{selectedReview.name}</span>
+              <div className="flex justify-center gap-1.5 mt-4">
+                {reviews.map((_, i) => (
+                  <button key={i} onClick={() => setActiveIdx(i)}
+                    className={`rounded-full transition-all duration-300 ${i === activeIdx ? "w-6 h-2 bg-blue-600" : "w-2 h-2 bg-gray-300 hover:bg-gray-400"}`} />
+                ))}
+              </div>
             </div>
-          </div>
-        </div>
-      )}
-
-      <div className="flex items-center gap-3">
-        <div className="flex-1 h-px bg-gradient-to-l from-gray-200 to-transparent" />
-        {submitted ? (
-          <span className="text-xs sm:text-sm text-emerald-600 font-semibold px-4 py-2 rounded-full border border-emerald-200 bg-emerald-50">
-            ✓ تم إرسال تعليقك وسيظهر بعد المراجعة
-          </span>
+          </>
         ) : (
-          <button
-            onClick={() => setShowForm((v) => !v)}
-            className="text-xs sm:text-sm font-semibold text-teal-600 hover:text-white whitespace-nowrap px-4 py-2 rounded-full border border-teal-300 hover:bg-gradient-to-r hover:from-teal-500 hover:to-emerald-500 hover:border-transparent transition-all duration-300 hover:shadow-md"
-          >
-            {showForm ? "إلغاء" : "+ أضف تعليقك"}
-          </button>
-        )}
-        <div className="flex-1 h-px bg-gradient-to-r from-gray-200 to-transparent" />
-      </div>
-
-      {showForm && (
-        <form onSubmit={handleSubmit} className="mt-5 bg-white rounded-2xl border border-teal-100 shadow-sm p-5 flex flex-col gap-3">
-          <input
-            type="text"
-            placeholder="اسمك"
-            value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
-            className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-100 transition-all"
-            required
-          />
-          <textarea
-            placeholder="اكتب تعليقك..."
-            value={form.comment}
-            onChange={(e) => setForm({ ...form, comment: e.target.value })}
-            rows={3}
-            className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-100 transition-all resize-none"
-            required
-          />
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-600">التقييم:</span>
-            {[1, 2, 3, 4, 5].map((s) => (
-              <button key={s} type="button" onClick={() => setForm({ ...form, rating: s })}
-                className={`text-xl transition-transform hover:scale-125 ${s <= form.rating ? "text-amber-400" : "text-gray-300"}`}>★</button>
-            ))}
+          <div className="text-center py-16">
+            <div className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-gray-400">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+              </svg>
+            </div>
+            <p className="text-gray-400 text-sm">لا توجد آراء بعد — كن أول من يشارك تجربته!</p>
           </div>
-          <button type="submit" disabled={submitting}
-            className="bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white text-sm font-semibold py-2.5 rounded-xl transition-all disabled:opacity-60 shadow-md hover:shadow-lg">
-            {submitting ? "جاري الإرسال..." : "إرسال التعليق"}
-          </button>
-        </form>
-      )}
-    </div>
+        )}
+
+        {/* CTA */}
+        <div className="flex flex-col items-center gap-4">
+          {submitted ? (
+            <div className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-blue-50 border border-blue-200 text-blue-600 text-sm font-semibold">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
+              </svg>
+              تم إرسال تعليقك وسيظهر بعد المراجعة
+            </div>
+          ) : (
+            <button onClick={() => setShowForm((v) => !v)}
+              className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-lg shadow-blue-500/20 hover:-translate-y-0.5 transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                <path fillRule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
+              </svg>
+              {showForm ? "إلغاء" : "شارك تجربتك"}
+            </button>
+          )}
+
+          {showForm && (
+            <form onSubmit={handleSubmit}
+              className="w-full max-w-lg bg-white border border-gray-100 rounded-2xl p-6 flex flex-col gap-4 shadow-xl">
+              <input type="text" placeholder="اسمك" value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30 transition-all"
+                required />
+              <textarea placeholder="اكتب تجربتك مع المتجر..." value={form.comment}
+                onChange={(e) => setForm({ ...form, comment: e.target.value })}
+                rows={3}
+                className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30 transition-all resize-none"
+                required />
+              <div className="flex items-center gap-3">
+                <span className="text-gray-600 text-sm">تقييمك:</span>
+                <div className="flex gap-1">
+                  {[1, 2, 3, 4, 5].map((s) => (
+                    <button key={s} type="button" onClick={() => setForm({ ...form, rating: s })}
+                      className="transition-transform hover:scale-125">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        fill={s <= form.rating ? "currentColor" : "none"} stroke="currentColor" strokeWidth={1.5}
+                        className={`w-6 h-6 ${s <= form.rating ? "text-amber-400" : "text-gray-300"}`}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+                      </svg>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <button type="submit" disabled={submitting}
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all disabled:opacity-50 shadow-lg shadow-blue-500/20 text-sm">
+                {submitting ? "جاري الإرسال..." : "إرسال التعليق"}
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
     </section>
   );
 }

@@ -181,7 +181,7 @@ export default function CategoryLandingClient({ title, emoji, subCategories, fil
             <h2 className="text-base sm:text-lg font-black text-gray-900">الأقسام الفرعية</h2>
           </motion.div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mb-10 sm:mb-14">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-4 mb-10 sm:mb-14">
             {subCategories.map((cat, i) => (
               <motion.div
                 key={cat.slug}
@@ -224,7 +224,7 @@ export default function CategoryLandingClient({ title, emoji, subCategories, fil
           </motion.div>
 
           {loading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-4">
               {Array.from({ length: 8 }).map((_, i) => (
                 <div key={i} className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
                   <div className="w-full aspect-square bg-gradient-to-br from-gray-50 to-gray-100 animate-pulse" />
@@ -263,7 +263,7 @@ export default function CategoryLandingClient({ title, emoji, subCategories, fil
             </motion.div>
           ) : (
             <>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-4">
                 <AnimatePresence mode="wait">
                   {products.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE).map((p, i) => (
                     <motion.div
