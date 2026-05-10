@@ -52,7 +52,7 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
     const e: Record<string, string> = {};
     if (!name.trim()) e.name = "الاسم مطلوب";
     if (!nationalId.trim()) e.nationalId = "رقم الهوية مطلوب";
-    else if (nationalId.trim().length !== 10) e.nationalId = "يجب أن يكون 10 أرقام";
+    else if (!/^[12]\d{9}$/.test(nationalId.trim())) e.nationalId = "هوية سعودية: 10 أرقام تبدأ بـ 1 أو 2";
     if (!whatsapp.trim()) e.whatsapp = "رقم الواتساب مطلوب";
     else if (!/^05\d{8}$/.test(whatsapp.trim())) e.whatsapp = "يبدأ بـ 05 ويتكون من 10 أرقام";
     if (!address.trim()) e.address = "العنوان مطلوب";

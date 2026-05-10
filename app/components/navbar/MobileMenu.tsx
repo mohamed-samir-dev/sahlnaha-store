@@ -78,7 +78,7 @@ export default function MobileMenu({ items, isOpen, onClose }: MobileMenuProps) 
                 )}
 
                 {/* Sub items */}
-                <div className={`overflow-hidden transition-all duration-300 ${isOpen_ ? "max-h-[600px]" : "max-h-0"}`}>
+                <div className={`overflow-hidden transition-all duration-300 ${isOpen_ ? "max-h-[50vh] overflow-y-auto" : "max-h-0"}`}>
                   <div className="bg-gray-50 pb-2">
                     {item.groups?.map((group, gi) => (
                       <div key={gi}>

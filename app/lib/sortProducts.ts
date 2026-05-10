@@ -40,11 +40,19 @@ function parseStorage(s?: string, name?: string): number {
   const sources = [s, name].filter(Boolean) as string[];
   for (const raw of sources) {
     const clean = raw.replace(/\s+/g, "");
+    // English: 256GB, GB256
     const en = clean.match(/(\d+)(tb|gb)/i) || clean.match(/(gb|tb)(\d+)/i);
     if (en) {
       const num = parseInt(en[1]) || parseInt(en[2]);
       const unit = (en[1].match(/\d/) ? en[2] : en[1]).toLowerCase();
       return unit === "tb" ? num * 1024 : num;
+    }
+    // Arabic: تيرابايت/تيرا = TB, جيجابايت/جيجا = GB
+    const arNum = raw.match(/(\d+)/);
+    if (arNum) {
+      const num = parseInt(arNum[1]);
+      if (/تيرا/.test(raw)) return num * 1024;
+      if (/جيجا/.test(raw)) return num;
     }
   }
   return Infinity;

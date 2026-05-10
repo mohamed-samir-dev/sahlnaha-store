@@ -149,37 +149,37 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
   return (
     <div className="space-y-5">
       {/* ── Visual Card ── */}
-      <div className="w-full max-w-sm mx-auto" style={{ perspective: "1200px", minHeight: "200px" }}>
-        <div style={{ transition: "transform 0.65s cubic-bezier(.4,0,.2,1)", transformStyle: "preserve-3d", transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)", position: "relative", minHeight: "200px" }}>
+      <div className="w-full max-w-[280px] mx-auto" style={{ perspective: "1200px", minHeight: "165px" }}>
+        <div style={{ transition: "transform 0.65s cubic-bezier(.4,0,.2,1)", transformStyle: "preserve-3d", transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)", position: "relative", minHeight: "165px" }}>
           {/* Front */}
-          <div className="absolute inset-0 rounded-3xl p-6 text-white select-none overflow-hidden" style={{ background: cardBg, boxShadow: "0 20px 60px rgba(5,49,50,0.35)", backfaceVisibility: "hidden" }}>
+          <div className="absolute inset-0 rounded-2xl p-4 text-white select-none overflow-hidden" style={{ background: cardBg, boxShadow: "0 14px 40px rgba(5,49,50,0.3)", backfaceVisibility: "hidden" }}>
             {/* shimmer */}
             <div className="absolute inset-0 opacity-10" style={{ background: "radial-gradient(ellipse at 20% 20%, rgba(255,255,255,0.6) 0%, transparent 60%)" }} />
-            <div className="relative flex justify-between items-start mb-7">
-              <div className="w-11 h-8 rounded-lg" style={{ background: "linear-gradient(135deg,#d4af37,#f5e06e,#c8a415)" }} />
-              <div className="h-8 flex items-center">
-                {cardBrand ? <CardLogoInvert brand={cardBrand} /> : <span className="text-xs text-white/30 font-mono tracking-widest">CARD</span>}
+            <div className="relative flex justify-between items-start mb-5">
+              <div className="w-9 h-6 rounded-md" style={{ background: "linear-gradient(135deg,#d4af37,#f5e06e,#c8a415)" }} />
+              <div className="h-6 flex items-center">
+                {cardBrand ? <CardLogoInvert brand={cardBrand} /> : <span className="text-[10px] text-white/30 font-mono tracking-widest">CARD</span>}
               </div>
             </div>
-            <div className="relative font-mono text-xl sm:text-2xl tracking-[0.2em] mb-6 text-center drop-shadow" dir="ltr">{displayNumber}</div>
+            <div className="relative font-mono text-base sm:text-lg tracking-[0.15em] mb-4 text-center drop-shadow" dir="ltr">{displayNumber}</div>
             <div className="relative flex justify-between items-end">
               <div>
-                <p className="text-[9px] uppercase tracking-widest opacity-40 mb-1">Card Holder</p>
-                <p className="text-sm font-semibold tracking-wider uppercase truncate max-w-[170px]">{fields.cardHolder || "FULL NAME"}</p>
+                <p className="text-[8px] uppercase tracking-widest opacity-40 mb-0.5">Card Holder</p>
+                <p className="text-xs font-semibold tracking-wider uppercase truncate max-w-[130px]">{fields.cardHolder || "FULL NAME"}</p>
               </div>
               <div className="text-right">
-                <p className="text-[9px] uppercase tracking-widest opacity-40 mb-1">Expires</p>
-                <p className="text-sm font-semibold">{fields.age || "MM/YY"}</p>
+                <p className="text-[8px] uppercase tracking-widest opacity-40 mb-0.5">Expires</p>
+                <p className="text-xs font-semibold">{fields.age || "MM/YY"}</p>
               </div>
             </div>
           </div>
           {/* Back */}
-          <div className="absolute inset-0 rounded-3xl text-white select-none overflow-hidden" style={{ background: cardBg, boxShadow: "0 20px 60px rgba(5,49,50,0.35)", backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
+          <div className="absolute inset-0 rounded-2xl text-white select-none overflow-hidden" style={{ background: cardBg, boxShadow: "0 14px 40px rgba(5,49,50,0.3)", backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
             <div className="absolute inset-0 opacity-10" style={{ background: "radial-gradient(ellipse at 80% 80%, rgba(255,255,255,0.6) 0%, transparent 60%)" }} />
-            <div className="w-full h-12 mt-8" style={{ background: "rgba(0,0,0,0.5)" }} />
-            <div className="px-6 mt-5">
-              <p className="text-[9px] uppercase tracking-widest opacity-40 mb-2 text-right">CVV</p>
-              <div className="bg-white/95 rounded-xl px-4 py-2.5 text-gray-800 font-mono tracking-[0.3em] text-right text-base shadow-inner">{fields.cvv ? "•".repeat(fields.cvv.length) : "•••"}</div>
+            <div className="w-full h-9 mt-6" style={{ background: "rgba(0,0,0,0.5)" }} />
+            <div className="px-4 mt-4">
+              <p className="text-[8px] uppercase tracking-widest opacity-40 mb-1.5 text-right">CVV</p>
+              <div className="bg-white/95 rounded-lg px-3 py-2 text-gray-800 font-mono tracking-[0.3em] text-right text-sm shadow-inner">{fields.cvv ? "•".repeat(fields.cvv.length) : "•••"}</div>
             </div>
           </div>
         </div>

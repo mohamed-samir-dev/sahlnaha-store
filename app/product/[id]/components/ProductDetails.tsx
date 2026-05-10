@@ -19,8 +19,8 @@ export default function ProductDetails({ gallery, specifications, rating, review
     <div className="mt-14 space-y-14">
       {/* Gallery Cards */}
       {gallery && gallery.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {gallery.slice(0, 3).map((item, i) => (
+        <div className={`grid grid-cols-1 gap-4 ${gallery.length === 1 ? 'sm:grid-cols-1' : gallery.length === 2 ? 'sm:grid-cols-2' : 'sm:grid-cols-3'}`}>
+          {gallery.map((item, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 20 }}
