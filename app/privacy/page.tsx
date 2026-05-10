@@ -158,6 +158,7 @@ export default function PrivacyPage() {
           </h1>
           <p {...anim(360)} className="text-blue-100/90 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed">
             الشروط العامة المنظمة لاستخدام موقع مؤسسة سهلناها التقنية
+          </p>
         </div>
         <div className="absolute bottom-0 left-0 w-full">
           <svg viewBox="0 0 1440 70" className="w-full h-12 sm:h-16" preserveAspectRatio="none">

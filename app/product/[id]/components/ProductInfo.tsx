@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   IoCartOutline,
@@ -26,7 +25,6 @@ interface ProductInfoProps {
 }
 
 export default function ProductInfo({ product, addedToCart, onAddToCart, onBuyNow }: ProductInfoProps) {
-  const router = useRouter();
   const [qty, setQty] = useState(1);
 
   const { name, brief, color, storage, salePrice, taxIncluded, rating, colors } = product;

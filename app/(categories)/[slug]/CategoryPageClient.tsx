@@ -54,7 +54,11 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
   }, [slug, config?.filters.brand]);
 
   // reset page when filters change
-  useEffect(() => { setPage(1); }, [filters]);
+  const [prevFilters, setPrevFilters] = useState(filters);
+  if (prevFilters !== filters) {
+    setPrevFilters(filters);
+    if (page !== 1) setPage(1);
+  }
 
   const label = config?.label ?? slug;
   const parentLabel = config?.parentLabel ?? "";

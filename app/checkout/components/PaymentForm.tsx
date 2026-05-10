@@ -49,7 +49,6 @@ function MastercardSVG() {
 function MadaSVG({ inverted = false }: { inverted?: boolean }) {
   return (
     <div className="w-full h-full flex items-center justify-center" style={{ background: inverted ? "transparent" : "white" }}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/unnamed.jpg" alt="Mada" className="w-full h-full object-contain" style={{ filter: inverted ? "brightness(0) invert(1)" : "none" }} />
     </div>
   );

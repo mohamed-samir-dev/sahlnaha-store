@@ -3,7 +3,7 @@ import { useState, useEffect, useRef, ReactNode } from "react";
 import Image from "next/image";
 import ContactSection from "../components/ContactSection";
 
-const C1 = "#053132", C2 = "#092C32", C3 = "#082D32", C4 = "#0A2931", C5 = "#0B2631";
+const C1 = "#053132", C2 = "#092C32", C4 = "#0A2931", C5 = "#0B2631";
 const TEAL = "#2dd4bf", TEAL_DIM = "rgba(45,212,191,0.15)", TEAL_MID = "rgba(45,212,191,0.25)";
 
 function FadeUp({ children, delay = 0 }: { children: ReactNode; delay?: number }) {

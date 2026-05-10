@@ -83,12 +83,12 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 40, filter: "blur(8px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const } },
 };
 
 const titleVariants = {
   hidden: { opacity: 0, x: 60, filter: "blur(12px)" },
-  visible: { opacity: 1, x: 0, filter: "blur(0px)", transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
+  visible: { opacity: 1, x: 0, filter: "blur(0px)", transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const } },
 };
 
 function FloatingOrb({ style }: { style: React.CSSProperties }) {
@@ -122,11 +122,6 @@ export default function HeroSection() {
 
   const slide = slides[current];
 
-  const slideVariants = {
-    enter: (d: number) => ({ opacity: 0, x: d > 0 ? -80 : 80, scale: 0.96, filter: "blur(10px)" }),
-    center: { opacity: 1, x: 0, scale: 1, filter: "blur(0px)", transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
-    exit: (d: number) => ({ opacity: 0, x: d > 0 ? 80 : -80, scale: 0.96, filter: "blur(10px)", transition: { duration: 0.4 } }),
-  };
 
   return (
     <div dir="rtl">
@@ -312,7 +307,7 @@ export default function HeroSection() {
       {/* ── FEATURES BAR ── */}
       <div style={{ background: "#082D32" }}>
         <div className="max-w-7xl mx-auto px-4 py-1">
-          <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-x-reverse" style={{ divideColor: "rgba(255,255,255,0.06)" }}>
+          <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-x-reverse divide-white/[0.06]">
             {features.map((f, i) => (
               <motion.div
                 key={f.title}
