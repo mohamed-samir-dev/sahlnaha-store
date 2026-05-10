@@ -118,7 +118,7 @@ export default function MobileMenu({ items, isOpen, onClose }: MobileMenuProps) 
 
         {/* Footer */}
         <div className="shrink-0 px-5 py-4 border-t border-gray-100 bg-gray-50">
-          <p className="text-xs text-gray-400 text-center">📞 0501234567 &nbsp;|&nbsp; info@sahlnaha.com</p>
+          <p className="text-xs text-gray-400 text-center">📞 0501234567 &nbsp;|&nbsp; info@madar.com</p>
         </div>
       </div>
     </>

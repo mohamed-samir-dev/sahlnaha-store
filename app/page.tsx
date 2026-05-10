@@ -17,7 +17,7 @@ async function getCompany() {
 
 export default async function Home() {
   const c = await getCompany();
-  const siteName = c.nameAr || "بصمة هاتفي المعتمد";
+  const siteName = c.nameAr || "مدار";
   const logoUrl = c.logo
     ? (c.logo.startsWith("http") ? c.logo : `${BACKEND}${c.logo}`)
     : "";
