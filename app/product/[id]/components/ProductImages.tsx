@@ -11,7 +11,10 @@ interface ProductImagesProps {
   discountPercent?: number;
 }
 
-export default function ProductImages({ images, name, discountPercent = 0 }: ProductImagesProps) {
+export default function ProductImages({ images: rawImages, name, discountPercent = 0 }: ProductImagesProps) {
+  const images = rawImages.filter((img) => {
+    try { return !!img && !!new URL(img); } catch { return false; }
+  });
   const [selected, setSelected] = useState(0);
   const [zoomed, setZoomed] = useState(false);
   const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 });

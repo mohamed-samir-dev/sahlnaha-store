@@ -2,6 +2,8 @@ import type { Product } from "../components/products/types";
 
 const COLOR_ORDER: string[] = [
   "برتقالي",
+  "برتقالي كوني",
+  "أزرق داكن",
   "سيلفر",
   "سيبفلر",
   "أزرق تيتانيوم",
@@ -26,8 +28,12 @@ function colorPriority(color?: string, name?: string): number {
     if (n.includes("برتقال") || n.includes("orange")) return 0;
     return 999;
   }
-  const idx = COLOR_ORDER.findIndex(c => c === src || c.trim() === src.trim());
-  return idx !== -1 ? idx : COLOR_ORDER.length;
+  // exact match first
+  const exact = COLOR_ORDER.indexOf(src);
+  if (exact !== -1) return exact;
+  // partial match (e.g. "برتقالي كوني" matches "برتقالي")
+  const partial = COLOR_ORDER.findIndex(c => src.includes(c) || c.includes(src));
+  return partial !== -1 ? partial : COLOR_ORDER.length;
 }
 
 function parseStorage(s?: string, name?: string): number {

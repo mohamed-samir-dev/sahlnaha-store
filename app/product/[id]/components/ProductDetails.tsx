@@ -1,126 +1,126 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { IoDocumentTextOutline, IoListOutline } from "react-icons/io5";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { IoStar } from "react-icons/io5";
 import type { Product } from "../../../components/products/types";
-
-
-const specLabels: [keyof NonNullable<Product["specs"]>, string, string][] = [
-  ["screen", "الشاشة", "📱"],
-  ["processor", "المعالج", "⚡"],
-  ["ram", "الرام", "🧠"],
-  ["storage", "التخزين", "💾"],
-  ["rearCamera", "الكاميرا الخلفية", "📸"],
-  ["frontCamera", "الكاميرا الأمامية", "🤳"],
-  ["battery", "البطارية", "🔋"],
-  ["batteryLife", "عمر البطارية", "⏱️"],
-  ["charging", "الشحن", "🔌"],
-  ["os", "نظام التشغيل", "💻"],
-  ["extras", "مميزات إضافية", "✨"],
-];
 
 interface ProductDetailsProps {
   description?: string;
   specs?: Product["specs"];
+  gallery?: Product["gallery"];
+  specifications?: Product["specifications"];
+  rating?: Product["rating"];
+  reviews?: Product["reviews"];
 }
 
-type Tab = "specs" | "description";
-
-export default function ProductDetails({ description, specs }: ProductDetailsProps) {
-  const hasSpecs = specs && Object.values(specs).some(Boolean);
-  const tabs: { key: Tab; label: string; icon: typeof IoListOutline; show: boolean }[] = [
-    { key: "specs", label: "المواصفات", icon: IoListOutline, show: !!hasSpecs },
-    { key: "description", label: "الوصف", icon: IoDocumentTextOutline, show: !!description },
-  ];
-  const visibleTabs = tabs.filter((t) => t.show);
-  const [active, setActive] = useState<Tab>(visibleTabs[0]?.key || "specs");
-
-  if (!visibleTabs.length) return null;
-
+export default function ProductDetails({ gallery, specifications, rating, reviews }: ProductDetailsProps) {
   return (
-    <div className="mt-12 sm:mt-16">
-      {/* Tabs */}
-      <div className="flex gap-2 mb-6 overflow-x-auto scrollbar-hide">
-        {visibleTabs.map((t) => (
-          <button
-            key={t.key}
-            onClick={() => setActive(t.key)}
-            className={`relative flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-bold transition-all whitespace-nowrap ${
-              active === t.key
-                ? "bg-[#053132] text-white shadow-lg shadow-[#053132]/15"
-                : "bg-gray-50 text-gray-500 hover:bg-gray-100"
-            }`}
-          >
-            <t.icon size={16} />
-            {t.label}
-          </button>
-        ))}
-      </div>
+    <div className="mt-14 space-y-14">
+      {/* Gallery Cards */}
+      {gallery && gallery.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {gallery.slice(0, 3).map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="relative h-52 sm:h-64 rounded-2xl overflow-hidden group"
+            >
+              <Image
+                src={item.url}
+                alt={item.caption}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                sizes="(max-width: 640px) 100vw, 33vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <p className="absolute bottom-4 right-4 left-4 text-white text-sm font-bold">
+                {item.caption}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      )}
 
-      {/* Content */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={active}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -12 }}
-          transition={{ duration: 0.25 }}
-          className="bg-white rounded-3xl border border-gray-100 overflow-hidden"
-        >
-          {/* Specs */}
-          {active === "specs" && hasSpecs && (
-            <div className="divide-y divide-gray-50">
-              {specLabels.map(([key, label, emoji]) =>
-                specs[key] ? (
-                  <div key={key} className="flex items-center px-5 sm:px-7 py-4 sm:py-5 gap-4 hover:bg-[#053132]/[0.02] transition-colors">
-                    <span className="text-lg w-7 text-center shrink-0">{emoji}</span>
-                    <span className="text-xs sm:text-sm text-gray-400 w-28 sm:w-36 shrink-0 font-medium">{label}</span>
-                    <span className="text-xs sm:text-sm text-[#053132] flex-1 font-semibold">{specs[key]}</span>
-                  </div>
-                ) : null
-              )}
-            </div>
-          )}
-
-          {/* Description */}
-          {active === "description" && description && (() => {
-            const lines = description.split("\n").map((l) => l.trim()).filter(Boolean);
-            const title = lines[0];
-            const items = lines.slice(1);
-            return (
-              <div className="p-5 sm:p-8">
-                {title && (
-                  <div className="mb-6 pb-5 border-b border-gray-100">
-                    <h3 className="text-lg font-black text-[#053132]">{title}</h3>
-                  </div>
-                )}
-                {items.length > 0 && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {items.map((line, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ opacity: 0, x: 10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.05 }}
-                        className="flex items-start gap-3 p-3.5 rounded-xl bg-[#053132]/[0.02] border border-[#053132]/[0.05]"
-                      >
-                        <span className="w-6 h-6 rounded-lg bg-[#053132] text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
-                          {i + 1}
-                        </span>
-                        <p className="text-xs sm:text-sm text-[#092C32] font-medium leading-relaxed">
-                          {line.replace(/^[•\-\*]\s*/, "")}
-                        </p>
-                      </motion.div>
-                    ))}
-                  </div>
-                )}
+      {/* Specifications */}
+      {specifications && specifications.length > 0 && (
+        <div>
+          <h2 className="text-xl font-black text-[#053132] mb-6">المواصفات</h2>
+          <div className="rounded-2xl border border-gray-200 overflow-hidden">
+            {specifications.map((group, gi) => (
+              <div key={gi}>
+                <div className="bg-[#053132]/5 px-5 py-3 border-b border-gray-200">
+                  <h3 className="text-sm font-bold text-[#053132]">{group.groupName}</h3>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2">
+                  {group.items.map((item, ii) => (
+                    <div
+                      key={ii}
+                      className={`flex items-center justify-between px-5 py-3.5 border-b border-gray-100 ${
+                        ii % 2 === 0 ? "sm:border-l" : ""
+                      }`}
+                    >
+                      <span className="text-xs text-gray-500">{item.label}</span>
+                      <span className="text-xs font-semibold text-[#053132]">{item.value}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            );
-          })()}
+            ))}
+          </div>
+        </div>
+      )}
 
-        </motion.div>
-      </AnimatePresence>
+      {/* Reviews */}
+      {reviews && reviews.length > 0 && (
+        <div>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-black text-[#053132]">التقييمات</h2>
+            {rating && (
+              <div className="flex items-center gap-2 bg-amber-50 px-3 py-1.5 rounded-full">
+                <IoStar size={14} className="text-amber-400" />
+                <span className="text-sm font-bold text-amber-700">{rating.average}</span>
+                <span className="text-[10px] text-amber-600">({rating.count})</span>
+              </div>
+            )}
+          </div>
+          <div className="space-y-4">
+            {reviews.map((review, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className="bg-white rounded-xl border border-gray-100 p-4"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-full bg-[#053132]/10 flex items-center justify-center">
+                      <span className="text-xs font-bold text-[#053132]">{review.name[0]}</span>
+                    </div>
+                    <span className="text-sm font-bold text-[#053132]">{review.name}</span>
+                  </div>
+                  <span className="text-[10px] text-gray-400">{review.date}</span>
+                </div>
+                <div className="flex items-center gap-0.5 mb-2">
+                  {Array.from({ length: 5 }).map((_, si) => (
+                    <IoStar
+                      key={si}
+                      size={12}
+                      className={si < review.rate ? "text-amber-400" : "text-gray-200"}
+                    />
+                  ))}
+                </div>
+                <p className="text-xs text-gray-600 leading-relaxed">{review.comment}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

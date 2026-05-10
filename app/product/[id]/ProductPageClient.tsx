@@ -125,7 +125,8 @@ export default function ProductPageClient({ id }: { id: string }) {
             <ProductInfo
               product={product}
               addedToCart={addedToCart}
-              onAddToCart={() => { addItem(product); setAddedToCart(true); }}
+              onAddToCart={(qty) => { addItem(product, qty); setAddedToCart(true); }}
+              onBuyNow={(qty) => { addItem(product, qty); router.push("/cart"); }}
             />
           </motion.div>
         </div>
@@ -137,7 +138,14 @@ export default function ProductPageClient({ id }: { id: string }) {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <ProductDetails description={product.description} specs={product.specs} />
+          <ProductDetails
+            description={product.description}
+            specs={product.specs}
+            gallery={product.gallery}
+            specifications={product.specifications}
+            rating={product.rating}
+            reviews={product.reviews}
+          />
         </motion.div>
       </div>
 
@@ -163,7 +171,7 @@ export default function ProductPageClient({ id }: { id: string }) {
               {!addedToCart ? (
                 <motion.button
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => { addItem(product); setAddedToCart(true); }}
+                  onClick={() => { addItem(product, 1); setAddedToCart(true); }}
                   className="bg-[#053132] text-white font-bold text-sm px-7 py-3.5 rounded-2xl shadow-lg shadow-[#053132]/20"
                 >
                   أضف للسلة

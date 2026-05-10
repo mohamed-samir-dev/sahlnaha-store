@@ -1,11 +1,13 @@
 export interface Product {
   _id: string;
   name: string;
+  brief?: string;
   originalPrice: number;
   salePrice?: number;
   price: number;
   discountPercent: number;
   description?: string;
+  overview?: string;
   image?: string;
   images?: string[];
   color?: string;
@@ -25,6 +27,29 @@ export interface Product {
     os?: string;
     extras?: string;
   };
+  specifications?: {
+    groupName: string;
+    items: { label: string; value: string }[];
+  }[];
+  gallery?: {
+    url: string;
+    caption: string;
+  }[];
+  rating?: {
+    average: number;
+    count: number;
+  };
+  reviews?: {
+    name: string;
+    rate: number;
+    comment: string;
+    date: string;
+  }[];
+  colors?: {
+    name: string;
+    code: string;
+  }[];
+  features?: string[];
   freeDelivery: boolean;
   deliveryTime: string;
   warrantyYears: number;
