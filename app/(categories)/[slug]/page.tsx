@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const config = slugConfigs[slug];
   const company = await getCompany();
 
-  const siteName = company.nameAr || "بصمة هاتفي المعتمد";
+  const siteName = company.nameAr || "مدار";
   const label = config?.label ?? slug;
   const parentLabel = config?.parentLabel ?? "";
 

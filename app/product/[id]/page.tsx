@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     return { title: "المنتج غير موجود" };
   }
 
-  const siteName = company.nameAr || "بصمة هاتفي المعتمد";
+  const siteName = company.nameAr || "مدار";
   const title = product.name;
 
   const parts: string[] = [];
@@ -84,7 +84,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
   const { id } = await params;
   const [product, company] = await Promise.all([getProduct(id), getCompany()]);
 
-  const siteName = company.nameAr || "بصمة هاتفي المعتمد";
+  const siteName = company.nameAr || "مدار";
   const price = product?.salePrice || product?.price || 0;
   const rawImg = product?.images?.[0] || product?.image || "";
   const imageUrl = rawImg.startsWith("http") ? rawImg : rawImg ? `${BACKEND}${rawImg}` : "";

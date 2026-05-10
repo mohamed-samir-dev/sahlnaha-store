@@ -170,9 +170,16 @@ export default function HeroSection() {
             initial="enter"
             animate="center"
             exit="exit"
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            onDragEnd={(_, info) => {
+              if (info.offset.x > 80) goTo((current - 1 + slides.length) % slides.length, -1);
+              else if (info.offset.x < -80) goTo((current + 1) % slides.length, 1);
+            }}
           >
-            <motion.div className="absolute inset-0" style={{ rotateX, rotateY, transformPerspective: 1200 }}>
-              <Image src={slide.image} alt={slide.title} fill className="object-cover object-center" priority unoptimized />
+            <motion.div className="absolute inset-0 pointer-events-none" style={{ rotateX, rotateY, transformPerspective: 1200 }}>
+              <Image src={slide.image} alt={slide.title} fill className="object-cover object-center" priority unoptimized draggable={false} />
             </motion.div>
             {/* Dark overlays */}
             <div className="absolute inset-0 bg-gradient-to-l from-black/75 via-black/30 to-transparent" />

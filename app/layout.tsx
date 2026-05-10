@@ -38,7 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description,
     keywords: [
       siteName,
-      c.nameEn || "Sahlnaha Store",
+      c.nameEn || "Madar Store",
       "أقساط", "جوالات", "لابتوب", "أجهزة إلكترونية",
       "سامسونج", "آبل", "أيفون", "شاومي", "هواوي", "أوبو",
       "السعودية", "الرياض", "جدة", "مكة", "الدمام",

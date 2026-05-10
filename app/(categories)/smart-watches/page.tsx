@@ -15,7 +15,7 @@ async function getCompany() {
 
 export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
-  const siteName = company.nameAr || "بصمة هاتفي المعتمد";
+  const siteName = company.nameAr || "مدار";
   return {
     title: `الساعات الذكية | ${siteName}`,
     description: `تسوق أحدث الساعات الذكية بأفضل الأسعار وبالأقساط في ${siteName}.`,

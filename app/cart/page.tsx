@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useRef, useEffect, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
@@ -17,9 +17,10 @@ const fmt = (n: number) => n.toLocaleString("en-US");
 export default function CartPage() {
   const router = useRouter();
   const { items, removeItem, updateQty, totalPrice, totalItems, setCustomer, customer } = useCartStore();
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(() => () => {}, () => true, () => false);
+  const scrolled = useRef(false);
 
-  useEffect(() => { setMounted(true); window.scrollTo(0, 0); }, []);
+  useEffect(() => { if (!scrolled.current) { scrolled.current = true; window.scrollTo(0, 0); } }, []);
 
   const total = mounted ? totalPrice() : 0;
   const count = mounted ? totalItems() : 0;
