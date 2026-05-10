@@ -217,10 +217,10 @@ export default function HeroSection() {
               </motion.div>
 
               {/* Title */}
-              <motion.h2 className="text-white font-black leading-tight mb-3 sm:mb-4" variants={titleVariants}>
-                <span className="block text-3xl sm:text-6xl lg:text-7xl drop-shadow-2xl">{slide.title}</span>
+              <motion.h2 className="text-white font-black leading-tight mb-2 sm:mb-4" variants={titleVariants}>
+                <span className="block text-2xl sm:text-6xl lg:text-7xl drop-shadow-2xl">{slide.title}</span>
                 <motion.span
-                  className="block text-4xl sm:text-7xl lg:text-8xl"
+                  className="block text-3xl sm:text-7xl lg:text-8xl"
                   style={{ color: ACCENT }}
                 >
                   {slide.subtitle}
@@ -229,18 +229,18 @@ export default function HeroSection() {
 
               {/* Desc */}
               <motion.p
-                className="text-gray-200/90 text-sm sm:text-xl lg:text-2xl leading-relaxed mb-6 sm:mb-9 max-w-lg mr-auto"
+                className="text-gray-200/90 text-xs sm:text-xl lg:text-2xl leading-relaxed mb-4 sm:mb-9 max-w-lg mr-auto"
                 variants={itemVariants}
               >
                 {slide.desc}
               </motion.p>
 
               {/* Buttons */}
-              <motion.div className="flex items-center justify-start gap-3" variants={itemVariants}>
+              <motion.div className="flex items-center justify-start gap-2 sm:gap-3" variants={itemVariants}>
                 <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}>
                   <Link
                     href={slide.btn.href}
-                    className="inline-flex items-center gap-2 px-5 py-3 sm:px-8 sm:py-4 rounded-2xl text-white font-bold text-base sm:text-lg"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 sm:px-8 sm:py-4 rounded-2xl text-white font-bold text-sm sm:text-lg"
                     style={{ background: ACCENT, boxShadow: `0 8px 32px ${ACCENT_GLOW}` }}
                   >
                     {slide.btn.label}
@@ -256,7 +256,7 @@ export default function HeroSection() {
                 <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}>
                   <Link
                     href="/smartphones"
-                    className="inline-flex items-center gap-2 px-5 py-3 sm:px-8 sm:py-4 rounded-2xl text-white font-bold text-base sm:text-lg border transition-colors duration-300"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 sm:px-8 sm:py-4 rounded-2xl text-white font-bold text-sm sm:text-lg border transition-colors duration-300"
                     style={{ background: "rgba(255,255,255,0.07)", borderColor: `${ACCENT}66`, backdropFilter: "blur(12px)" }}
                   >
                     كل المنتجات

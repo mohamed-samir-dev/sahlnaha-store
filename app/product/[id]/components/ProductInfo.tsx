@@ -36,7 +36,7 @@ export default function ProductInfo({ product, addedToCart, onAddToCart, onBuyNo
   return (
     <div className="flex flex-col gap-5">
       {/* Name */}
-      <h1 className="text-2xl sm:text-3xl font-black text-[#053132] leading-tight">
+      <h1 className="text-lg sm:text-2xl md:text-3xl font-black text-[#053132] leading-tight">
         {name}
       </h1>
 
@@ -60,8 +60,8 @@ export default function ProductInfo({ product, addedToCart, onAddToCart, onBuyNo
       {/* Price */}
       <div>
         <div className="flex items-baseline gap-3">
-          <span className="text-3xl font-black text-[#053132]">{fmt(finalPrice)}</span>
-          <span className="text-sm font-bold text-[#053132]/50">ر.س</span>
+          <span className="text-2xl sm:text-3xl font-black text-[#053132]">{fmt(finalPrice)}</span>
+          <span className="text-xs sm:text-sm font-bold text-[#053132]/50">ر.س</span>
           {hasDiscount && (
             <>
               <span className="text-sm text-gray-400 line-through">{fmt(originalPrice)} ر.س</span>
@@ -78,7 +78,7 @@ export default function ProductInfo({ product, addedToCart, onAddToCart, onBuyNo
 
       {/* Brief */}
       {brief && (
-        <p className="text-sm text-gray-600 leading-relaxed">{brief}</p>
+        <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">{brief}</p>
       )}
 
       {/* Color */}

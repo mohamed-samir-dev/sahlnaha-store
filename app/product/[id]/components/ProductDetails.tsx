@@ -48,7 +48,7 @@ export default function ProductDetails({ gallery, specifications, rating, review
       {/* Specifications */}
       {specifications && specifications.length > 0 && (
         <div>
-          <h2 className="text-xl font-black text-[#053132] mb-6">المواصفات</h2>
+          <h2 className="text-base sm:text-xl font-black text-[#053132] mb-4 sm:mb-6">المواصفات</h2>
           <div className="rounded-2xl border border-gray-200 overflow-hidden">
             {specifications.map((group, gi) => (
               <div key={gi}>
@@ -78,7 +78,7 @@ export default function ProductDetails({ gallery, specifications, rating, review
       {reviews && reviews.length > 0 && (
         <div>
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-black text-[#053132]">التقييمات</h2>
+            <h2 className="text-base sm:text-xl font-black text-[#053132]">التقييمات</h2>
             {rating && (
               <div className="flex items-center gap-2 bg-amber-50 px-3 py-1.5 rounded-full">
                 <IoStar size={14} className="text-amber-400" />

@@ -6,13 +6,15 @@ import WhatsappButton from "./WhatsappButton";
 export default function ClientLayout({ children, footer }: { children: React.ReactNode; footer: React.ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
+  const isFileView = pathname.startsWith("/file-view");
+  const hideChrome = isAdmin || isFileView;
 
   return (
     <>
-      {!isAdmin && <Navbar />}
+      {!hideChrome && <Navbar />}
       {children}
-      {!isAdmin && footer}
-      {!isAdmin && <WhatsappButton />}
+      {!hideChrome && footer}
+      {!hideChrome && <WhatsappButton />}
     </>
   );
 }

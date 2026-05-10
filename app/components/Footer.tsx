@@ -22,9 +22,8 @@ export default async function Footer() {
   }
 
   function toInlineUrl(url: string) {
-    if (!url) return url;
-    const rawUrl = url.replace("/image/upload/", "/raw/upload/").replace(/\/fl_attachment:[^/]+\//, "/");
-    return `https://docs.google.com/viewer?url=${encodeURIComponent(rawUrl)}&embedded=false`;
+    if (!url) return "";
+    return `/file-view?url=${encodeURIComponent(url)}`;
   }
 
   const qrSrc: string = c.qrImage || "";
@@ -35,10 +34,10 @@ export default async function Footer() {
     (c.footerItems || []).filter((item: { image: string }) => item.image);
 
   const img1: string = c.img1 || "";
-  const linkType1: string = c.linkType1 || c.link1Type || "link";
+  const linkType1: string = c.link1Type || c.linkType1 || "link";
   const link1: string = linkType1 === "file" ? toInlineUrl(c.file1 || "") : ensureAbsolute(c.link1 || "");
   const img2: string = c.img2 || "";
-  const linkType2: string = c.linkType2 || c.link2Type || "link";
+  const linkType2: string = c.link2Type || c.linkType2 || "link";
   const link2: string = linkType2 === "file" ? toInlineUrl(c.file2 || "") : ensureAbsolute(c.link2 || "");
 
   function getHref(item: { linkType: string; link: string; file: string }) {

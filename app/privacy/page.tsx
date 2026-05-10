@@ -135,28 +135,28 @@ export default function PrivacyPage() {
     <main className="min-h-screen bg-[#f8f9fc] overflow-x-hidden" dir="rtl">
 
       {/* ════════ HERO ════════ */}
-      <section className="relative w-full overflow-hidden bg-linear-to-bl from-[#1a3a6e] via-[#1e5fc4] to-[#4f8ef7]">
+      <section className="relative w-full overflow-hidden" style={{ background: "linear-gradient(135deg, #053132 0%, #092C32 40%, #0A2931 70%, #0B2631 100%)" }}>
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-white/5 blur-[80px]" />
-          <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-indigo-300/10 blur-[60px]" />
-          <div className="absolute bottom-0 left-1/2 w-[600px] h-40 -translate-x-1/2 bg-blue-900/30 blur-[50px]" />
+          <div className="absolute top-10 left-10 w-64 h-64 rounded-full blur-[60px]" style={{ background: "rgba(255,255,255,0.04)" }} />
+          <div className="absolute bottom-0 left-1/2 w-[600px] h-40 -translate-x-1/2 blur-[50px]" style={{ background: "rgba(5,49,50,0.4)" }} />
         </div>
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.04]"
           style={{ backgroundImage: "linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)", backgroundSize: "40px 40px" }}
         />
-        <div className="relative w-full px-5 sm:px-12 lg:px-20 py-20 sm:py-32 text-center text-white">
-          <div {...anim(100)} className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 text-xs sm:text-sm font-medium text-blue-100 mb-6">
+        <div className="relative max-w-4xl mx-auto px-5 sm:px-10 py-20 sm:py-32 text-center text-white">
+          <div {...anim(100)} className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 text-xs sm:text-sm font-medium mb-6" style={{ color: "#a7f3d0" }}>
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             الشروط والسياسات
           </div>
           <h1 {...anim(220)} className="text-3xl sm:text-5xl lg:text-6xl font-extrabold mb-4 sm:mb-5 leading-tight tracking-tight">
             سياسة الخصوصية
-            <span className="block text-transparent bg-clip-text bg-linear-to-l from-blue-200 to-white">
+            <span className="block text-transparent bg-clip-text" style={{ backgroundImage: "linear-gradient(to left, #a7f3d0, #ffffff)" }}>
               واتفاقية الاستخدام
             </span>
           </h1>
-          <p {...anim(360)} className="text-blue-100/90 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed">
+          <p {...anim(360)} className="text-base sm:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed" style={{ color: "rgba(167,243,208,0.85)" }}>
             الشروط العامة المنظمة لاستخدام موقع مؤسسة مدار التقنية
           </p>
         </div>
