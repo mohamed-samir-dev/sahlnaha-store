@@ -3,6 +3,7 @@ import type { Product } from "../components/products/types";
 const COLOR_ORDER: string[] = [
   "برتقالي",
   "برتقالي كوني",
+  "برتقالي تيتانيوم",
   "أزرق داكن",
   "أزرق",
   "ازرق",
