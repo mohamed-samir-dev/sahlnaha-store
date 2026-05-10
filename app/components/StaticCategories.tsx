@@ -4,11 +4,11 @@ import Image from "next/image";
 const categories = [
   { name: "الهواتف الذكية", desc: "أحدث الهواتف بأفضل الأسعار", href: "/smartphones", image: "/iphone17.webp", glow: "rgba(59,130,246,0.25)" },
   { name: "التابلت", desc: "أجهزة لوحية مثالية للعمل والترفيه", href: "/tablets/ipad-pro", image: "/taplet.webp", glow: "rgba(139,92,246,0.25)" },
-  { name: "اللابتوب", desc: "قوة وأداء في كل مكان تذهب إليه", href: "/laptops/macbook-pro", image: "/mac.webp", glow: "rgba(100,116,139,0.25)" },
+  // { name: "اللابتوب", desc: "قوة وأداء في كل مكان تذهب إليه", href: "/laptops/macbook-pro", image: "/mac.webp", glow: "rgba(100,116,139,0.25)" },
   { name: "الساعات الذكية", desc: "ابق متصلاً وتتبع صحتك بأناقة", href: "/smart-watches/smart-watches", image: "/watch.webp", glow: "rgba(244,63,94,0.25)" },
   { name: "السماعات", desc: "صوت نقي وتجربة استماع لا مثيل لها", href: "/audio/airpods-pro", image: "/audio.webp", glow: "rgba(245,158,11,0.25)" },
   // { name: "الألعاب", desc: "عالم من المتعة والإثارة بين يديك", href: "/games/ps5-games", image: "/game.webp", glow: "rgba(16,185,129,0.25)" },
-  { name: "الاكسسورات", desc: "كل ما تحتاجه لإكمال تجربتك التقنية", href: "/accessories/anker-batteries", image: "/acc.webp", glow: "rgba(20,184,166,0.25)" },
+  // { name: "الاكسسورات", desc: "كل ما تحتاجه لإكمال تجربتك التقنية", href: "/accessories/anker-batteries", image: "/acc.webp", glow: "rgba(20,184,166,0.25)" },
 ];
 
 function CardContent({ cat, wide }: { cat: typeof categories[0]; wide?: boolean }) {

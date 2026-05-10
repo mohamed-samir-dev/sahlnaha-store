@@ -125,7 +125,7 @@ export default function Navbar() {
                   alt={nameAr || "logo"}
                   width={180}
                   height={72}
-                  className="object-contain h-14 w-auto lg:h-24"
+                  className="object-contain h-20 w-auto lg:h-24"
                   unoptimized
                 />
               ) : (
