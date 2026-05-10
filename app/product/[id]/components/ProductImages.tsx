@@ -34,7 +34,7 @@ export default function ProductImages({ images: rawImages, name, discountPercent
   return (
     <div className="flex flex-col gap-4 lg:sticky lg:top-[80px]">
       {/* Main Image */}
-      <div className="relative bg-gray-50/50 rounded-3xl overflow-hidden border border-gray-100 group">
+      <div className="relative bg-white rounded-3xl overflow-hidden border border-gray-100 group">
         {discountPercent > 0 && (
           <motion.div
             initial={{ scale: 0, rotate: -12 }}
@@ -54,7 +54,7 @@ export default function ProductImages({ images: rawImages, name, discountPercent
         )}
 
         <div
-          className="relative aspect-square cursor-zoom-in"
+          className="relative aspect-[4/3] sm:aspect-square cursor-zoom-in"
           onClick={() => setZoomed(!zoomed)}
           onMouseMove={handleMouseMove}
           onMouseLeave={() => setZoomed(false)}

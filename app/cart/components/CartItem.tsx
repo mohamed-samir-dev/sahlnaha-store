@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { IoAdd, IoRemove, IoCloseOutline } from "react-icons/io5";
+import { Plus, Minus, X } from "lucide-react";
 
 const fmt = (n: number) => n.toLocaleString("en-US");
 
@@ -30,17 +30,17 @@ export default function CartItem({ product, qty, onUpdateQty, onRemove }: CartIt
   const discountPercent = hasDiscount ? Math.round((1 - product.salePrice! / product.originalPrice!) * 100) : 0;
 
   return (
-    <div className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg hover:border-[#05313220] transition-all duration-300 p-3 sm:p-4">
-      <div className="flex gap-3 sm:gap-4">
+    <div className="group bg-white rounded-xl sm:rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg hover:border-[#05313220] transition-all duration-300 p-2.5 sm:p-4">
+      <div className="flex gap-2.5 sm:gap-4">
         {/* Image */}
-        <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden shrink-0 bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="relative w-[72px] h-[72px] sm:w-24 sm:h-24 rounded-lg sm:rounded-xl overflow-hidden shrink-0 bg-gradient-to-br from-gray-50 to-gray-100">
           {img ? (
-            <Image src={img} alt={product.name} fill className="object-contain p-2 group-hover:scale-105 transition-transform duration-300" />
+            <Image src={img} alt={product.name} fill className="object-contain p-1.5 sm:p-2 group-hover:scale-105 transition-transform duration-300" />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-2xl">📱</div>
+            <div className="w-full h-full flex items-center justify-center text-xl sm:text-2xl">📱</div>
           )}
           {hasDiscount && (
-            <span className="absolute top-1 right-1 text-[9px] font-black text-white bg-red-500 px-1.5 py-0.5 rounded-md">
+            <span className="absolute top-1 right-1 text-[8px] sm:text-[9px] font-black text-white bg-red-500 px-1 sm:px-1.5 py-0.5 rounded">
               -{discountPercent}%
             </span>
           )}
@@ -48,41 +48,41 @@ export default function CartItem({ product, qty, onUpdateQty, onRemove }: CartIt
 
         {/* Content */}
         <div className="flex-1 min-w-0 flex flex-col justify-between">
-          {/* Top: name + remove */}
-          <div className="flex items-start justify-between gap-2">
-            <h3 className="text-xs sm:text-sm font-bold text-gray-900 leading-relaxed line-clamp-2">{product.name}</h3>
+          {/* Top */}
+          <div className="flex items-start justify-between gap-1.5">
+            <h3 className="text-[11px] sm:text-sm font-bold text-gray-900 leading-relaxed line-clamp-2">{product.name}</h3>
             <button
               onClick={() => onRemove(product._id)}
-              className="w-7 h-7 rounded-full bg-gray-100 hover:bg-red-50 flex items-center justify-center transition shrink-0 group/btn"
+              className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gray-100 hover:bg-red-50 flex items-center justify-center transition shrink-0 group/btn"
             >
-              <IoCloseOutline size={14} className="text-gray-400 group-hover/btn:text-red-500 transition" />
+              <X size={12} className="text-gray-400 group-hover/btn:text-red-500 transition sm:w-[14px] sm:h-[14px]" />
             </button>
           </div>
 
-          {/* Bottom: price + qty */}
-          <div className="flex items-center justify-between mt-2">
-            <div>
-              <span className="text-base sm:text-lg font-black text-[#053132]">{fmt(price * qty)}</span>
-              <span className="text-[10px] text-gray-400 mr-1">ر.س</span>
+          {/* Bottom */}
+          <div className="flex items-center justify-between mt-2 sm:mt-3">
+            <div className="min-w-0">
+              <span className="text-sm sm:text-lg font-black text-[#053132]">{fmt(price * qty)}</span>
+              <span className="text-[9px] sm:text-[10px] text-gray-400 mr-0.5">ر.س</span>
               {hasDiscount && (
-                <span className="text-[10px] text-gray-300 line-through mr-2">{fmt(product.originalPrice! * qty)}</span>
+                <span className="text-[9px] sm:text-[10px] text-gray-300 line-through mr-1.5 sm:mr-2">{fmt(product.originalPrice! * qty)}</span>
               )}
             </div>
 
             {/* Qty */}
-            <div className="flex items-center bg-gray-50 rounded-full overflow-hidden border border-gray-100">
+            <div className="flex items-center bg-gray-50 rounded-full overflow-hidden border border-gray-100 shrink-0">
               <button
                 onClick={() => onUpdateQty(product._id, qty - 1)}
-                className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition"
+                className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-gray-100 transition"
               >
-                <IoRemove size={13} className="text-gray-500" />
+                <Minus size={12} className="text-gray-500 sm:w-[13px] sm:h-[13px]" />
               </button>
-              <span className="w-8 text-center text-sm font-black text-gray-900">{qty}</span>
+              <span className="w-6 sm:w-8 text-center text-xs sm:text-sm font-black text-gray-900">{qty}</span>
               <button
                 onClick={() => onUpdateQty(product._id, qty + 1)}
-                className="w-8 h-8 flex items-center justify-center bg-[#053132] hover:bg-[#064445] transition text-white rounded-full"
+                className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-[#053132] hover:bg-[#064445] transition text-white rounded-full"
               >
-                <IoAdd size={13} />
+                <Plus size={12} className="sm:w-[13px] sm:h-[13px]" />
               </button>
             </div>
           </div>

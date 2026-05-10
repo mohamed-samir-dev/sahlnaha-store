@@ -10,6 +10,29 @@ import MobileMenu from "./MobileMenu";
 import { useCartStore } from "../../store/cartStore";
 import { useCompanyStore } from "../../store/companyStore";
 
+const announcements = [
+  "💳 متاح تقسيط على جميع المنتجات",
+  "🎉 دفعة أولى فقط 1000 ريال وقسّط الباقي",
+  "🚚 شحن مجاني للطلبات أعلى من 1000 ريال",
+  "⭐ أقساط بدون فوائد حتى 12 شهر",
+  "🛡️ ضمان رسمي على جميع الأجهزة",
+];
+
+function RotatingAnnouncements() {
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    const timer = setInterval(() => setIndex((i) => (i + 1) % announcements.length), 3000);
+    return () => clearInterval(timer);
+  }, []);
+  return (
+    <span className="text-yellow-400 font-semibold text-center leading-tight relative h-5 overflow-hidden flex items-center justify-center min-w-0 flex-1">
+      <span key={index} className="animate-fade-in-out text-[10px] sm:text-xs truncate max-w-full px-1">
+        {announcements[index]}
+      </span>
+    </span>
+  );
+}
+
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -74,32 +97,29 @@ export default function Navbar() {
 
       {/* ── Row 1: Top bar ── */}
       <div className="bg-gray-900 border-b border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 h-9 flex items-center justify-between text-xs">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 h-9 flex items-center justify-between text-xs gap-1 sm:gap-3">
 
           {/* Right: WhatsApp */}
           <a
             href="https://wa.me/0501234567"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-green-400 font-bold hover:text-green-300 transition-colors shrink-0"
+            className="flex items-center gap-1 sm:gap-1.5 text-green-400 font-bold hover:text-green-300 transition-colors shrink-0"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
               <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.855L.057 23.882l6.186-1.443A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.006-1.371l-.36-.214-3.724.868.936-3.42-.235-.372A9.818 9.818 0 1 1 12 21.818z"/>
             </svg>
-            0501234567
+            <span className="hidden sm:inline">0501234567</span>
           </a>
 
-          {/* Center: free shipping */}
-          <span className="text-yellow-400 font-semibold text-center leading-tight">
-            <span className="hidden sm:inline">🚚 شحن مجاني للطلبات أعلى من 1000 ريال</span>
-            <span className="sm:hidden">🚚 شحن مجاني +1000 ريال</span>
-          </span>
+          {/* Center: rotating announcements */}
+          <RotatingAnnouncements />
 
           {/* Left: location */}
-          <span className="flex items-center gap-1.5 text-gray-300 shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 text-yellow-400 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" /></svg>
-            السعودية
+          <span className="flex items-center gap-1 sm:gap-1.5 text-gray-300 shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-yellow-400 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" /></svg>
+            <span className="text-[10px] sm:text-xs">السعودية</span>
           </span>
 
         </div>
@@ -125,13 +145,13 @@ export default function Navbar() {
                   alt={nameAr || "logo"}
                   width={180}
                   height={72}
-                  className="object-contain h-20 w-auto lg:h-24"
+                  className="object-contain h-12 w-auto lg:h-24"
                   unoptimized
                 />
               ) : (
                 <div className="flex flex-col">
                   <span className="text-2xl sm:text-[28px] font-black text-gray-900 group-hover:text-yellow-500 transition-colors tracking-tight">
-                    {nameAr || "سهلناها"}
+                    {nameAr || "مدار"}
                   </span>
                   <span className="text-[10px] sm:text-[11px] text-gray-400 font-medium">للأجهزة الإلكترونية</span>
                 </div>

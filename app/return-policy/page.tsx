@@ -3,7 +3,7 @@ import ReturnPolicyClient from "./ReturnPolicyClient";
 
 export const metadata: Metadata = {
   title: "سياسة الاستبدال والاسترجاع",
-  description: "الشروط المنظمة لطلبات الإلغاء والاستبدال والاسترجاع داخل مؤسسة سهلناها التقنية",
+  description: "الشروط المنظمة لطلبات الإلغاء والاستبدال والاسترجاع داخل مؤسسة مدار التقنية",
 };
 
 export default function ReturnPolicyPage() {

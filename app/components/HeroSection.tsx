@@ -302,39 +302,88 @@ export default function HeroSection() {
             </svg>
           </motion.button>
         ))}
-      </section>
 
-      {/* ── FEATURES BAR ── */}
-      <div style={{ background: "#082D32" }}>
-        <div className="max-w-7xl mx-auto px-4 py-1">
-          <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-x-reverse divide-white/[0.06]">
-            {features.map((f, i) => (
-              <motion.div
+        {/* ── FLOATING FEATURES (scattered around content) ── */}
+        {/* Top-left */}
+        <motion.div
+          className="hidden lg:flex absolute top-8 left-8 items-center gap-2 px-4 py-2.5 rounded-xl border border-white/10"
+          style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(20px)" }}
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          whileHover={{ scale: 1.05, background: "rgba(255,255,255,0.14)" }}
+        >
+          <span style={{ color: "#5eead4" }}>{features[0].icon}</span>
+          <div>
+            <p className="font-bold text-sm text-white">{features[0].title}</p>
+            <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.6)" }}>{features[0].desc}</p>
+          </div>
+        </motion.div>
+
+        {/* Top-right */}
+        <motion.div
+          className="hidden lg:flex absolute top-8 right-8 items-center gap-2 px-4 py-2.5 rounded-xl border border-white/10"
+          style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(20px)" }}
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.7 }}
+          whileHover={{ scale: 1.05, background: "rgba(255,255,255,0.14)" }}
+        >
+          <span style={{ color: "#5eead4" }}>{features[1].icon}</span>
+          <div>
+            <p className="font-bold text-sm text-white">{features[1].title}</p>
+            <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.6)" }}>{features[1].desc}</p>
+          </div>
+        </motion.div>
+
+        {/* Bottom-left */}
+        <motion.div
+          className="hidden lg:flex absolute bottom-20 left-10 items-center gap-2 px-4 py-2.5 rounded-xl border border-white/10"
+          style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(20px)" }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.9 }}
+          whileHover={{ scale: 1.05, background: "rgba(255,255,255,0.14)" }}
+        >
+          <span style={{ color: "#5eead4" }}>{features[2].icon}</span>
+          <div>
+            <p className="font-bold text-sm text-white">{features[2].title}</p>
+            <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.6)" }}>{features[2].desc}</p>
+          </div>
+        </motion.div>
+
+        {/* Middle-left */}
+        <motion.div
+          className="hidden lg:flex absolute top-1/2 -translate-y-1/2 left-24 items-center gap-2 px-4 py-2.5 rounded-xl border border-white/10"
+          style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(20px)" }}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 1.1 }}
+          whileHover={{ scale: 1.05, background: "rgba(255,255,255,0.14)" }}
+        >
+          <span style={{ color: "#5eead4" }}>{features[3].icon}</span>
+          <div>
+            <p className="font-bold text-sm text-white">{features[3].title}</p>
+            <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.6)" }}>{features[3].desc}</p>
+          </div>
+        </motion.div>
+
+        {/* Mobile: bottom row */}
+        <div className="lg:hidden absolute bottom-4 left-4 right-4 z-10">
+          <div className="grid grid-cols-2 gap-2">
+            {features.map((f) => (
+              <div
                 key={f.title}
-                className="flex items-center gap-2 sm:gap-3 px-3 sm:px-6 py-3 sm:py-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1, duration: 0.5, ease: "easeOut" }}
-                whileHover={{ background: "rgba(255,255,255,0.04)" }}
-                style={{ borderRight: i > 0 ? "1px solid rgba(255,255,255,0.06)" : "none" }}
+                className="flex items-center gap-1.5 px-2.5 py-2 rounded-lg border border-white/10"
+                style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)" }}
               >
-                <motion.div
-                  className="shrink-0"
-                  style={{ color: "#5eead4" }}
-                  whileHover={{ scale: 1.2, rotate: 5 }}
-                  transition={{ type: "spring", stiffness: 400 }}
-                >
-                  {f.icon}
-                </motion.div>
-                <div>
-                  <p className="font-bold text-sm text-white">{f.title}</p>
-                  <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>{f.desc}</p>
-                </div>
-              </motion.div>
+                <span className="shrink-0" style={{ color: "#5eead4" }}>{f.icon}</span>
+                <p className="font-bold text-[11px] text-white">{f.title}</p>
+              </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

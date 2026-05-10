@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import AboutClient from "./AboutClient";
 
 export const metadata: Metadata = {
-  title: "عن سهلناها",
+  title: "عن مدار",
   description: "تعرف على نشاط المتجر ورؤيتنا والخدمات التي نقدمها لعملائنا",
 };
 

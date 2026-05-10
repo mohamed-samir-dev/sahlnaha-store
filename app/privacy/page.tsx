@@ -75,7 +75,7 @@ const sections = [
     bg: "bg-blue-50",
     iconText: "text-blue-600",
     content: [
-      "باستخدامك لهذا الموقع فإنك توافق على الالتزام بالشروط والأحكام والسياسات المعمول بها داخل مؤسسة سهلناها التقنية.",
+      "باستخدامك لهذا الموقع فإنك توافق على الالتزام بالشروط والأحكام والسياسات المعمول بها داخل مؤسسة مدار التقنية.",
     ],
   },
   {
@@ -157,7 +157,7 @@ export default function PrivacyPage() {
             </span>
           </h1>
           <p {...anim(360)} className="text-blue-100/90 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed">
-            الشروط العامة المنظمة لاستخدام موقع مؤسسة سهلناها التقنية
+            الشروط العامة المنظمة لاستخدام موقع مؤسسة مدار التقنية
           </p>
         </div>
         <div className="absolute bottom-0 left-0 w-full">

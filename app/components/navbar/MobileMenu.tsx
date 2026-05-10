@@ -37,7 +37,7 @@ export default function MobileMenu({ items, isOpen, onClose }: MobileMenuProps) 
         {/* Header */}
         <div className="bg-gray-900 px-5 py-5 flex items-center justify-between shrink-0">
           <div>
-            <p className="text-white font-black text-xl tracking-tight">سهلناها</p>
+            <p className="text-white font-black text-xl tracking-tight">مدار</p>
             <p className="text-gray-400 text-xs">للأجهزة الإلكترونية</p>
           </div>
           <button

@@ -25,8 +25,8 @@ async function getCompany() {
 export async function generateMetadata(): Promise<Metadata> {
   const c = await getCompany();
 
-  const siteName = c.nameAr || "سهلناها";
-  const description = c.details || "متجر سهلناها - أجهزة إلكترونية بالأقساط داخل المملكة العربية السعودية. أفضل الأسعار على الجوالات، اللابتوبات، الأجهزة اللوحية والإكسسوارات.";
+  const siteName = c.nameAr || "مدار";
+  const description = c.details || "متجر مدار - أجهزة إلكترونية بالأقساط داخل المملكة العربية السعودية. أفضل الأسعار على الجوالات، اللابتوبات، الأجهزة اللوحية والإكسسوارات.";
   const ogImage = `${SITE_URL}/android-chrome-512x512.png`;
 
   return {
@@ -43,7 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
       "سامسونج", "آبل", "أيفون", "شاومي", "هواوي", "أوبو",
       "السعودية", "الرياض", "جدة", "مكة", "الدمام",
       "شراء بالتقسيط", "أقساط بدون فوائد", "متجر إلكتروني",
-      "سهلناها", "مؤسسة سهلناها التقنية",
+      "مدار", "مؤسسة مدار التقنية",
     ],
     authors: [{ name: siteName, url: SITE_URL }],
     creator: siteName,
