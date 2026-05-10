@@ -37,7 +37,7 @@ export default function AdminNavbar({ onMenuClick }: { onMenuClick: () => void }
             width={0}
             height={0}
             sizes="100vw"
-            className="h-20 sm:h-20 lg:h-30 w-auto"
+            className="h-10 w-auto"
             unoptimized
             priority
           />
