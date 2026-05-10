@@ -2,6 +2,10 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
+
+const ACCENT = "#0d9488";
+const ACCENT_GLOW = "rgba(13,148,136,0.35)";
 
 const slides = [
   {
@@ -11,8 +15,7 @@ const slides = [
     subtitle: "برو ماكس",
     desc: "تجربة لا مثيل لها — كاميرا احترافية، أداء خارق، تصميم فاخر",
     btn: { label: "تسوق الآن", href: "/smartphones/iphone-17-pro-max" },
-    gradient: "from-black/80 via-black/40 to-transparent",
-    accent: "from-yellow-400 to-orange-500",
+    color: "#053132",
   },
   {
     image: "/hero3.webp",
@@ -21,8 +24,7 @@ const slides = [
     subtitle: "الترا",
     desc: "قوة لا تُضاهى — شاشة AMOLED مذهلة وبطارية تدوم طوال اليوم",
     btn: { label: "اكتشف الآن", href: "/smartphones/samsung-s26-ultra" },
-    gradient: "from-black/80 via-black/40 to-transparent",
-    accent: "from-blue-400 to-cyan-500",
+    color: "#092C32",
   },
   {
     image: "/hero5.webp",
@@ -31,8 +33,7 @@ const slides = [
     subtitle: "M3 Chip",
     desc: "خفيف كالريشة، قوي كالعاصفة — الرفيق المثالي للعمل والإبداع",
     btn: { label: "تسوق الآن", href: "/laptops/macbook-air" },
-    gradient: "from-black/80 via-black/40 to-transparent",
-    accent: "from-purple-400 to-pink-500",
+    color: "#0D202E",
   },
 ];
 
@@ -75,141 +76,268 @@ const features = [
   },
 ];
 
+const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12 } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 40, filter: "blur(8px)" },
+  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+};
+
+const titleVariants = {
+  hidden: { opacity: 0, x: 60, filter: "blur(12px)" },
+  visible: { opacity: 1, x: 0, filter: "blur(0px)", transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
+};
+
+function FloatingOrb({ style }: { style: React.CSSProperties }) {
+  return (
+    <motion.div
+      className="absolute rounded-full pointer-events-none"
+      style={style}
+      animate={{ y: [0, -20, 0], scale: [1, 1.08, 1], opacity: [0.4, 0.7, 0.4] }}
+      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+    />
+  );
+}
+
 export default function HeroSection() {
   const [current, setCurrent] = useState(0);
-  const [animating, setAnimating] = useState(false);
+  const [direction, setDirection] = useState(1);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const rotateX = useTransform(mouseY, [-300, 300], [4, -4]);
+  const rotateY = useTransform(mouseX, [-600, 600], [-4, 4]);
 
-  const goTo = useCallback((i: number) => {
-    if (animating) return;
-    setAnimating(true);
-    setTimeout(() => {
-      setCurrent(i);
-      setAnimating(false);
-    }, 400);
-  }, [animating]);
+  const goTo = useCallback((i: number, dir = 1) => {
+    setDirection(dir);
+    setCurrent(i);
+  }, []);
 
   useEffect(() => {
-    const t = setInterval(() => {
-      goTo((current + 1) % slides.length);
-    }, 5000);
+    const t = setInterval(() => goTo((current + 1) % slides.length, 1), 5500);
     return () => clearInterval(t);
   }, [current, goTo]);
 
   const slide = slides[current];
 
+  const slideVariants = {
+    enter: (d: number) => ({ opacity: 0, x: d > 0 ? -80 : 80, scale: 0.96, filter: "blur(10px)" }),
+    center: { opacity: 1, x: 0, scale: 1, filter: "blur(0px)", transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
+    exit: (d: number) => ({ opacity: 0, x: d > 0 ? 80 : -80, scale: 0.96, filter: "blur(10px)", transition: { duration: 0.4 } }),
+  };
+
   return (
     <div dir="rtl">
       {/* ── HERO ── */}
-      <section className="relative h-[420px] sm:h-[640px] lg:h-[700px] overflow-hidden">
+      <section
+        className="relative h-[420px] sm:h-[640px] lg:h-[700px] overflow-hidden"
+        style={{ background: slide.color, transition: "background 0.8s ease" }}
+        onMouseMove={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          mouseX.set(e.clientX - rect.left - rect.width / 2);
+          mouseY.set(e.clientY - rect.top - rect.height / 2);
+        }}
+      >
+        {/* Animated background gradient */}
+        <motion.div
+          className="absolute inset-0"
+          animate={{ background: [
+            `radial-gradient(ellipse 80% 60% at 70% 50%, ${ACCENT_GLOW}, transparent 70%)`,
+            `radial-gradient(ellipse 90% 70% at 60% 40%, ${ACCENT_GLOW}, transparent 70%)`,
+            `radial-gradient(ellipse 80% 60% at 70% 50%, ${ACCENT_GLOW}, transparent 70%)`,
+          ]}}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        />
 
-        {/* Background Image */}
-        <div className={`absolute inset-0 transition-opacity duration-500 ${animating ? "opacity-0" : "opacity-100"}`}>
-          <Image
-            src={slide.image}
-            alt={slide.title}
-            fill
-            className="object-cover object-center"
-            priority
-            unoptimized
-          />
-          {/* Gradient overlay */}
-          <div className={`absolute inset-0 bg-gradient-to-l ${slide.gradient}`} />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-        </div>
+        {/* Floating orbs */}
+        <FloatingOrb style={{ width: 300, height: 300, top: "-80px", right: "-60px", background: ACCENT_GLOW, filter: "blur(80px)" }} />
+        <FloatingOrb style={{ width: 200, height: 200, bottom: "40px", left: "10%", background: ACCENT_GLOW, filter: "blur(60px)", animationDelay: "2s" }} />
+
+        {/* Scanline texture */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,1) 2px, rgba(255,255,255,1) 3px)",
+          backgroundSize: "100% 3px",
+        }} />
+
+        {/* Background Image with parallax */}
+        <AnimatePresence custom={direction} mode="sync">
+          <motion.div
+            key={`img-${current}`}
+            className="absolute inset-0"
+            custom={direction}
+            variants={{
+              enter: (d) => ({ opacity: 0, scale: 1.08, x: d > 0 ? -40 : 40 }),
+              center: { opacity: 1, scale: 1, x: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
+              exit: (d) => ({ opacity: 0, scale: 1.04, x: d > 0 ? 40 : -40, transition: { duration: 0.5 } }),
+            }}
+            initial="enter"
+            animate="center"
+            exit="exit"
+          >
+            <motion.div className="absolute inset-0" style={{ rotateX, rotateY, transformPerspective: 1200 }}>
+              <Image src={slide.image} alt={slide.title} fill className="object-cover object-center" priority unoptimized />
+            </motion.div>
+            {/* Dark overlays */}
+            <div className="absolute inset-0 bg-gradient-to-l from-black/75 via-black/30 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+            <div className="absolute inset-0" style={{ background: `linear-gradient(to right, ${slide.color}dd, transparent 60%)` }} />
+          </motion.div>
+        </AnimatePresence>
 
         {/* Content */}
         <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-10 lg:px-16 flex items-center">
-          <div className={`w-full lg:w-[52%] text-right transition-all duration-500 pb-14 sm:pb-0 ${animating ? "opacity-0 translate-x-6" : "opacity-100 translate-x-0"}`}>
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={`content-${current}`}
+              className="w-full lg:w-[55%] text-right pb-14 sm:pb-0"
+              custom={direction}
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              exit={{ opacity: 0, x: 40, transition: { duration: 0.3 } }}
+            >
+              {/* Badge */}
+              <motion.div variants={itemVariants}>
+                <motion.span
+                  className="inline-flex items-center gap-2 mb-3 sm:mb-5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold border text-white"
+                  style={{ background: "rgba(255,255,255,0.08)", borderColor: "rgba(255,255,255,0.2)", backdropFilter: "blur(12px)" }}
+                  whileHover={{ scale: 1.05, background: "rgba(255,255,255,0.15)" }}
+                >
+                  {slide.badge}
+                  <motion.span
+                    className="w-1.5 h-1.5 rounded-full bg-green-400"
+                    animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  />
+                </motion.span>
+              </motion.div>
 
-            {/* Badge */}
-            <span className="inline-block mb-3 sm:mb-4 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-bold bg-white/15 backdrop-blur-sm border border-white/20 text-white">
-              {slide.badge}
-            </span>
+              {/* Title */}
+              <motion.h2 className="text-white font-black leading-tight mb-3 sm:mb-4" variants={titleVariants}>
+                <span className="block text-3xl sm:text-6xl lg:text-7xl drop-shadow-2xl">{slide.title}</span>
+                <motion.span
+                  className="block text-4xl sm:text-7xl lg:text-8xl"
+                  style={{ color: ACCENT }}
+                >
+                  {slide.subtitle}
+                </motion.span>
+              </motion.h2>
 
-            {/* Title */}
-            <h2 className="text-white font-black leading-tight mb-2 sm:mb-3">
-              <span className="block text-3xl sm:text-6xl lg:text-7xl">{slide.title}</span>
-              <span className={`block text-4xl sm:text-7xl lg:text-8xl bg-gradient-to-l ${slide.accent} bg-clip-text text-transparent`}>
-                {slide.subtitle}
-              </span>
-            </h2>
-
-            {/* Desc */}
-            <p className="text-gray-200 text-sm sm:text-xl lg:text-2xl leading-relaxed mb-5 sm:mb-8 max-w-lg mr-auto">
-              {slide.desc}
-            </p>
-
-            {/* Buttons */}
-            <div className="flex items-center justify-center gap-3">
-              <Link
-                href={slide.btn.href}
-                className={`inline-flex items-center gap-2 px-5 py-3 sm:px-8 sm:py-4 rounded-2xl bg-gradient-to-l ${slide.accent} text-white font-bold text-base sm:text-lg shadow-lg hover:-translate-y-1 transition-transform duration-300`}
+              {/* Desc */}
+              <motion.p
+                className="text-gray-200/90 text-sm sm:text-xl lg:text-2xl leading-relaxed mb-6 sm:mb-9 max-w-lg mr-auto"
+                variants={itemVariants}
               >
-                {slide.btn.label}
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4 sm:w-5 sm:h-5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                </svg>
-              </Link>
-              <Link
-                href="/smartphones"
-                className="inline-flex items-center gap-2 px-5 py-3 sm:px-8 sm:py-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/25 text-white font-bold text-base sm:text-lg hover:bg-white/20 transition-colors duration-300"
-              >
-                كل المنتجات
-              </Link>
-            </div>
-          </div>
+                {slide.desc}
+              </motion.p>
+
+              {/* Buttons */}
+              <motion.div className="flex items-center justify-start gap-3" variants={itemVariants}>
+                <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}>
+                  <Link
+                    href={slide.btn.href}
+                    className="inline-flex items-center gap-2 px-5 py-3 sm:px-8 sm:py-4 rounded-2xl text-white font-bold text-base sm:text-lg"
+                    style={{ background: ACCENT, boxShadow: `0 8px 32px ${ACCENT_GLOW}` }}
+                  >
+                    {slide.btn.label}
+                    <motion.svg
+                      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4 sm:w-5 sm:h-5"
+                      animate={{ x: [0, -4, 0] }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                    </motion.svg>
+                  </Link>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}>
+                  <Link
+                    href="/smartphones"
+                    className="inline-flex items-center gap-2 px-5 py-3 sm:px-8 sm:py-4 rounded-2xl text-white font-bold text-base sm:text-lg border transition-colors duration-300"
+                    style={{ background: "rgba(255,255,255,0.07)", borderColor: `${ACCENT}66`, backdropFilter: "blur(12px)" }}
+                  >
+                    كل المنتجات
+                  </Link>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         {/* Slide indicators */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2">
           {slides.map((_, i) => (
-            <button
+            <motion.button
               key={i}
-              onClick={() => goTo(i)}
-              className={`rounded-full transition-all duration-300 ${
-                i === current ? "w-8 h-2.5 bg-white" : "w-2.5 h-2.5 bg-white/40 hover:bg-white/70"
-              }`}
+              onClick={() => goTo(i, i > current ? 1 : -1)}
+              className="rounded-full bg-white/40 hover:bg-white/70 transition-colors"
+              animate={{ width: i === current ? 32 : 10, height: 10, background: i === current ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.4)" }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
             />
           ))}
         </div>
 
         {/* Slide number */}
-        <div className="absolute bottom-5 right-6 sm:right-10 lg:right-16 text-white/50 text-sm font-mono">
+        <motion.div
+          className="absolute bottom-5 right-6 sm:right-10 lg:right-16 text-white/40 text-sm font-mono"
+          key={current}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
           0{current + 1} / 0{slides.length}
-        </div>
+        </motion.div>
 
         {/* Arrow buttons */}
-        <button
-          onClick={() => goTo((current - 1 + slides.length) % slides.length)}
-          className="hidden sm:flex absolute top-1/2 -translate-y-1/2 right-4 sm:right-8 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white items-center justify-center hover:bg-white/25 transition-colors"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-            <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-          </svg>
-        </button>
-        <button
-          onClick={() => goTo((current + 1) % slides.length)}
-          className="hidden sm:flex absolute top-1/2 -translate-y-1/2 left-4 sm:left-8 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white items-center justify-center hover:bg-white/25 transition-colors"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-          </svg>
-        </button>
-
+        {[
+          { dir: -1, side: "right-4 sm:right-8", path: "m8.25 4.5 7.5 7.5-7.5 7.5" },
+          { dir: 1, side: "left-4 sm:left-8", path: "M15.75 19.5 8.25 12l7.5-7.5" },
+        ].map(({ dir, side, path }) => (
+          <motion.button
+            key={side}
+            onClick={() => goTo((current + dir + slides.length) % slides.length, dir)}
+            className={`hidden sm:flex absolute top-1/2 -translate-y-1/2 ${side} w-11 h-11 rounded-full text-white items-center justify-center border`}
+            style={{ background: "rgba(255,255,255,0.08)", borderColor: "rgba(255,255,255,0.2)", backdropFilter: "blur(12px)" }}
+            whileHover={{ scale: 1.1, background: "rgba(255,255,255,0.2)" }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d={path} />
+            </svg>
+          </motion.button>
+        ))}
       </section>
 
       {/* ── FEATURES BAR ── */}
-      <div className="bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 py-4 grid grid-cols-2 lg:grid-cols-4 gap-px bg-gray-700">
-          {features.map((f) => (
-            <div key={f.title} className="bg-gray-900 flex items-center gap-2 sm:gap-3 px-3 sm:px-6 py-3 sm:py-4">
-              <div className="text-yellow-400 shrink-0">{f.icon}</div>
-              <div>
-                <p className="font-bold text-sm">{f.title}</p>
-                <p className="text-gray-400 text-xs">{f.desc}</p>
-              </div>
-            </div>
-          ))}
+      <div style={{ background: "#082D32" }}>
+        <div className="max-w-7xl mx-auto px-4 py-1">
+          <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-x-reverse" style={{ divideColor: "rgba(255,255,255,0.06)" }}>
+            {features.map((f, i) => (
+              <motion.div
+                key={f.title}
+                className="flex items-center gap-2 sm:gap-3 px-3 sm:px-6 py-3 sm:py-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1, duration: 0.5, ease: "easeOut" }}
+                whileHover={{ background: "rgba(255,255,255,0.04)" }}
+                style={{ borderRight: i > 0 ? "1px solid rgba(255,255,255,0.06)" : "none" }}
+              >
+                <motion.div
+                  className="shrink-0"
+                  style={{ color: "#5eead4" }}
+                  whileHover={{ scale: 1.2, rotate: 5 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  {f.icon}
+                </motion.div>
+                <div>
+                  <p className="font-bold text-sm text-white">{f.title}</p>
+                  <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>{f.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

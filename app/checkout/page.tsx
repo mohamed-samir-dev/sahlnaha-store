@@ -9,6 +9,16 @@ import { useCartStore } from "../store/cartStore";
 import OrderSummary from "./components/OrderSummary";
 import PaymentForm from "./components/PaymentForm";
 
+function SectionHeading({ label }: { label: string }) {
+  return (
+    <div className="flex items-center gap-3">
+      <div className="w-1 h-5 rounded-full" style={{ background: "#053132" }} />
+      <h2 className="text-sm sm:text-base font-black" style={{ color: "#092C32" }}>{label}</h2>
+      <div className="flex-1 h-px bg-gray-100" />
+    </div>
+  );
+}
+
 export default function CheckoutPage() {
   const router = useRouter();
   const { items, customer, totalPrice } = useCartStore();
@@ -49,55 +59,64 @@ export default function CheckoutPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white pb-24" dir="rtl">
+    <main className="min-h-screen bg-white pb-24" dir="rtl">
       {/* ── Header ── */}
-      <div className="bg-gradient-to-r from-teal-700 via-teal-600 to-emerald-600 sticky top-0 z-10 shadow-md">
-        <div className="max-w-5xl mx-auto px-3 sm:px-6 py-3 sm:py-3.5 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link href="/cart" className="w-8 h-8 sm:w-9 sm:h-9 bg-white/15 hover:bg-white/25 rounded-full flex items-center justify-center transition text-white">
-              <IoArrowForward size={18} />
-            </Link>
-            <div>
-              <h1 className="text-sm sm:text-base font-extrabold text-white flex items-center gap-2">
-                <IoLockClosedOutline size={16} />
-                إتمام الطلب
-              </h1>
-              <p className="text-[11px] sm:text-xs text-teal-100">دفع آمن ومشفر</p>
+      <header className="sticky top-0 z-10" style={{ background: "linear-gradient(135deg,#053132 0%,#082D32 60%,#0D202E 100%)" }}>
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between">
+          <Link
+            href="/cart"
+            className="flex items-center gap-1.5 text-white/80 hover:text-white transition text-sm font-semibold"
+          >
+            <IoArrowForward size={20} />
+            <span className="hidden sm:inline">السلة</span>
+          </Link>
+
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 bg-white/10 rounded-xl flex items-center justify-center">
+              <IoLockClosedOutline size={15} className="text-white" />
+            </div>
+            <div className="text-right">
+              <p className="text-white font-black text-sm sm:text-base leading-none">إتمام الطلب</p>
+              <p className="text-white/50 text-[11px] mt-0.5">دفع آمن ومشفر</p>
             </div>
           </div>
-          <Link href="/" className="w-8 h-8 sm:w-9 sm:h-9 bg-white/15 hover:bg-white/25 rounded-full flex items-center justify-center transition text-white">
-            <IoHomeOutline size={16} />
+
+          <Link
+            href="/"
+            className="w-9 h-9 bg-white/10 hover:bg-white/20 rounded-xl flex items-center justify-center transition text-white"
+          >
+            <IoHomeOutline size={17} />
           </Link>
+        </div>
+      </header>
+
+      {/* ── Stepper ── */}
+      <div className="border-b border-gray-100">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <CheckoutStepper active="payment" />
         </div>
       </div>
 
-      {/* ── Steps indicator ── */}
-      <div className="max-w-5xl mx-auto px-3 sm:px-6">
-        <CheckoutStepper active="payment" />
-      </div>
+      {/* ── Body ── */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8 items-start">
 
-      <div className="max-w-5xl mx-auto px-3 sm:px-6 pt-3">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 sm:gap-6">
+          {/* Payment Form */}
+          <div className="lg:col-span-3 order-2 lg:order-1">
+            <SectionHeading label="بيانات الدفع" />
+            <div className="mt-4">
+              <PaymentForm onSubmit={handleSubmit} />
+            </div>
+          </div>
 
-          {/* ── Order Summary (order 1 on mobile, order 2 on desktop) ── */}
-          <div className="lg:col-span-2 order-1 lg:order-2">
-            <div className="lg:sticky lg:top-20">
-              <h2 className="text-sm sm:text-base font-extrabold text-gray-800 mb-3 flex items-center gap-2">
-                <span className="w-1.5 h-5 bg-gradient-to-b from-teal-500 to-emerald-500 rounded-full" />
-                ملخص الطلب
-              </h2>
+          {/* Order Summary */}
+          <div className="lg:col-span-2 order-1 lg:order-2 lg:sticky lg:top-20">
+            <SectionHeading label="ملخص الطلب" />
+            <div className="mt-4">
               <OrderSummary total={total} downPayment={downPayment} />
             </div>
           </div>
 
-          {/* ── Payment Form (order 2 on mobile, order 1 on desktop) ── */}
-          <div className="lg:col-span-3 order-2 lg:order-1">
-            <h2 className="text-sm sm:text-base font-extrabold text-gray-800 mb-3 flex items-center gap-2">
-              <span className="w-1.5 h-5 bg-gradient-to-b from-teal-500 to-emerald-500 rounded-full" />
-              بيانات الدفع
-            </h2>
-            <PaymentForm onSubmit={handleSubmit} />
-          </div>
         </div>
       </div>
     </main>

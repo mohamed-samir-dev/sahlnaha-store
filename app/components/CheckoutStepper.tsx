@@ -1,6 +1,6 @@
 "use client";
 
-import { IoCartOutline, IoCardOutline, IoCheckmarkCircleOutline } from "react-icons/io5";
+import { IoCartOutline, IoCardOutline, IoCheckmarkCircleOutline, IoCheckmarkSharp } from "react-icons/io5";
 
 const steps = [
   { key: "cart", label: "السلة", icon: IoCartOutline },
@@ -9,10 +9,10 @@ const steps = [
 ];
 
 export default function CheckoutStepper({ active }: { active: "cart" | "payment" | "confirm" }) {
-  const activeIdx = steps.findIndex(s => s.key === active);
+  const activeIdx = steps.findIndex((s) => s.key === active);
 
   return (
-    <div className="flex items-center justify-center gap-0 py-4" dir="rtl">
+    <div className="flex items-center justify-center py-4 sm:py-5" dir="rtl">
       {steps.map((step, i) => {
         const done = i < activeIdx;
         const current = i === activeIdx;
@@ -20,34 +20,31 @@ export default function CheckoutStepper({ active }: { active: "cart" | "payment"
 
         return (
           <div key={step.key} className="flex items-center">
-            {/* Step circle + label */}
             <div className="flex flex-col items-center gap-1.5">
               <div
-                className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all ${
+                className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-300"
+                style={
                   current
-                    ? "bg-gradient-to-br from-teal-500 to-emerald-600 text-white shadow-lg shadow-teal-200/50 scale-110"
+                    ? { background: "linear-gradient(135deg,#053132,#0D202E)", color: "#fff", boxShadow: "0 4px 14px #05313240" }
                     : done
-                    ? "bg-teal-100 text-teal-600"
-                    : "bg-gray-100 text-gray-400"
-                }`}
+                    ? { background: "linear-gradient(135deg,#053132,#0D202E)", color: "#fff" }
+                    : { background: "#f3f4f6", color: "#d1d5db" }
+                }
               >
-                <Icon size={current ? 22 : 20} />
+                {done ? <IoCheckmarkSharp size={20} /> : <Icon size={current ? 21 : 19} />}
               </div>
               <span
-                className={`text-[11px] sm:text-xs font-bold transition-colors ${
-                  current ? "text-teal-700" : done ? "text-teal-600" : "text-gray-400"
-                }`}
+                className="text-[11px] sm:text-xs font-bold transition-colors"
+                style={{ color: current ? "#053132" : done ? "#0B2631" : "#9ca3af" }}
               >
                 {step.label}
               </span>
             </div>
 
-            {/* Connector line */}
             {i < steps.length - 1 && (
               <div
-                className={`w-12 sm:w-20 h-0.5 rounded-full mx-2 sm:mx-3 mb-5 transition-colors ${
-                  i < activeIdx ? "bg-teal-400" : "bg-gray-200"
-                }`}
+                className="w-12 sm:w-20 h-0.5 rounded-full mx-2 sm:mx-3 mb-5 transition-all duration-300"
+                style={{ background: i < activeIdx ? "linear-gradient(to left,#053132,#0D202E)" : "#e5e7eb" }}
               />
             )}
           </div>

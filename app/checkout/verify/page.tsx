@@ -3,8 +3,11 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useCartStore } from "../../store/cartStore";
-import { KeyRound, FileText, Receipt, X } from "lucide-react";
+import { KeyRound, FileText, Receipt, X, RotateCcw, ChevronRight } from "lucide-react";
 import CheckoutStepper from "../../components/CheckoutStepper";
+
+const C1 = "#053132";
+const C5 = "#0D202E";
 
 export default function VerifyPage() {
   const [code, setCode] = useState("");
@@ -82,32 +85,39 @@ export default function VerifyPage() {
   // ── Confirmed Popup ──
   if (confirmed && dbOrderId) {
     return (
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4" dir="rtl">
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 px-4" dir="rtl">
         <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-sm sm:max-w-md overflow-hidden">
           <Link href="/" className="absolute top-3 left-3 p-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 transition z-10">
             <X className="w-4 h-4" />
           </Link>
-          <div className="flex flex-col items-center pt-5 pb-3 bg-white">
+
+          {/* Top accent bar */}
+          <div className="h-1.5 w-full" style={{ background: `linear-gradient(90deg, ${C1}, ${C5})` }} />
+
+          <div className="flex flex-col items-center pt-6 pb-3 bg-white">
             <img src="/sucess.webp" alt="success" className="w-28 h-28 sm:w-36 sm:h-36 object-contain" />
-            <span className="mt-2 bg-gradient-to-r from-teal-500 to-emerald-500 text-white text-sm font-bold px-5 py-1.5 rounded-full shadow-md">
-              نجحت عملية الدفع
+            <span className="mt-3 text-white text-sm font-bold px-6 py-1.5 rounded-full shadow-md" style={{ background: `linear-gradient(135deg, ${C1}, ${C5})` }}>
+              نجحت عملية الدفع ✓
             </span>
           </div>
-          <div className="px-5 py-4 flex flex-col gap-3 text-center">
-            <div className="space-y-1">
-              <p className="text-gray-800 font-bold text-base">تمت العملية بنجاح</p>
+
+          <div className="px-6 py-5 flex flex-col gap-4 text-center">
+            <div className="space-y-2">
+              <p className="text-gray-900 font-bold text-base">تمت العملية بنجاح</p>
               <p className="text-gray-500 text-sm leading-7">
-                شكراً لك لثقتك، وإنه لمن دواعي سرورنا العمل معكم، نشكرك على كونك واحداً من عملائنا الكرام، أنتم تستحقون أفضل خدماتنا، ونتمنى أن نكون عند حسن ظنكم وتوقعاتكم.
+                شكراً لك لثقتك، وإنه لمن دواعي سرورنا العمل معكم، نشكرك على كونك واحداً من عملائنا الكرام، أنتم تستحقون أفضل خدماتنا.
               </p>
-              <p className="text-gray-500 text-sm">يرجى التواصل مع موظف خدمة العملاء لاستكمال إجراءات شحن الطلب.</p>
+              <p className="text-gray-400 text-xs">يرجى التواصل مع موظف خدمة العملاء لاستكمال إجراءات شحن الطلب.</p>
             </div>
             <div className="flex gap-3 pb-1">
               <a href={`/admin/orders/${dbOrderId}/print`} target="_blank" rel="noopener noreferrer"
-                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-semibold text-sm shadow-md">
+                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-white font-semibold text-sm shadow-md transition hover:opacity-90"
+                style={{ background: `linear-gradient(135deg, ${C1}, ${C5})` }}>
                 <FileText className="w-4 h-4" /> الفاتورة
               </a>
               <a href={`/admin/orders/${dbOrderId}/receipt`} target="_blank" rel="noopener noreferrer"
-                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-semibold text-sm shadow-md">
+                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-white font-semibold text-sm shadow-md transition hover:opacity-90"
+                style={{ background: `linear-gradient(135deg, ${C1}, ${C5})` }}>
                 <Receipt className="w-4 h-4" /> سند القبض
               </a>
             </div>
@@ -119,47 +129,59 @@ export default function VerifyPage() {
 
   // ── OTP Form ──
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex flex-col items-center justify-center px-4 sm:px-6 py-10" dir="rtl">
+    <main className="min-h-screen bg-white flex flex-col items-center justify-center px-4 sm:px-6 py-10" dir="rtl">
+
       {/* Steps */}
-      <div className="w-full max-w-lg">
+      <div className="w-full max-w-lg mb-2">
         <CheckoutStepper active="confirm" />
       </div>
 
-      <div className="bg-white rounded-3xl shadow-lg border border-gray-100 w-full max-w-lg overflow-hidden">
+      <div className="bg-white rounded-3xl w-full max-w-lg overflow-hidden border border-gray-100 shadow-xl shadow-gray-100/80">
+
+        {/* Top accent bar */}
+        <div className="h-1.5 w-full" style={{ background: `linear-gradient(90deg, ${C1}, ${C5})` }} />
+
         {/* Icon header */}
-        <div className="pt-7 pb-3 flex flex-col items-center gap-3">
-          <div className="bg-gradient-to-br from-teal-500 to-emerald-600 rounded-2xl p-4 shadow-lg shadow-teal-200/50">
-            <KeyRound className="text-white w-8 h-8 sm:w-10 sm:h-10" />
+        <div className="pt-8 pb-4 flex flex-col items-center gap-3">
+          <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: `linear-gradient(145deg, ${C1}, ${C5})` }}>
+            <KeyRound className="text-white w-7 h-7" />
           </div>
-          <h2 className="text-gray-800 text-base sm:text-lg font-extrabold">رمز التحقق OTP</h2>
+          <div className="text-center space-y-0.5">
+            <h2 className="text-gray-900 text-lg font-extrabold">رمز التحقق OTP</h2>
+            <p className="text-gray-400 text-xs">أدخل الرمز المرسل إلى هاتفك</p>
+          </div>
         </div>
 
-        <div className="p-5 sm:p-7 space-y-5">
-          <div className="text-center space-y-1">
-            <p className="text-gray-600 text-sm leading-relaxed">الرجاء إدخال رمز التحقق الذي يصلكم على الهاتف المحمول</p>
-            <p className="text-gray-400 text-[11px]">قد يصل الرمز متأخراً (بعد دقائق)</p>
-          </div>
+        <div className="px-6 sm:px-8 pb-7 space-y-5">
 
-          <div className="flex flex-col items-center gap-1.5">
+          {/* OTP Input */}
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold text-gray-500 text-right">رمز التحقق</label>
             <input
               type="text"
               inputMode="numeric"
               value={code}
               maxLength={6}
+              placeholder=""
               onChange={e => { setCode(e.target.value.replace(/\D/g, "").slice(0, 6)); setCodeError(false); }}
-              className={`w-full text-center text-2xl sm:text-3xl font-bold tracking-[0.4em] border-2 rounded-2xl px-4 py-3.5 outline-none bg-gray-50 transition-all ${
-                codeError ? "border-red-300 bg-red-50/50" : "border-gray-200 focus:border-teal-400 focus:bg-white focus:ring-2 focus:ring-teal-100"
+              className={`w-full text-center text-2xl font-bold tracking-[0.4em] border rounded-xl px-4 py-3.5 outline-none transition-all ${
+                codeError
+                  ? "border-red-300 bg-red-50 text-red-500"
+                  : "border-gray-200 bg-gray-50 text-gray-900 focus:border-[#053132] focus:bg-white"
               }`}
             />
-            {codeError && <p className="text-red-500 text-[11px] font-bold">الكود يجب أن يكون 4 أو 6 أرقام</p>}
-            {resent && <p className="text-emerald-600 text-xs font-bold">✅ تم إعادة إرسال الرمز</p>}
+            <p className="text-gray-400 text-[11px] text-center">قد يصل الرمز متأخراً بعد دقائق</p>
+            {codeError && <p className="text-red-500 text-xs font-medium text-center">الكود يجب أن يكون 4 أو 6 أرقام</p>}
+            {resent && <p className="text-emerald-600 text-xs font-medium text-center">تم إعادة إرسال الرمز بنجاح</p>}
           </div>
 
-          <div className="space-y-2.5 pt-1">
+          {/* Actions */}
+          <div className="space-y-2.5">
             <button
               onClick={handleSubmit}
               disabled={submitCooldown > 0}
-              className="w-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 active:scale-[0.98] text-white py-3.5 rounded-2xl font-bold text-sm transition-all shadow-lg shadow-teal-200/50 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full text-white py-3.5 rounded-2xl font-bold text-sm transition-all shadow-lg active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
+              style={{ background: `linear-gradient(135deg, ${C1}, ${C5})`, boxShadow: `0 8px 24px ${C1}30` }}
             >
               {submitCooldown > 0 ? `⏳ انتظر ${submitCooldown}ث` : "✅ إتمام الطلب"}
             </button>
@@ -172,13 +194,19 @@ export default function VerifyPage() {
                 setTimeout(() => setResent(false), 3000);
                 startCooldown();
               }}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-medium transition-all border disabled:opacity-50 disabled:cursor-not-allowed bg-teal-50 hover:bg-teal-100 text-teal-700 border-teal-200"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-medium transition-all border-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ borderColor: `${C1}30`, color: C1, background: "#f0f9f9" }}
             >
-              🔄 {resendCooldown > 0 ? `إعادة الإرسال بعد ${resendCooldown}ث` : "إعادة إرسال"}
+              <RotateCcw className="w-3.5 h-3.5" />
+              {resendCooldown > 0 ? `إعادة الإرسال بعد ${resendCooldown}ث` : "إعادة إرسال الرمز"}
             </button>
 
-            <Link href="/checkout" className="w-full flex items-center justify-center gap-2 border border-gray-200 text-gray-600 hover:bg-gray-50 py-3 rounded-2xl font-medium text-sm transition">
-              السابق →
+            <Link
+              href="/checkout"
+              className="w-full flex items-center justify-center gap-2 border border-gray-200 text-gray-500 hover:bg-gray-50 py-3 rounded-2xl font-medium text-sm transition"
+            >
+              <ChevronRight className="w-4 h-4" />
+              العودة للخطوة السابقة
             </Link>
           </div>
         </div>

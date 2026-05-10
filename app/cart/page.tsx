@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { IoCartOutline, IoArrowForward, IoHomeOutline, IoBagHandleOutline } from "react-icons/io5";
+import { IoCartOutline, IoChevronBack, IoHomeOutline, IoRocketOutline } from "react-icons/io5";
 import CheckoutStepper from "../components/CheckoutStepper";
 import { useCartStore } from "../store/cartStore";
 import type { CustomerInfo } from "../store/cartStore";
@@ -22,23 +22,29 @@ export default function CartPage() {
 
   const total = mounted ? totalPrice() : 0;
   const count = mounted ? totalItems() : 0;
-  const installmentMonths = mounted ? Math.max(...items.map((i) => i.product.installment?.months ?? 0)) || undefined : undefined;
+  const installmentMonths = mounted
+    ? Math.max(...items.map((i) => i.product.installment?.months ?? 0)) || undefined
+    : undefined;
 
   if (!mounted) return null;
 
+  /* ── Empty State ── */
   if (items.length === 0)
     return (
-      <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex flex-col items-center justify-center gap-5 px-4" dir="rtl">
-        <div className="w-20 h-20 bg-teal-50 rounded-full flex items-center justify-center">
-          <IoCartOutline size={36} className="text-teal-400" />
+      <main className="min-h-screen bg-white flex flex-col items-center justify-center gap-6 px-4" dir="rtl">
+        <div className="relative">
+          <div className="w-28 h-28 rounded-3xl flex items-center justify-center" style={{ background: "linear-gradient(145deg,#053132,#0D202E)" }}>
+            <IoCartOutline size={52} className="text-white/70" />
+          </div>
+          <span className="absolute -top-2 -left-2 w-8 h-8 bg-white rounded-full border-2 flex items-center justify-center text-lg shadow-md" style={{ borderColor: "#053132" }}>0</span>
         </div>
-        <div className="text-center">
-          <p className="text-gray-800 text-lg font-bold">السلة فارغة</p>
-          <p className="text-gray-400 text-sm mt-1">لم تضف أي منتجات بعد</p>
+        <div className="text-center space-y-1.5">
+          <h2 className="text-2xl font-black text-gray-900">السلة فارغة</h2>
+          <p className="text-gray-400 text-sm">أضف منتجات لتبدأ التسوق</p>
         </div>
         <button
           onClick={() => router.push("/")}
-          className="bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-8 py-3 rounded-full font-bold text-sm hover:from-teal-700 hover:to-emerald-700 transition-all shadow-lg shadow-teal-200/50"
+          className="cart-btn w-48"
         >
           تصفح المنتجات
         </button>
@@ -46,117 +52,136 @@ export default function CartPage() {
     );
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white pb-24" dir="rtl">
-      {/* ── Header ── */}
-      <div className="bg-gradient-to-r from-teal-700 via-teal-600 to-emerald-600 sticky top-0 z-10 shadow-md">
-        <div className="max-w-5xl mx-auto px-3 sm:px-6 py-3 sm:py-3.5 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <button onClick={() => router.back()} className="w-8 h-8 sm:w-9 sm:h-9 bg-white/15 hover:bg-white/25 rounded-full flex items-center justify-center transition text-white">
-              <IoArrowForward size={18} />
-            </button>
-            <div>
-              <h1 className="text-sm sm:text-base font-extrabold text-white flex items-center gap-2">
-                <IoBagHandleOutline size={18} />
-                سلة التسوق
-              </h1>
-              <p className="text-[11px] sm:text-xs text-teal-100">{count} منتج</p>
+    <div className="min-h-screen bg-[#f7f8fa]" dir="rtl">
+
+      {/* ══ TOP HEADER ══ */}
+      <header className="sticky top-0 z-20" style={{ background: "linear-gradient(135deg,#053132 0%,#082D32 60%,#0D202E 100%)" }}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between">
+          {/* Back */}
+          <button
+            onClick={() => router.back()}
+            className="flex items-center gap-1.5 text-white/80 hover:text-white transition text-sm font-semibold"
+          >
+            <IoChevronBack size={20} />
+            <span className="hidden sm:inline">رجوع</span>
+          </button>
+
+          {/* Title */}
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 bg-white/10 rounded-xl flex items-center justify-center">
+              <IoCartOutline size={18} className="text-white" />
+            </div>
+            <div className="text-right">
+              <p className="text-white font-black text-sm sm:text-base leading-none">سلة التسوق</p>
+              <p className="text-white/50 text-[11px] mt-0.5">{count} منتج</p>
             </div>
           </div>
-          <Link href="/" className="w-8 h-8 sm:w-9 sm:h-9 bg-white/15 hover:bg-white/25 rounded-full flex items-center justify-center transition text-white">
-            <IoHomeOutline size={16} />
+
+          {/* Home */}
+          <Link
+            href="/"
+            className="w-9 h-9 bg-white/10 hover:bg-white/20 rounded-xl flex items-center justify-center transition text-white"
+          >
+            <IoHomeOutline size={17} />
           </Link>
         </div>
-      </div>
+      </header>
 
-      <div className="max-w-5xl mx-auto px-3 sm:px-6">
-        <CheckoutStepper active="cart" />
-      </div>
-
-      <div className="max-w-5xl mx-auto px-3 sm:px-6 pt-0 sm:pt-0">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 sm:gap-6">
-
-          {/* ── Cart Items (order 1 always) ── */}
-          <div className="lg:col-span-3 order-1">
-            <h2 className="text-sm sm:text-base font-extrabold text-gray-800 mb-3 flex items-center gap-2">
-              <span className="w-1.5 h-5 bg-gradient-to-b from-teal-500 to-emerald-500 rounded-full" />
-              المنتجات ({count})
-            </h2>
-            <div className="space-y-2.5">
-              {items.map(({ product, qty }) => (
-                <CartItem
-                  key={product._id}
-                  product={product}
-                  qty={qty}
-                  onUpdateQty={updateQty}
-                  onRemove={removeItem}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* ── Order Summary (order 2 on mobile, stays right on desktop) ── */}
-          <div className="lg:col-span-2 order-2 lg:order-3 lg:row-span-2">
-            <div className="lg:sticky lg:top-20">
-              <h2 className="text-sm sm:text-base font-extrabold text-gray-800 mb-3 flex items-center gap-2">
-                <span className="w-1.5 h-5 bg-gradient-to-b from-teal-500 to-emerald-500 rounded-full" />
-                ملخص الطلب
-              </h2>
-              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-                {/* Items summary */}
-                <div className="p-4 space-y-3">
-                  {items.map(({ product, qty }) => {
-                    const price = product.salePrice ?? product.originalPrice ?? product.price;
-                    return (
-                      <div key={product._id} className="flex justify-between items-center text-xs sm:text-sm">
-                        <span className="text-gray-600 truncate max-w-[60%]">{product.name} × {qty}</span>
-                        <span className="text-gray-800 font-bold shrink-0">{fmt(price * qty)} ر.س</span>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* Totals */}
-                <div className="border-t border-gray-100 bg-gray-50/50 p-4 space-y-2.5">
-                  <div className="flex justify-between items-center text-xs sm:text-sm">
-                    <span className="text-gray-500">المجموع الفرعي</span>
-                    <span className="text-gray-700 font-bold">{fmt(total)} ر.س</span>
-                  </div>
-                  <div className="flex justify-between items-center text-xs sm:text-sm">
-                    <span className="text-gray-500">التوصيل</span>
-                    <span className="text-emerald-600 font-bold text-xs">مجاني</span>
-                  </div>
-                </div>
-
-                {/* Grand total */}
-                <div className="bg-gradient-to-r from-teal-700 to-emerald-700 p-4 flex justify-between items-center">
-                  <span className="text-white font-bold text-sm">الإجمالي</span>
-                  <span className="text-white text-lg sm:text-xl font-black">
-                    {fmt(total)} <span className="text-xs font-medium text-teal-100">ر.س</span>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* ── Customer Form (order 3 on mobile, order 2 on desktop) ── */}
-          <div className="lg:col-span-3 order-3 lg:order-2">
-            <h2 className="text-sm sm:text-base font-extrabold text-gray-800 mb-3 flex items-center gap-2">
-              <span className="w-1.5 h-5 bg-gradient-to-b from-teal-500 to-emerald-500 rounded-full" />
-              بيانات العميل
-            </h2>
-            <CustomerForm
-              total={total}
-              itemCount={count}
-              initialData={customer}
-              installmentMonths={installmentMonths}
-              onSubmit={(info: CustomerInfo) => {
-                setCustomer(info);
-                router.push("/checkout");
-              }}
-            />
-          </div>
+      {/* ══ STEPPER ══ */}
+      <div className="bg-white border-b border-gray-100 shadow-sm">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <CheckoutStepper active="cart" />
         </div>
       </div>
-    </main>
+
+      {/* ══ BODY ══ */}
+      <main className="max-w-6xl mx-auto px-3 sm:px-6 py-4 sm:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-5 lg:gap-8 items-start">
+
+          {/* ── MAIN COLUMN ── */}
+          <div className="space-y-5">
+
+            {/* Products */}
+            <section>
+              <SectionTitle number="01" label={`المنتجات (${count})`} />
+              <div className="space-y-3 mt-3">
+                {items.map(({ product, qty }) => (
+                  <CartItem key={product._id} product={product} qty={qty} onUpdateQty={updateQty} onRemove={removeItem} />
+                ))}
+              </div>
+            </section>
+
+            {/* Order Summary — mobile only (after products) */}
+            <section className="lg:hidden">
+              <SectionTitle number="02" label="ملخص الطلب" />
+              <OrderSummary total={total} fmt={fmt} />
+            </section>
+
+            {/* Customer Form */}
+            <section>
+              <SectionTitle number="03" label="بيانات العميل" />
+              <div className="mt-3">
+                <CustomerForm
+                  total={total}
+                  itemCount={count}
+                  initialData={customer}
+                  installmentMonths={installmentMonths}
+                  onSubmit={(info: CustomerInfo) => {
+                    setCustomer(info);
+                    router.push("/checkout");
+                  }}
+                />
+              </div>
+            </section>
+          </div>
+
+          {/* Order Summary — desktop sidebar */}
+          <aside className="hidden lg:block lg:sticky lg:top-20">
+            <SectionTitle number="02" label="ملخص الطلب" />
+            <div className="mt-3">
+              <OrderSummary total={total} fmt={fmt} />
+            </div>
+          </aside>
+
+        </div>
+      </main>
+    </div>
+  );
+}
+
+function SectionTitle({ number, label }: { number: string; label: string }) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black text-white shrink-0" style={{ background: "linear-gradient(135deg,#053132,#0D202E)" }}>
+        {number}
+      </span>
+      <h2 className="text-sm sm:text-base font-black text-gray-800">{label}</h2>
+      <div className="flex-1 h-px bg-gray-200" />
+    </div>
+  );
+}
+
+function OrderSummary({ total, fmt }: { total: number; fmt: (n: number) => string }) {
+  return (
+    <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+      <div className="p-4 sm:p-5 space-y-3">
+        <div className="flex justify-between text-sm">
+          <span className="text-gray-400">المجموع الفرعي</span>
+          <span className="font-bold text-gray-700">{fmt(total)} ر.س</span>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span className="text-gray-400">رسوم التوصيل</span>
+          <span className="font-bold text-emerald-600 flex items-center gap-1">
+            <IoRocketOutline size={13} /> مجاني
+          </span>
+        </div>
+        <div className="border-t border-dashed border-gray-100 pt-3 flex justify-between items-center">
+          <span className="text-sm font-bold text-gray-700">الإجمالي الكلي</span>
+          <span className="text-xl font-black" style={{ color: "#053132" }}>
+            {fmt(total)} <span className="text-xs font-medium text-gray-400">ر.س</span>
+          </span>
+        </div>
+      </div>
+    </div>
   );
 }

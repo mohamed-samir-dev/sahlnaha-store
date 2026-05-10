@@ -4,9 +4,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   IoCartOutline,
-  IoCheckmarkCircleOutline,
+  IoCheckmarkCircle,
   IoFlash,
   IoCarOutline,
   IoShieldCheckmarkOutline,
@@ -28,6 +29,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
   const hasDiscount = salePrice != null && salePrice < originalPrice;
   const displayPrice = hasDiscount ? salePrice : originalPrice;
   const savings = hasDiscount ? originalPrice - salePrice : 0;
+
   const addItem = useCartStore((s) => s.addItem);
   const router = useRouter();
   const [added, setAdded] = useState(false);
@@ -35,6 +37,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
+    if (added) return;
     addItem(product);
     setAdded(true);
     setToast(true);
@@ -43,104 +46,136 @@ export default function ProductCard({ product, priority = false }: { product: Pr
       setAdded(false);
       window.scrollTo(0, 0);
       router.push("/cart");
-    }, 1000);
+    }, 1100);
   };
 
   return (
     <>
-      {toast && (
-        <div className="fixed top-5 right-5 z-50 bg-blue-600 text-white px-5 py-3 rounded-2xl shadow-2xl shadow-blue-500/25 flex items-center gap-2.5 text-sm font-semibold animate-fade-in-down">
-          <IoCheckmarkCircleOutline size={19} />
-          تمت إضافة المنتج للسلة
-        </div>
-      )}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: -24, scale: 0.88 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -12, scale: 0.94 }}
+            transition={{ type: "spring", stiffness: 400, damping: 28 }}
+            className="fixed top-5 right-5 z-50 bg-emerald-600 text-white px-5 py-3 rounded-2xl shadow-2xl shadow-emerald-500/30 flex items-center gap-2.5 text-sm font-bold"
+          >
+            <IoCheckmarkCircle size={20} />
+            تمت إضافة المنتج للسلة
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      <Link
-        href={`/product/${product._id}`}
-        className="product-card group relative flex flex-col h-full bg-white rounded-2xl overflow-hidden"
-        dir="rtl"
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className="relative h-full"
       >
+        <Link
+          href={`/product/${product._id}`}
+          className="group relative flex flex-col h-full bg-white rounded-[22px] overflow-hidden card-shadow"
+          dir="rtl"
+        >
 
-        {/* ══════════ IMAGE ZONE ══════════ */}
-        <div className="relative w-full aspect-square overflow-hidden bg-white">
+          {/* ══ IMAGE ZONE ══ */}
+          <div className="relative w-full overflow-hidden" style={{ aspectRatio: "4/3.6" }}>
 
-          {/* top-right: discount */}
-          {discountPercent > 0 && (
-            <div className="absolute top-2.5 right-2.5 z-10">
-              <div className="flex items-center gap-0.5 bg-red-500 text-white text-[10px] font-black px-2 py-[3px] rounded-lg shadow-lg shadow-red-500/30 leading-none">
-                <IoFlash size={8} className="shrink-0" />
-                {discountPercent}%
+            {/* White background */}
+            <div className="absolute inset-0 bg-white" />
+
+            {/* Top badges row */}
+            <div className="absolute top-0 inset-x-0 z-20 flex items-start justify-between p-2.5">
+              {/* Discount */}
+              {discountPercent > 0 ? (
+                <motion.div
+                  initial={{ scale: 0, rotate: -15 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 18, delay: 0.1 }}
+                  className="flex items-center gap-0.5 bg-gradient-to-br from-red-500 to-rose-600 text-white text-[10px] font-black px-2 py-1 rounded-xl shadow-lg shadow-red-500/35 leading-none"
+                >
+                  <IoFlash size={8} />
+                  {discountPercent}%
+                </motion.div>
+              ) : <div />}
+
+              {/* Stock */}
+              <div className={`flex items-center gap-1 px-2.5 py-1 rounded-xl text-[9px] font-bold border leading-none backdrop-blur-md ${
+                inStock
+                  ? "bg-white/85 text-emerald-600 border-emerald-200/70 shadow-sm"
+                  : "bg-white/85 text-red-500 border-red-200/70 shadow-sm"
+              }`}>
+                <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${inStock ? "bg-emerald-500 animate-pulse" : "bg-red-400"}`} />
+                {inStock ? "متوفر" : "نفذ"}
               </div>
             </div>
-          )}
 
-          {/* top-left: stock */}
-          <div className={`absolute top-2.5 left-2.5 z-10 flex items-center gap-1 px-2 py-[3px] rounded-lg text-[9px] font-bold border leading-none ${
-            inStock
-              ? "bg-white/95 text-emerald-600 border-emerald-200/80"
-              : "bg-white/95 text-red-500 border-red-200/80"
-          }`}>
-            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${inStock ? "bg-emerald-500 animate-pulse" : "bg-red-500"}`} />
-            {inStock ? "متوفر" : "نفذ"}
+            {/* Installment badge bottom */}
+            {installment?.available && (
+              <motion.div
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 }}
+                className="absolute bottom-2.5 right-2.5 z-20 flex items-center gap-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white px-2.5 py-1 rounded-xl text-[9px] font-black leading-none shadow-md shadow-amber-500/30"
+              >
+                <IoFlash size={8} />
+                تقسيط
+              </motion.div>
+            )}
+
+            {/* Product image */}
+            {resolvedImage ? (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Image
+                  src={resolvedImage}
+                  alt={name}
+                  fill
+                  className="object-contain p-4 sm:p-6"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  priority={priority}
+                  loading={priority ? "eager" : "lazy"}
+                />
+              </div>
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center text-5xl text-gray-200">📱</div>
+            )}
           </div>
 
-          {/* bottom-left: installment */}
-          {installment?.available && (
-            <div className="absolute bottom-2.5 left-2.5 z-10 flex items-center gap-1 bg-amber-500 text-white px-2 py-[3px] rounded-lg text-[9px] font-bold leading-none shadow-md shadow-amber-500/20">
-              <IoFlash size={8} />
-              تقسيط
-            </div>
-          )}
+          {/* ══ CONTENT ZONE ══ */}
+          <div className="flex flex-col flex-1 px-3.5 pt-3 pb-3.5 gap-2.5">
 
-          {/* product image */}
-          {resolvedImage ? (
-            <Image
-              src={resolvedImage}
-              alt={name}
-              fill
-              className="object-contain p-5 sm:p-7 transition-transform duration-500 ease-out group-hover:scale-[1.08]"
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-              priority={priority}
-              loading={priority ? "eager" : "lazy"}
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-5xl text-gray-200">📱</div>
-          )}
-        </div>
-
-        {/* ══════════ CONTENT ZONE ══════════ */}
-        <div className="flex flex-col flex-1 px-3 pt-3 pb-3 sm:px-3.5 sm:pt-3.5 sm:pb-3.5 gap-2">
-
-          {/* ── Brand pill ── */}
-          {brand && (
+            {/* Brand row */}
             <div className="flex items-center gap-1.5 flex-wrap">
-              <span className="text-[11px] sm:text-xs font-extrabold text-blue-600 bg-blue-50 border border-blue-100 px-2.5 py-1 rounded-md uppercase tracking-wide leading-none">
-                {brand}
-              </span>
-              {color && (
-                <span className="text-[11px] sm:text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-md leading-none">
-                  {color}
+              {brand && (
+                <span className="text-[10px] font-black text-teal-700 bg-teal-50 border border-teal-100/80 px-2 py-0.5 rounded-lg uppercase tracking-wider leading-none">
+                  {brand}
                 </span>
               )}
               {storage && (
-                <span className="text-[11px] sm:text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-md leading-none">
+                <span className="text-[10px] font-semibold text-gray-500 bg-gray-100/80 px-2 py-0.5 rounded-lg leading-none">
                   {storage}
                 </span>
               )}
+              {color && (
+                <span className="text-[10px] font-semibold text-gray-500 bg-gray-100/80 px-2 py-0.5 rounded-lg leading-none">
+                  {color}
+                </span>
+              )}
             </div>
-          )}
 
-          {/* ── Product name ── */}
-          <h3 className="text-[13px] sm:text-[14px] font-bold text-gray-800 leading-[1.6] line-clamp-2 group-hover:text-blue-600 transition-colors duration-200 flex-1">
-            {name}
-          </h3>
+            {/* Product name */}
+            <h3 className="text-[13px] sm:text-[14px] font-bold text-gray-800 leading-[1.5] line-clamp-2 flex-1">
+              {name}
+            </h3>
 
-          {/* ── Price block ── */}
-          <div className="mt-auto">
-            <div className="flex items-end justify-between gap-1 mb-2.5">
-              <div className="flex flex-col gap-1">
+            {/* Divider */}
+            <div className="h-px bg-gradient-to-r from-gray-100 via-gray-200/60 to-transparent" />
+
+            {/* Price + savings */}
+            <div className="flex items-end justify-between gap-2">
+              <div className="flex flex-col gap-0.5">
                 {hasDiscount && (
-                  <span className="text-xs text-gray-400 line-through">
+                  <span className="text-[11px] text-gray-400 line-through leading-none">
                     {fmt(originalPrice)} ر.س
                   </span>
                 )}
@@ -148,49 +183,81 @@ export default function ProductCard({ product, priority = false }: { product: Pr
                   <span className="text-[22px] sm:text-[26px] font-black text-gray-900 leading-none tracking-tight">
                     {fmt(displayPrice!)}
                   </span>
-                  <span className="text-xs font-bold text-gray-400">ر.س</span>
+                  <span className="text-[11px] font-bold text-gray-400 mb-0.5">ر.س</span>
                 </div>
               </div>
 
               {hasDiscount && savings > 0 && (
-                <div className="flex flex-col items-end gap-1 shrink-0">
-                  <span className="text-[10px] text-gray-400">وفّرت</span>
-                  <span className="text-xs font-extrabold text-red-500 bg-red-50 border border-red-100 px-2.5 py-1 rounded-lg">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.85 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.1 }}
+                  className="shrink-0 text-center"
+                >
+                  <div className="text-[9px] text-gray-400 leading-none mb-0.5">وفّرت</div>
+                  <div className="text-[11px] font-black text-red-500 bg-red-50 border border-red-100 px-2 py-0.5 rounded-lg leading-none whitespace-nowrap">
                     {fmt(savings)} ر.س
-                  </span>
-                </div>
+                  </div>
+                </motion.div>
               )}
             </div>
 
-            {/* ── Trust badges ── */}
+            {/* Trust badges */}
             {(warrantyYears > 0 || freeDelivery) && (
-              <div className="flex items-center gap-2 mb-3 flex-wrap">
+              <div className="flex items-center gap-1.5 flex-wrap -mt-0.5">
                 {warrantyYears > 0 && (
-                  <span className="flex items-center gap-1 text-[11px] sm:text-xs font-bold text-violet-600 bg-violet-50 border border-violet-100 px-2 py-1 rounded-md">
-                    <IoShieldCheckmarkOutline size={12} className="shrink-0" />
+                  <span className="flex items-center gap-1 text-[10px] font-bold text-violet-600 bg-violet-50 border border-violet-100 px-2 py-0.5 rounded-lg leading-none">
+                    <IoShieldCheckmarkOutline size={10} className="shrink-0" />
                     ضمان {warrantyYears} سنة
                   </span>
                 )}
                 {freeDelivery && (
-                  <span className="flex items-center gap-1 text-[11px] sm:text-xs font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-1 rounded-md">
-                    <IoCarOutline size={12} className="shrink-0" />
+                  <span className="flex items-center gap-1 text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-lg leading-none">
+                    <IoCarOutline size={10} className="shrink-0" />
                     توصيل مجاني
                   </span>
                 )}
               </div>
             )}
 
-            {/* ── Cart button ── */}
-            <button onClick={handleAddToCart} className={`cart-btn ${added ? "added" : ""}`}>
-              {added ? (
-                <><IoCheckmarkCircleOutline size={17} />تمت الإضافة</>
-              ) : (
-                <><IoCartOutline size={17} />أضف للسلة</>
-              )}
-            </button>
+            {/* Cart button */}
+            <motion.button
+              onClick={handleAddToCart}
+              whileTap={{ scale: 0.97 }}
+              className={`cart-btn ${added ? "added" : ""}`}
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                {added ? (
+                  <motion.span
+                    key="done"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.18 }}
+                    className="flex items-center gap-2"
+                  >
+                    <IoCheckmarkCircle size={16} />
+                    تمت الإضافة
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="add"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.18 }}
+                    className="flex items-center gap-2"
+                  >
+                    <IoCartOutline size={16} />
+                    أضف للسلة
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.button>
+
           </div>
-        </div>
-      </Link>
+        </Link>
+      </motion.div>
     </>
   );
 }

