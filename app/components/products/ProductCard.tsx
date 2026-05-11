@@ -79,7 +79,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
         >
 
           {/* ══ IMAGE ZONE ══ */}
-          <div className="relative w-full overflow-hidden" style={{ aspectRatio: "4/3.6" }}>
+          <div className="relative w-full overflow-hidden" style={{ aspectRatio: "4/3" }}>
 
             {/* White background */}
             <div className="absolute inset-0 bg-white" />
