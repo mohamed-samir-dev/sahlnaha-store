@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getBackend } from "../../_lib";
+import { getBackend } from "../../../_lib";
 
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ key: string }> }) {
   const { key } = await params;
