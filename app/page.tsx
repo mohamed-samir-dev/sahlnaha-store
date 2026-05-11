@@ -4,7 +4,7 @@ import HomeCategorySections from "./components/HomeCategorySections";
 import CustomerReviews from "./components/CustomerReviews";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
-const SITE_URL = "https://www.pasmthatfee.com";
+const SITE_URL = "https://madar-electronics.com";
 
 async function getCompany() {
   try {
@@ -26,7 +26,7 @@ export default async function Home() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: siteName,
-    alternateName: c.nameEn || "Pasmthatfee",
+    alternateName: c.nameEn || "Madar Electronics",
     url: SITE_URL,
     logo: logoUrl,
     contactPoint: [

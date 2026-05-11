@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ProductPageClient from "./ProductPageClient";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
-const SITE_URL = "https://www.pasmthatfee.com";
+const SITE_URL = "https://madar-electronics.com";
 
 async function getProduct(id: string) {
   try {
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     return { title: "المنتج غير موجود" };
   }
 
-  const siteName = company.nameAr || "مدار";
+  const siteName = company.nameAr || "مدار للإلكترونيات";
   const title = product.name;
 
   const parts: string[] = [];
@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
   const description = product.description
     ? product.description.slice(0, 160)
-    : `${title}${parts.length ? " - " + parts.join(" | ") : ""} - متوفر في ${siteName}`;
+    : `اشتري ${title}${parts.length ? " - " + parts.join(" | ") : ""} من ${siteName} بأفضل سعر مع تقسيط مريح بدون فوائد وشحن سريع لجميع مناطق المملكة`;
 
   const rawImg = product.images?.[0] || product.image || "";
   const imageUrl = rawImg.startsWith("http") ? rawImg : rawImg ? `${BACKEND}${rawImg}` : "";

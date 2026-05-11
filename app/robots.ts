@@ -6,10 +6,15 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
+        disallow: ["/admin/", "/api/", "/checkout/verify/", "/_next/"],
+      },
+      {
+        userAgent: "Googlebot",
+        allow: "/",
         disallow: ["/admin/", "/api/", "/checkout/verify/"],
       },
     ],
-    sitemap: "https://sahlnaha-store.com/sitemap.xml",
-    host: "https://sahlnaha-store.com",
+    sitemap: "https://madar-electronics.com/sitemap.xml",
+    host: "https://madar-electronics.com",
   };
 }

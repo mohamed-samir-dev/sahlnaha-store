@@ -3,7 +3,7 @@ import { slugConfigs } from "../../lib/categoryConfig";
 import CategoryPageClient from "./CategoryPageClient";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
-const SITE_URL = "https://www.pasmthatfee.com";
+const SITE_URL = "https://madar-electronics.com";
 
 async function getCompany() {
   try {
@@ -19,12 +19,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const config = slugConfigs[slug];
   const company = await getCompany();
 
-  const siteName = company.nameAr || "مدار";
+  const siteName = company.nameAr || "مدار للإلكترونيات";
   const label = config?.label ?? slug;
   const parentLabel = config?.parentLabel ?? "";
 
-  const title = parentLabel ? `${label} - ${parentLabel}` : label;
-  const description = `تسوق ${label} بأفضل الأسعار وبالأقساط في ${siteName}. ${parentLabel ? `ضمن قسم ${parentLabel}.` : ""} شحن سريع وضمان معتمد.`;
+  const title = parentLabel ? `${label} - ${parentLabel} | اشتري بالتقسيط من ${siteName}` : `${label} | أفضل الأسعار والتقسيط المريح من ${siteName}`;
+  const description = `تسوق ${label} بأفضل الأسعار وبالتقسيط المريح بدون فوائد في ${siteName}. ${parentLabel ? `ضمن قسم ${parentLabel}.` : ""} شحن سريع لجميع مناطق المملكة وضمان معتمد على جميع المنتجات.`;
 
   const logoUrl = company.logo
     ? (company.logo.startsWith("http") ? company.logo : `${BACKEND}${company.logo}`)

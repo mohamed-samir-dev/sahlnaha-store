@@ -1,33 +1,34 @@
 import { MetadataRoute } from "next";
 import { slugConfigs } from "./lib/categoryConfig";
 
-const BASE_URL = "https://sahlnaha-store.com";
+const BASE_URL = "https://madar-electronics.com";
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 const staticRoutes = [
-  "",
-  "/smartphones",
-  "/apple-watches",
-  "/audio",
-  "/playstation",
-  "/laptops",
-  "/tablets",
-  "/accessories",
-  "/games",
-  "/cart",
-  "/checkout",
+  { path: "", priority: 1, changeFrequency: "daily" as const },
+  { path: "/smartphones", priority: 0.9, changeFrequency: "daily" as const },
+  { path: "/apple-watches", priority: 0.8, changeFrequency: "weekly" as const },
+  { path: "/audio", priority: 0.8, changeFrequency: "weekly" as const },
+  { path: "/playstation", priority: 0.8, changeFrequency: "weekly" as const },
+  { path: "/laptops", priority: 0.8, changeFrequency: "weekly" as const },
+  { path: "/tablets", priority: 0.8, changeFrequency: "weekly" as const },
+  { path: "/accessories", priority: 0.7, changeFrequency: "weekly" as const },
+  { path: "/games", priority: 0.7, changeFrequency: "weekly" as const },
+  { path: "/about", priority: 0.5, changeFrequency: "monthly" as const },
+  { path: "/privacy", priority: 0.3, changeFrequency: "monthly" as const },
+  { path: "/return-policy", priority: 0.3, changeFrequency: "monthly" as const },
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const static_urls: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
-    url: `${BASE_URL}${route}`,
-    changeFrequency: "weekly",
-    priority: route === "" ? 1 : 0.8,
+    url: `${BASE_URL}${route.path}`,
+    changeFrequency: route.changeFrequency,
+    priority: route.priority,
     lastModified: new Date(),
   }));
 
   const slug_urls: MetadataRoute.Sitemap = Object.keys(slugConfigs).map((slug) => ({
-    url: `${BASE_URL}/categories/${slug}`,
+    url: `${BASE_URL}/${slug}`,
     changeFrequency: "weekly",
     priority: 0.7,
     lastModified: new Date(),
@@ -37,12 +38,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const res = await fetch(`${BACKEND_URL}/api/products`, { next: { revalidate: 3600 } });
     if (res.ok) {
-      const products: { _id: string }[] = await res.json();
+      const products: { _id: string; updatedAt?: string }[] = await res.json();
       product_urls = products.map((p) => ({
         url: `${BASE_URL}/product/${p._id}`,
         changeFrequency: "daily",
         priority: 0.6,
-        lastModified: new Date(),
+        lastModified: p.updatedAt ? new Date(p.updatedAt) : new Date(),
       }));
     }
   } catch {
