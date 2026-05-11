@@ -112,7 +112,7 @@ export const slugConfigs: Record<string, SlugConfig> = {
     label: "أبل آيفون 17 Air",
     parentLabel: "الهواتف الذكية",
     parentHref: "/smartphones",
-    filters: { category: "أبل آيفون 17 اير" },
+    filters: { category: "ابل ايفون 17 اير" },
   },
   "apple-only": {
     label: "فقط آبل",
