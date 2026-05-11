@@ -14,7 +14,7 @@ const announcements = [
   "💳 متاح تقسيط على جميع المنتجات",
   "🎉 دفعة أولى فقط 1000 ريال وقسّط الباقي",
   "🚚 شحن مجاني للطلبات أعلى من 1000 ريال",
-  "⭐ أقساط بدون فوائد حتى 12 شهر",
+  "⭐ أقساط بدون فوائد حتى 36 شهر",
   "🛡️ ضمان رسمي على جميع الأجهزة",
 ];
 
@@ -145,7 +145,7 @@ export default function Navbar() {
                   alt={nameAr || "logo"}
                   width={180}
                   height={72}
-                  className="object-contain h-10 w-auto lg:h-24"
+                  className="object-contain h-9 w-auto lg:h-24"
                   unoptimized
                 />
               ) : (
