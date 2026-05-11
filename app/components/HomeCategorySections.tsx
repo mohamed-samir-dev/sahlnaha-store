@@ -132,7 +132,7 @@ export default async function HomeCategorySections() {
   if (!visible.length) return null;
 
   return (
-    <section dir="rtl" className="w-full py-10 sm:py-14 px-3 sm:px-6 lg:px-8 bg-white">
+    <section dir="rtl" className="w-full py-10 sm:py-14 px-3 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto flex flex-col">
         {visible.map((section, idx) => (
           <div key={section.name}>

@@ -79,7 +79,7 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
       />
-      <main className="min-h-screen bg-gradient-to-b from-white via-gray-50/50 to-teal-50/30">
+      <main className="min-h-screen bg-[#f8fafa]" style={{ backgroundImage: "repeating-linear-gradient(135deg, transparent, transparent 40px, rgba(13,148,136,0.04) 40px, rgba(13,148,136,0.04) 41px)" }}>
         <HeroSection />
         <StaticCategories />
         <HomeCategorySections />

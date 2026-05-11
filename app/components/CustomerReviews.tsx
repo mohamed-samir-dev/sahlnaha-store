@@ -76,7 +76,7 @@ export default function CustomerReviews() {
     : 0;
 
   return (
-    <section dir="rtl" className="w-full bg-white py-16 sm:py-20 overflow-hidden relative">
+    <section dir="rtl" className="w-full py-16 sm:py-20 overflow-hidden relative">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-96 h-96 bg-teal-50 rounded-full blur-3xl opacity-60" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-50 rounded-full blur-3xl opacity-60" />

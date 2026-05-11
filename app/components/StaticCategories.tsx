@@ -36,7 +36,7 @@ export default function StaticCategories() {
   const middle = categories.slice(1, categories.length - 1);
 
   return (
-    <section dir="rtl" className="w-full py-8 sm:py-12 lg:py-16 px-3 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50">
+    <section dir="rtl" className="w-full py-8 sm:py-12 lg:py-16 px-3 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}

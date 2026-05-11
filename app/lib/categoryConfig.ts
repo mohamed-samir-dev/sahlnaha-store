@@ -106,7 +106,7 @@ export const slugConfigs: Record<string, SlugConfig> = {
     label: "أبل آيفون 17 عادي",
     parentLabel: "الهواتف الذكية",
     parentHref: "/smartphones",
-    filters: { category: "ابل ايفون 17 برو" },
+    filters: { category: "أبل ايفون 17" },
   },
   "iphone-17-air": {
     label: "أبل آيفون 17 Air",
