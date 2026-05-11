@@ -145,19 +145,19 @@ export default function ProductCard({ product, priority = false }: { product: Pr
           <div className="flex flex-col flex-1 px-3.5 pt-3 pb-3.5 gap-2.5">
 
             {/* Brand row */}
-            <div className="flex items-center gap-1.5 flex-wrap">
+            <div className="flex items-center gap-1.5">
               {brand && (
-                <span className="text-[10px] font-black text-teal-700 bg-teal-50 border border-teal-100/80 px-2 py-0.5 rounded-lg uppercase tracking-wider leading-none">
+                <span className="text-[9px] font-black text-teal-700 bg-teal-50 border border-teal-100/80 px-1.5 py-0.5 rounded-lg uppercase tracking-wider leading-none">
                   {brand}
                 </span>
               )}
               {storage && (
-                <span className="text-[10px] font-semibold text-gray-500 bg-gray-100/80 px-2 py-0.5 rounded-lg leading-none">
+                <span className="text-[9px] font-semibold text-gray-500 bg-gray-100/80 px-1.5 py-0.5 rounded-lg leading-none">
                   {storage}
                 </span>
               )}
               {color && (
-                <span className="text-[10px] font-semibold text-gray-500 bg-gray-100/80 px-2 py-0.5 rounded-lg leading-none">
+                <span className="text-[9px] font-semibold text-gray-500 bg-gray-100/80 px-1.5 py-0.5 rounded-lg leading-none">
                   {color}
                 </span>
               )}
