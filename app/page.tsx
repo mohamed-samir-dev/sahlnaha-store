@@ -79,7 +79,7 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
       />
-      <main className="min-h-screen bg-[#B0EADF]" style={{ backgroundImage: "linear-gradient(rgba(4,69,74,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(4,69,74,0.2) 1px, transparent 1px)", backgroundSize: "40px 40px" }}>
+      <main className="min-h-screen bg-[#B0EADF]" style={{ backgroundImage: "linear-gradient(rgba(4,69,74,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(4,69,74,0.09) 1px, transparent 1px)", backgroundSize: "40px 40px" }}>
         <HeroSection />
         <StaticCategories />
         <HomeCategorySections />
