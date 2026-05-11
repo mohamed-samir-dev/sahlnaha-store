@@ -41,7 +41,7 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL(SITE_URL),
     title: {
       default: titleDefault,
-      template: `%s | ${siteName}`,
+      template: `%s | ${siteName} - متجر إلكتروني معتمد`,
     },
     description,
     keywords: [

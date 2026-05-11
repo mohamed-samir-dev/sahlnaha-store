@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const imageUrl = rawImg.startsWith("http") ? rawImg : rawImg ? `${BACKEND}${rawImg}` : "";
 
   return {
-    title,
+    title: `${title} - اشتري الآن بأفضل سعر وتقسيط مريح`,
     description,
     keywords: [
       product.name,

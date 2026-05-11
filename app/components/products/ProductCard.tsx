@@ -79,7 +79,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
         >
 
           {/* ══ IMAGE ZONE ══ */}
-          <div className="relative w-full overflow-hidden" style={{ aspectRatio: "4/2.5" }}>
+          <div className="relative w-full overflow-hidden" style={{ aspectRatio: "4/3" }}>
 
             {/* White background */}
             <div className="absolute inset-0 bg-white" />
@@ -180,10 +180,10 @@ export default function ProductCard({ product, priority = false }: { product: Pr
                   </span>
                 )}
                 <div className="flex items-baseline gap-1">
-                  <span className="text-[22px] sm:text-[26px] font-black text-gray-900 leading-none tracking-tight">
+                  <span className="text-[18px] sm:text-[26px] font-black text-gray-900 leading-none tracking-tight">
                     {fmt(displayPrice!)}
                   </span>
-                  <span className="text-[11px] font-bold text-gray-400 mb-0.5">ر.س</span>
+                  <span className="text-[9px] sm:text-[11px] font-bold text-gray-400 mb-0.5">ر.س</span>
                 </div>
               </div>
 
