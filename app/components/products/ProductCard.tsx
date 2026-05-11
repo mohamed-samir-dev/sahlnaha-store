@@ -74,12 +74,12 @@ export default function ProductCard({ product, priority = false }: { product: Pr
       >
         <Link
           href={`/product/${product._id}`}
-          className="group relative flex flex-col h-full bg-[#F8FFFF] rounded-[22px] overflow-hidden card-shadow border border-[#B0EADF]/40"
+          className="group relative flex flex-col h-full bg-white rounded-[22px] overflow-hidden card-shadow"
           dir="rtl"
         >
 
           {/* ══ IMAGE ZONE ══ */}
-          <div className="relative w-full overflow-hidden" style={{ aspectRatio: "4/3" }}>
+          <div className="relative w-full overflow-hidden" style={{ aspectRatio: "4/3.6" }}>
 
             {/* White background */}
             <div className="absolute inset-0 bg-white" />
@@ -142,7 +142,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
           </div>
 
           {/* ══ CONTENT ZONE ══ */}
-          <div className="flex flex-col flex-1 px-3.5 pt-3 pb-3.5 gap-2.5 bg-[#F8FFFF]">
+          <div className="flex flex-col flex-1 px-3.5 pt-3 pb-3.5 gap-2.5">
 
             {/* Brand row */}
             <div className="flex items-center gap-1.5 flex-wrap">
@@ -204,16 +204,16 @@ export default function ProductCard({ product, priority = false }: { product: Pr
 
             {/* Trust badges */}
             {(warrantyYears > 0 || freeDelivery) && (
-              <div className="flex items-center gap-1.5 flex-wrap -mt-0.5">
+              <div className="flex items-center gap-1.5 -mt-0.5">
                 {warrantyYears > 0 && (
-                  <span className="flex items-center gap-1 text-[10px] font-bold text-violet-600 bg-violet-50 border border-violet-100 px-2 py-0.5 rounded-lg leading-none">
-                    <IoShieldCheckmarkOutline size={10} className="shrink-0" />
+                  <span className="flex items-center gap-0.5 text-[8px] font-bold text-violet-600 bg-violet-50 border border-violet-100 px-1.5 py-0.5 rounded-lg leading-none">
+                    <IoShieldCheckmarkOutline size={8} className="shrink-0" />
                     ضمان {warrantyYears} سنة
                   </span>
                 )}
                 {freeDelivery && (
-                  <span className="flex items-center gap-1 text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-lg leading-none">
-                    <IoCarOutline size={10} className="shrink-0" />
+                  <span className="flex items-center gap-0.5 text-[8px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-1.5 py-0.5 rounded-lg leading-none">
+                    <IoCarOutline size={8} className="shrink-0" />
                     توصيل مجاني
                   </span>
                 )}
