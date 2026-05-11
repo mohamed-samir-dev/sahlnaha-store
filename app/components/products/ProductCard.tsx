@@ -74,7 +74,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
       >
         <Link
           href={`/product/${product._id}`}
-          className="group relative flex flex-col h-full bg-white rounded-[22px] overflow-hidden card-shadow"
+          className="group relative flex flex-col h-full bg-[#F8FFFF] rounded-[22px] overflow-hidden card-shadow border border-[#B0EADF]/40"
           dir="rtl"
         >
 
@@ -142,7 +142,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
           </div>
 
           {/* ══ CONTENT ZONE ══ */}
-          <div className="flex flex-col flex-1 px-3.5 pt-3 pb-3.5 gap-2.5">
+          <div className="flex flex-col flex-1 px-3.5 pt-3 pb-3.5 gap-2.5 bg-[#F8FFFF]">
 
             {/* Brand row */}
             <div className="flex items-center gap-1.5 flex-wrap">
