@@ -25,7 +25,7 @@ function RotatingAnnouncements() {
     return () => clearInterval(timer);
   }, []);
   return (
-    <span className="text-yellow-400 font-semibold text-center leading-tight relative h-5 overflow-hidden flex items-center justify-center min-w-0 flex-1">
+    <span className="text-white font-semibold text-center leading-tight relative h-5 overflow-hidden flex items-center justify-center min-w-0 flex-1">
       <span key={index} className="animate-fade-in-out text-[10px] sm:text-xs truncate max-w-full px-1">
         {announcements[index]}
       </span>
@@ -96,7 +96,7 @@ export default function Navbar() {
     <nav className={`sticky top-0 z-50 transition-shadow duration-300 ${scrolled ? "shadow-lg" : ""}`} dir="rtl">
 
       {/* ── Row 1: Top bar ── */}
-      <div className="bg-gray-900 border-b border-gray-800">
+      <div className="border-b border-[#042f2e]" style={{ background: 'linear-gradient(135deg, #022c22, #042f2e, #134e4a, #0f766e, #115e59)' }}>
         <div className="max-w-7xl mx-auto px-2 sm:px-4 h-9 flex items-center justify-between text-xs gap-1 sm:gap-3">
 
           {/* Right: WhatsApp */}
@@ -104,7 +104,7 @@ export default function Navbar() {
             href="https://wa.me/0501234567"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1 sm:gap-1.5 text-green-400 font-bold hover:text-green-300 transition-colors shrink-0"
+            className="flex items-center gap-1 sm:gap-1.5 text-green-300 font-bold hover:text-green-200 transition-colors shrink-0"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
@@ -117,8 +117,8 @@ export default function Navbar() {
           <RotatingAnnouncements />
 
           {/* Left: location */}
-          <span className="flex items-center gap-1 sm:gap-1.5 text-gray-300 shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-yellow-400 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" /></svg>
+          <span className="flex items-center gap-1 sm:gap-1.5 text-gray-200 shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-300 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" /></svg>
             <span className="text-[10px] sm:text-xs">السعودية</span>
           </span>
 

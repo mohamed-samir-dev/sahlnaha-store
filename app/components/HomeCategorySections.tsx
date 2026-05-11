@@ -124,7 +124,7 @@ export default async function HomeCategorySections() {
   const sectionsData = categories.map(({ name }, i) => ({
     name,
     banners: bannersResults[i] as string[],
-    products: (allProducts as Product[]).filter((p) => p.category === name).slice(0, 5),
+    products: (allProducts as Product[]).filter((p) => p.category === name).slice(0, 4),
     href: getCategoryHref(name),
   }));
 
