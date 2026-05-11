@@ -1,11 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
-const ALLOWED_BACKENDS = ["http://localhost:5000", "https://pasmthatfee.com", "https://backend-for-bsmastore-public-production.up.railway.app", "https://backend-for-bsmastore-public-production-5e58.up.railway.app"];
-
-function getBackend(): string {
-  const url = process.env.BACKEND_URL || "http://localhost:5000";
-  return ALLOWED_BACKENDS.includes(url) ? url : "http://localhost:5000";
-}
+import { getBackend } from "../../_lib";
 
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ key: string }> }) {
   const { key } = await params;

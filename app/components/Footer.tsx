@@ -27,20 +27,21 @@ export default async function Footer() {
   }
 
   const qrSrc: string = c.qrImage || "";
-  const qrLinkType: string = c.qrLinkType || "link";
+  const qrLinkType: string = c.qrFile ? "file" : (c.qrLinkType || "link");
   const qrLink: string = qrLinkType === "file" ? toInlineUrl(c.qrFile || "") : ensureAbsolute(c.qrLink || "");
 
   const footerItems: { image: string; linkType: string; link: string; file: string }[] =
     (c.footerItems || []).filter((item: { image: string }) => item.image);
 
   const img1: string = c.img1 || "";
-  const linkType1: string = c.link1Type || c.linkType1 || "link";
+  const linkType1: string = c.file1 ? "file" : (c.link1Type || c.linkType1 || "link");
   const link1: string = linkType1 === "file" ? toInlineUrl(c.file1 || "") : ensureAbsolute(c.link1 || "");
   const img2: string = c.img2 || "";
-  const linkType2: string = c.link2Type || c.linkType2 || "link";
+  const linkType2: string = c.file2 ? "file" : (c.link2Type || c.linkType2 || "link");
   const link2: string = linkType2 === "file" ? toInlineUrl(c.file2 || "") : ensureAbsolute(c.link2 || "");
 
   function getHref(item: { linkType: string; link: string; file: string }) {
+    if (item.file) return toInlineUrl(item.file);
     return item.linkType === "link" ? ensureAbsolute(item.link) : toInlineUrl(item.file);
   }
 

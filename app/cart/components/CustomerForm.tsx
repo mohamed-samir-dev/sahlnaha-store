@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import {
   User, Phone, MapPin, CreditCard, Calendar,
   IdCard, ChevronDown, CheckCircle2, ArrowLeft, Lock,
@@ -18,7 +18,7 @@ interface CustomerFormProps {
 }
 
 export default function CustomerForm({ total, itemCount, initialData, installmentMonths, onSubmit }: CustomerFormProps) {
-  const MONTHS_OPTIONS = Array.from({ length: installmentMonths ?? 24 }, (_, i) => (installmentMonths ?? 24) - i);
+  const MONTHS_OPTIONS = Array.from({ length: installmentMonths ?? 36 }, (_, i) => (installmentMonths ?? 36) - i);
   const minDownPayment = 1000 * itemCount;
   const DOWN_PAYMENT_OPTIONS = [minDownPayment, minDownPayment + 500, minDownPayment + 1000];
 
@@ -27,7 +27,7 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
   const [whatsapp, setWhatsapp] = useState(initialData?.whatsapp ?? "");
   const [address, setAddress] = useState(initialData?.address ?? "");
   const [installmentType, setInstallmentType] = useState<"full" | "installment">(initialData?.installmentType ?? "installment");
-  const [months, setMonths] = useState(initialData?.months ?? 24);
+  const [months, setMonths] = useState(initialData?.months ?? 36);
   const [downPaymentExtra, setDownPaymentExtra] = useState<number>(0);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -47,6 +47,8 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
     });
   }, [months, monthlyPayment]);
 
+  const formRef = useRef<HTMLDivElement>(null);
+
   const handleSubmit = () => {
     const e: Record<string, string> = {};
     if (!name.trim()) e.name = "الاسم مطلوب";
@@ -56,15 +58,20 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
     else if (!/^05\d{8}$/.test(whatsapp.trim())) e.whatsapp = "يبدأ بـ 05 ويتكون من 10 أرقام";
     if (!address.trim()) e.address = "العنوان مطلوب";
     setErrors(e);
-    if (!Object.keys(e).length)
-      onSubmit({ name, nationalId, whatsapp, address, installmentType, months, downPayment });
+    if (Object.keys(e).length) {
+      const firstKey = Object.keys(e)[0];
+      const el = formRef.current?.querySelector(`[data-field="${firstKey}"]`);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    onSubmit({ name, nationalId, whatsapp, address, installmentType, months, downPayment });
   };
 
   const isPersonalDone = name.trim() && nationalId.trim() && !errors.name && !errors.nationalId;
   const isContactDone = whatsapp.trim() && address.trim() && !errors.whatsapp && !errors.address;
 
   return (
-    <div className="bg-white rounded-2xl sm:rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+    <div ref={formRef} className="bg-white rounded-2xl sm:rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
 
       {/* ═══ STEP 1: All Info ═══ */}
       <div className="p-4 sm:p-6 lg:p-7">
@@ -78,6 +85,7 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 lg:gap-5">
           <FloatingInput
+            fieldName="name"
             label="الاسم الكامل"
             icon={<User size={15} />}
             value={name}
@@ -86,6 +94,7 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
             onChange={(v) => { setName(v.replace(/[^a-zA-Z\u0600-\u06FF\s]/g, "")); setErrors(p => ({ ...p, name: "" })); }}
           />
           <FloatingInput
+            fieldName="nationalId"
             label="رقم الهوية / الإقامة"
             icon={<IdCard size={15} />}
             value={nationalId}
@@ -95,6 +104,7 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
             onChange={(v) => { setNationalId(v.replace(/\D/g, "").slice(0, 10)); setErrors(p => ({ ...p, nationalId: "" })); }}
           />
           <FloatingInput
+            fieldName="whatsapp"
             label="رقم الواتساب"
             icon={<Phone size={15} />}
             value={whatsapp}
@@ -105,6 +115,7 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
             onChange={(v) => { setWhatsapp(v.replace(/\D/g, "").slice(0, 10)); setErrors(p => ({ ...p, whatsapp: "" })); }}
           />
           <FloatingInput
+            fieldName="address"
             label="عنوان التوصيل"
             icon={<MapPin size={15} />}
             value={address}
@@ -247,14 +258,14 @@ function StepDot({ done, number }: { done: boolean; number: number }) {
 }
 
 function FloatingInput({
-  label, icon, value, error, placeholder, maxLength, dir, onChange,
+  label, icon, value, error, placeholder, maxLength, dir, onChange, fieldName,
 }: {
   label: string; icon: React.ReactNode; value: string; error?: string;
   placeholder?: string; maxLength?: number; dir?: string;
-  onChange: (v: string) => void;
+  onChange: (v: string) => void; fieldName?: string;
 }) {
   return (
-    <div>
+    <div data-field={fieldName}>
       <label className="flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-gray-500 mb-1.5 sm:mb-2">
         <span className="text-[#053132]">{icon}</span>
         {label}
