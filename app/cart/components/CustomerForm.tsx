@@ -18,7 +18,7 @@ interface CustomerFormProps {
 }
 
 export default function CustomerForm({ total, itemCount, initialData, installmentMonths, onSubmit }: CustomerFormProps) {
-  const MONTHS_OPTIONS = Array.from({ length: installmentMonths ?? 36 }, (_, i) => (installmentMonths ?? 36) - i);
+  const MONTHS_OPTIONS = Array.from({ length: installmentMonths ?? 24 }, (_, i) => (installmentMonths ?? 24) - i);
   const minDownPayment = 1000 * itemCount;
   const DOWN_PAYMENT_OPTIONS = [minDownPayment, minDownPayment + 500, minDownPayment + 1000];
 
@@ -27,7 +27,7 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
   const [whatsapp, setWhatsapp] = useState(initialData?.whatsapp ?? "");
   const [address, setAddress] = useState(initialData?.address ?? "");
   const [installmentType, setInstallmentType] = useState<"full" | "installment">(initialData?.installmentType ?? "installment");
-  const [months, setMonths] = useState(initialData?.months ?? 36);
+  const [months, setMonths] = useState(initialData?.months ?? 24);
   const [downPaymentExtra, setDownPaymentExtra] = useState<number>(0);
   const [errors, setErrors] = useState<Record<string, string>>({});
 

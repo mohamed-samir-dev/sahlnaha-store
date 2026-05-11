@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const siteName = c.nameAr || "مدار للإلكترونيات";
   const titleDefault = `${siteName} | أفضل متجر إلكتروني للأجهزة بالتقسيط في السعودية`;
   const description = c.details || "متجر مدار للإلكترونيات - تسوق أحدث الجوالات واللابتوبات والأجهزة اللوحية والإكسسوارات بالتقسيط المريح بدون فوائد. شحن سريع لجميع مناطق المملكة العربية السعودية. آيفون، سامسونج، شاومي وأكثر.";
-  const ogImage = `${SITE_URL}/android-chrome-512x512.png`;
+  const ogImage = `${SITE_URL}/og-image.jpg`;
 
   return {
     metadataBase: new URL(SITE_URL),
@@ -79,15 +79,17 @@ export async function generateMetadata(): Promise<Metadata> {
       title: titleDefault,
       description,
       images: [
-        { url: ogImage, width: 512, height: 512, alt: siteName, type: "image/png" },
+        { url: ogImage, width: 1200, height: 630, alt: siteName, type: "image/jpeg" },
+        { url: `${SITE_URL}/android-chrome-512x512.png`, width: 512, height: 512, alt: siteName, type: "image/png" },
       ],
     },
     twitter: {
       card: "summary_large_image",
       title: titleDefault,
       description,
-      images: [{ url: ogImage, alt: siteName }],
+      images: [ogImage],
       creator: "@madar_electronics",
+      site: "@madar_electronics",
     },
     icons: {
       icon: [
