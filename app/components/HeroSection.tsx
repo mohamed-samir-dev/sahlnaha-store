@@ -127,7 +127,7 @@ export default function HeroSection() {
     <div dir="rtl">
       {/* ── HERO ── */}
       <section
-        className="relative h-[300px] sm:h-[640px] lg:h-[700px] overflow-hidden"
+        className="relative h-[280px] sm:h-[640px] lg:h-[700px] overflow-hidden"
         style={{ background: slide.color, transition: "background 0.8s ease" }}
         onMouseMove={(e) => {
           const rect = e.currentTarget.getBoundingClientRect();
@@ -375,50 +375,8 @@ export default function HeroSection() {
           </div>
         </motion.div>
 
-        {/* Mobile: floating features around hero */}
-        <motion.div
-          className="lg:hidden absolute top-3 left-3 flex items-center gap-1 px-2 py-1.5 rounded-lg border border-white/10 z-10"
-          style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)" }}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          <span className="shrink-0 [&>svg]:w-4 [&>svg]:h-4" style={{ color: "#5eead4" }}>{features[0].icon}</span>
-          <p className="font-bold text-[10px] text-white">{features[0].title}</p>
-        </motion.div>
 
-        <motion.div
-          className="lg:hidden absolute top-3 right-3 flex items-center gap-1 px-2 py-1.5 rounded-lg border border-white/10 z-10"
-          style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)" }}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-        >
-          <span className="shrink-0 [&>svg]:w-4 [&>svg]:h-4" style={{ color: "#5eead4" }}>{features[1].icon}</span>
-          <p className="font-bold text-[10px] text-white">{features[1].title}</p>
-        </motion.div>
 
-        <motion.div
-          className="lg:hidden absolute bottom-14 left-3 flex items-center gap-1 px-2 py-1.5 rounded-lg border border-white/10 z-10"
-          style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)" }}
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-        >
-          <span className="shrink-0 [&>svg]:w-4 [&>svg]:h-4" style={{ color: "#5eead4" }}>{features[2].icon}</span>
-          <p className="font-bold text-[10px] text-white">{features[2].title}</p>
-        </motion.div>
-
-        <motion.div
-          className="lg:hidden absolute bottom-14 right-3 flex items-center gap-1 px-2 py-1.5 rounded-lg border border-white/10 z-10"
-          style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)" }}
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 1 }}
-        >
-          <span className="shrink-0 [&>svg]:w-4 [&>svg]:h-4" style={{ color: "#5eead4" }}>{features[3].icon}</span>
-          <p className="font-bold text-[10px] text-white">{features[3].title}</p>
-        </motion.div>
       </section>
     </div>
   );
