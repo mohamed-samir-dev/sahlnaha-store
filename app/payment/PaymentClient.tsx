@@ -64,7 +64,6 @@ const paymentMethods = [
   { title: "بطاقة مدى",         desc: "ادفع بسهولة عبر بطاقة مدى المحلية.",                         imgBg: true,  Icon: IconMada },
   { title: "بطاقات الائتمان",  desc: "نقبل فيزا وماستركارد وجميع البطاقات الائتمانية.",             imgBg: true,  Icon: IconVisa },
   { title: "الأقساط",           desc: "اشتري الآن وادفع على دفعات شهرية مريحة بدون فوائد.",         imgBg: false, Icon: IconInstallment },
-  { title: "الدفع عند الاستلام", desc: "ادفع نقداً عند استلام طلبك مباشرة.",                        imgBg: false, Icon: IconCash },
 ];
 
 const sections = [
@@ -125,7 +124,7 @@ export default function PaymentClient({ company }: { company: Company }) {
 
       {/* ══ PAYMENT METHODS ══ */}
       <section className="w-full px-3 sm:px-8 lg:px-20 pt-6 sm:pt-10 pb-2">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 max-w-6xl mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 max-w-5xl mx-auto">
           {paymentMethods.map((m, i) => (
             <FadeUp key={m.title} delay={i * 90}>
               <div className="group relative rounded-2xl border p-4 sm:p-6 text-center overflow-hidden hover:-translate-y-1 transition-all duration-300 h-full flex flex-col items-center"
