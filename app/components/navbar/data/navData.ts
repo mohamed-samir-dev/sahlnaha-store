@@ -45,7 +45,7 @@ export const navItems: NavItem[] = [
           { label: "سامسونج S25 الترا", href: "/smartphones/samsung-s25-ultra" },
           { label: "سامسونج S24 الترا", href: "/smartphones/samsung-s24-ultra" },
           { label: "سامسونج S23 الترا", href: "/smartphones/samsung-s23-ultra" },
-          { label: "سامسونج S22 الترا", href: "/smartphones/samsung-s22-ultra" },
+          // { label: "سامسونج S22 الترا", href: "/smartphones/samsung-s22-ultra" },
         ],
       },
     ],
