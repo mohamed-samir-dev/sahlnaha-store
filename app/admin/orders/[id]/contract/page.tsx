@@ -119,7 +119,7 @@ export default function ContractPage() {
         </div>
         <div style={{ textAlign: "center", width: 180 }}>
           <div style={{ borderTop: "1px solid #1a1a1a", paddingTop: 8, color: "#555" }}>الختم</div>
-          {company.stamp && <img src={company.stamp} alt="ختم" style={{ maxWidth: 100, maxHeight: 80, objectFit: "contain", marginTop: 8 }} />}
+          {company.stamp && <img src={company.stamp} alt="ختم" style={{ maxWidth: 150, maxHeight: 120, objectFit: "contain", marginTop: 8, marginLeft: "auto" }} />}
         </div>
       </div>
 

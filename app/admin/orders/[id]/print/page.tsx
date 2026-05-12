@@ -70,7 +70,7 @@ export default function PrintOrderPage() {
       <div ref={contentRef} style={{ fontFamily: "Arial, sans-serif", padding: "10px 16px", width: "794px", position: "relative" }}>
 
         {company.stamp && (
-          <img src={company.stamp} alt="stamp" style={{ position: "absolute", top: "50%", left: "40%", transform: "translate(-50%, -50%)", width: 200, opacity: 0.4, pointerEvents: "none", zIndex: 9999 }} />
+          <img src={company.stamp} alt="stamp" style={{ position: "absolute", top: "70%", left: "25%", transform: "translate(-50%, -50%)", width: 200, opacity: 0.7, pointerEvents: "none", zIndex: 9999 }} />
         )}
 
         {company.header && <img src={company.header} alt="header" style={{ width: "100%", marginBottom: 10 }} />}
@@ -86,13 +86,14 @@ export default function PrintOrderPage() {
             <tr>
               <td style={{ padding: "6px 10px", borderRight: "2px solid black", fontSize: 11, lineHeight: 1.8, width: "50%" }}>
                 <p style={{ margin: 0 }}>Dear Customer,</p>
-                <p style={{ margin: 0 }}>Thank you for shopping with {company.nameEn || "tabarak"}.</p>
+                <p style={{ margin: 0 }}>Thank you for shopping with {company.nameEn || "madar
+                "}.</p>
                 <p style={{ margin: 0 }}>Your order has been placed.</p>
                 <p style={{ margin: 0 }}>Below is the summary of the order.</p>
               </td>
               <td style={{ padding: "6px 10px", fontSize: 11, lineHeight: 1.8, textAlign: "right", direction: "rtl", width: "50%" }}>
                 <p style={{ margin: 0 }}>عميلنا العزيز،</p>
-                <p style={{ margin: 0 }}>شكرا لتسوقكم من {company.nameAr || "مؤسسة تبارك الذكية"}.</p>
+                <p style={{ margin: 0 }}>شكرا لتسوقكم من {company.nameAr || "مؤسسة مدار الاجهزة الالكترونية  "}.</p>
                 <p style={{ margin: 0 }}>لقد تم إنشاء طلبكم بنجاح.</p>
                 <p style={{ margin: 0 }}>فيما يلي ملخص الطلب.</p>
               </td>
@@ -163,7 +164,7 @@ export default function PrintOrderPage() {
                 <p style={{ margin: 0 }}>التوصيل مجاناً من خلال شركة. مندوب توصيل , خلال 24 ساعة من دفع الدفعة المقدمة</p>
               </td>
               <td style={{ padding: "6px 10px", textAlign: "right", direction: "rtl", lineHeight: 1.8, width: "50%" }}>
-                <p style={{ margin: 0 }}>الرقم الضريبي : 314539044300003</p>
+                <p style={{ margin: 0 }}>الرقم الضريبي : 7054255687</p>
                 <p style={{ margin: 0 }}>العرض شامل الهدايا</p>
               </td>
             </tr>
