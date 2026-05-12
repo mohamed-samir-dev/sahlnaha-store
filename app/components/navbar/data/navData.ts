@@ -34,8 +34,8 @@ export const navItems: NavItem[] = [
           { label: "آيفون 15 برو ماكس", href: "/smartphones/iphone-15-pro-max" },
           { label: "آيفون 15 بلس", href: "/smartphones/iphone-15-plus" },
           { label: "آيفون 14 برو ماكس", href: "/smartphones/iphone-14-pro-max" },
-          { label: "آيفون 14 برو", href: "/smartphones/iphone-14-pro" },
-          { label: "فقط آبل", href: "/smartphones/apple-only" },
+          // { label: "آيفون 14 برو", href: "/smartphones/iphone-14-pro" },
+          // { label: "فقط آبل", href: "/smartphones/apple-only" },
         ],
       },
       {
