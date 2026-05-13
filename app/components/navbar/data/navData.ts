@@ -76,16 +76,16 @@ export const navItems: NavItem[] = [
       { label: "ايبادات ابل", href: "/tablets/ipad-air" },
     ],
   },
-  {
-    label: "بطاريات متنقلة وكيابل",
-    href: "/accessories",
-    children: [
-      { label: "بطاريات متنقلة", href: "/accessories/anker-batteries" },
-    ],
-  },
-  {
-    label: " اكسسورارات",
-    href: "/games",
+  // {
+  //   label: "بطاريات متنقلة وكيابل",
+  //   href: "/accessories",
+  //   children: [
+  //     { label: "بطاريات متنقلة", href: "/accessories/anker-batteries" },
+  //   ],
+  // },
+  // {
+  //   label: " اكسسورارات",
+  //   href: "/games",
    
-  },
+  // },
 ];
