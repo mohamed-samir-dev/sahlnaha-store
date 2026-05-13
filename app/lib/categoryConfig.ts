@@ -156,7 +156,7 @@ export const slugConfigs: Record<string, SlugConfig> = {
     label: "آبل ووتش SE",
     parentLabel: "ساعات ابل",
     parentHref: "/apple-watches",
-    filters: { brand: "Apple", nameIncludes: ["واتش SE", "Watch SE"] },
+    filters: { category: "ساعات ابل" },
   },
 
   // ─── Smart Watches ─────────────────────────────────────────
