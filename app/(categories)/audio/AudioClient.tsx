@@ -13,9 +13,11 @@ const subCategories: SubCategoryCard[] = [
 const filterFn = (p: Product) =>
   p.category?.includes("سماعات ابل") ||
   p.category?.includes("سماعات أبل") ||
+  p.category === "سماعات" ||
   p.category?.toLowerCase() === "speaker" ||
   p.category?.toLowerCase() === "earbuds" ||
   p.subCategory?.includes("سماعات") ||
+  p.subCategory === "هيدفون" ||
   false;
 
 export default function AudioClient() {
