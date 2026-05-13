@@ -86,8 +86,7 @@ export default function PrintOrderPage() {
             <tr>
               <td style={{ padding: "6px 10px", borderRight: "2px solid black", fontSize: 11, lineHeight: 1.8, width: "50%" }}>
                 <p style={{ margin: 0 }}>Dear Customer,</p>
-                <p style={{ margin: 0 }}>Thank you for shopping with {company.nameEn || "madar
-                "}.</p>
+                <p style={{ margin: 0 }}>Thank you for shopping with {company.nameEn || "madar"}.</p>
                 <p style={{ margin: 0 }}>Your order has been placed.</p>
                 <p style={{ margin: 0 }}>Below is the summary of the order.</p>
               </td>
