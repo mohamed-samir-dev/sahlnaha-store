@@ -70,7 +70,7 @@ const sections = [
   { title: "الدفع المعتمد",     Icon: IconShield,   content: ["يتم توفير طرق دفع متعددة وآمنة تناسب احتياجات العملاء."] },
   { title: "العملة المستخدمة", Icon: IconCurrency, content: ["العملة الرسمية المستخدمة في جميع المعاملات هي الريال السعودي (SAR)."] },
   { title: "التحويل والشحن",   Icon: IconShipping, content: ["يتم تنسيق الشحن بعد تأكيد الطلب حسب بيانات العميل."] },
-  { title: "ملاحظة هامة",      Icon: IconInfo,     content: ["نحرص في مؤسسة مدار التقنية على توفير تجربة دفع واضحة وآمنة.", "بعد إتمام الطلب سيتم مراجعة البيانات والتواصل مع العميل عند الحاجة لتأكيد التفاصيل أو استكمال إجراءات الطلب."] },
+  { title: "ملاحظة هامة",      Icon: IconInfo,     content: ["نحرص في مؤسسة مدار الاجهزة الالكترونية على توفير تجربة دفع واضحة وآمنة.", "بعد إتمام الطلب سيتم مراجعة البيانات والتواصل مع العميل عند الحاجة لتأكيد التفاصيل أو استكمال إجراءات الطلب."] },
 ];
 
 interface Company { phone?: string; whatsapp?: string; email?: string; [k: string]: string | undefined; }
@@ -104,14 +104,14 @@ export default function PaymentClient({ company }: { company: Company }) {
         <div className="relative w-full px-4 sm:px-10 lg:px-20 py-14 sm:py-24 lg:py-32 text-center">
           <div {...anim(100)} className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs sm:text-sm font-medium mb-5 border" style={{ background: TEAL_DIM, borderColor: TEAL_MID, color: TEAL }}>
             <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: TEAL }} />
-            مؤسسة مدار التقنية
+            مؤسسة مدار الاجهزة الالكترونية
           </div>
           <h1 {...anim(220)} className="text-3xl sm:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight tracking-tight text-white">
             تعرف على وسائل الدفع
             <span className="block" style={{ color: TEAL }}>المتاحة</span>
           </h1>
           <p {...anim(360)} className="text-sm sm:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed px-2" style={{ color: "rgba(167,243,208,0.75)" }}>
-            طرق دفع متعددة وآمنة تناسب احتياجات عملائنا داخل مؤسسة مدار التقنية
+            طرق دفع متعددة وآمنة تناسب احتياجات عملائنا داخل مؤسسة مدار الاجهزة الالكترونية
           </p>
         </div>
 

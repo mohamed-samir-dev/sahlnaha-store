@@ -75,7 +75,7 @@ const sections = [
     bg: "bg-blue-50",
     iconText: "text-blue-600",
     content: [
-      "باستخدامك لهذا الموقع فإنك توافق على الالتزام بالشروط والأحكام والسياسات المعمول بها داخل مؤسسة مدار التقنية.",
+      "باستخدامك لهذا الموقع فإنك توافق على الالتزام بالشروط والأحكام والسياسات المعمول بها داخل مؤسسة مدار الاجهزة الالكترونية.",
     ],
   },
   {
@@ -157,7 +157,7 @@ export default function PrivacyPage() {
             </span>
           </h1>
           <p {...anim(360)} className="text-base sm:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed" style={{ color: "rgba(167,243,208,0.85)" }}>
-            الشروط العامة المنظمة لاستخدام موقع مؤسسة مدار التقنية
+            الشروط العامة المنظمة لاستخدام موقع مؤسسة مدار الاجهزة الالكترونية
           </p>
         </div>
         <div className="absolute bottom-0 left-0 w-full">

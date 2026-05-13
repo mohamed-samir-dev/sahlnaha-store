@@ -134,7 +134,7 @@ export default function ReturnPolicyClient() {
           </h1>
 
           <p {...anim(340)} className="text-base sm:text-lg max-w-xl mx-auto leading-relaxed" style={{ color: "rgba(167,243,208,0.85)" }}>
-            الشروط المنظمة لطلبات الإلغاء والاستبدال والاسترجاع داخل مؤسسة مدار التقنية
+            الشروط المنظمة لطلبات الإلغاء والاستبدال والاسترجاع داخل مؤسسة مدار الاجهزة الالكترونية
           </p>
         </div>
 
