@@ -18,7 +18,7 @@ const iphoneCards = [
   { label: "آيفون 15 برو ماكس", href: "/smartphones/iphone-15-pro-max", image: "/i15promax.webp" },
   { label: "آيفون 15 بلس", href: "/smartphones/iphone-15-plus", image: "/i15plus.webp" },
   { label: "آيفون 14 برو ماكس", href: "/smartphones/iphone-14-pro-max", image: "/i14promax.webp" },
-  { label: "آيفون 14 برو", href: "/smartphones/iphone-14-pro", image: "/i14pro.webp" },
+  { label: "آيفون 13 برو ماكس", href: "/smartphones/iphone-13-pro-max", image: "/i13promax.webp" },
 ];
 
 const samsungCards = [
