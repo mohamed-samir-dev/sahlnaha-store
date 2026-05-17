@@ -60,8 +60,11 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
     setErrors(e);
     if (Object.keys(e).length) {
       const firstKey = Object.keys(e)[0];
-      const el = formRef.current?.querySelector(`[data-field="${firstKey}"]`);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+      const el = formRef.current?.querySelector(`[data-field="${firstKey}"]`) as HTMLElement | null;
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.scrollY - 80;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
       return;
     }
     onSubmit({ name, nationalId, whatsapp, address, installmentType, months, downPayment });
