@@ -1,6 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const slides = [
   {
@@ -45,16 +46,16 @@ export default function HeroSection() {
   const [current, setCurrent] = useState(0);
   const [animating, setAnimating] = useState(false);
 
-  useEffect(() => {
-    const t = setInterval(() => slideTo((current + 1) % slides.length), 6000);
-    return () => clearInterval(t);
-  }, [current]);
-
-  function slideTo(index: number) {
+  const slideTo = useCallback((index: number) => {
     if (index === current || animating) return;
     setAnimating(true);
     setTimeout(() => { setCurrent(index); setAnimating(false); }, 400);
-  }
+  }, [current, animating]);
+
+  useEffect(() => {
+    const t = setInterval(() => slideTo((current + 1) % slides.length), 6000);
+    return () => clearInterval(t);
+  }, [current, slideTo]);
 
   const s = slides[current];
 
@@ -78,8 +79,8 @@ export default function HeroSection() {
         </h1>
         <p className="hero-desc">{s.desc}</p>
         <div className="hero-actions">
-          <a href={s.btnHref} className="btn-primary">{s.btnText}</a>
-          <a href="/store" className="btn-outline">كل المنتجات</a>
+          <Link href={s.btnHref} className="btn-primary">{s.btnText}</Link>
+          <Link href="/store" className="btn-outline">كل المنتجات</Link>
         </div>
       </div>
 
