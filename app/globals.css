@@ -21,63 +21,114 @@ body {
 .animated-bg {
   background: linear-gradient(135deg, #000 0%, #051e1f 40%, #094F52 100%);
 }
+
+/* Blobs — blur على GPU layer منفصل */
 .blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(90px);
-  opacity: 0.5;
+  filter: blur(100px);
+  opacity: 0.45;
   will-change: transform;
+  transform: translateZ(0);
 }
 .blob-1 {
-  width: 520px; height: 520px;
+  width: 500px; height: 500px;
   left: 5%; top: 2%;
   background: #094F52;
-  animation: blobMove1 18s ease-in-out infinite;
+  animation: blobMove1 20s ease-in-out infinite;
 }
 .blob-2 {
-  width: 380px; height: 380px;
-  left: 70%; top: 5%;
+  width: 360px; height: 360px;
+  left: 68%; top: 5%;
   background: #1B7174;
-  animation: blobMove2 22s ease-in-out infinite 3s;
+  animation: blobMove2 24s ease-in-out infinite 4s;
 }
 .blob-3 {
-  width: 420px; height: 420px;
-  left: 15%; top: 60%;
+  width: 400px; height: 400px;
+  left: 15%; top: 58%;
   background: #094F52;
-  animation: blobMove3 25s ease-in-out infinite 5s;
+  animation: blobMove3 28s ease-in-out infinite 6s;
 }
 .blob-4 {
-  width: 300px; height: 300px;
+  width: 280px; height: 280px;
   left: 55%; top: 55%;
   background: #65E0CD;
-  animation: blobMove1 20s ease-in-out infinite 1s;
+  animation: blobMove1 22s ease-in-out infinite 2s;
 }
 @keyframes blobMove1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33%       { transform: translate(50px, -40px) scale(1.1); }
-  66%       { transform: translate(-30px, 30px) scale(0.95); }
+  0%, 100% { transform: translate(0, 0); }
+  50%       { transform: translate(45px, -35px); }
 }
 @keyframes blobMove2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33%       { transform: translate(-60px, 50px) scale(1.08); }
-  66%       { transform: translate(40px, -30px) scale(0.92); }
+  0%, 100% { transform: translate(0, 0); }
+  50%       { transform: translate(-50px, 40px); }
 }
 @keyframes blobMove3 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%       { transform: translate(40px, -50px) scale(1.12); }
+  0%, 100% { transform: translate(0, 0); }
+  50%       { transform: translate(35px, -45px); }
 }
+
+/* Particles — 6 فقط بدل 12 */
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform, opacity;
+  animation: floatUp linear infinite;
+  transform: translateZ(0);
+}
+.p1 { width:3px; height:3px; left:10%;  bottom:-4px; background:#65E0CD; animation-duration:14s; animation-delay:0s; }
+.p2 { width:2px; height:2px; left:28%;  bottom:-4px; background:#fff;    animation-duration:11s; animation-delay:2s; }
+.p3 { width:4px; height:4px; left:46%;  bottom:-4px; background:#65E0CD; animation-duration:16s; animation-delay:4s; }
+.p4 { width:2px; height:2px; left:62%;  bottom:-4px; background:#1B7174; animation-duration:12s; animation-delay:1s; }
+.p5 { width:3px; height:3px; left:78%;  bottom:-4px; background:#fff;    animation-duration:15s; animation-delay:3s; }
+.p6 { width:2px; height:2px; left:90%;  bottom:-4px; background:#65E0CD; animation-duration:10s; animation-delay:5s; }
+@keyframes floatUp {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  8%   { opacity: 0.8; }
+  92%  { opacity: 0.2; }
+  100% { transform: translateY(-100vh) translateX(15px); opacity: 0; }
+}
+
+/* Aurora — خط واحد بس */
+.aurora {
+  position: absolute;
+  width: 1px;
+  border-radius: 999px;
+  will-change: opacity, transform;
+  transform: translateZ(0);
+}
+.aurora-1 {
+  height: 30vh;
+  left: 35%;
+  top: 25%;
+  background: linear-gradient(to top, transparent, #65E0CD66, transparent);
+  animation: auroraFade 12s ease-in-out infinite;
+}
+.aurora-2 {
+  height: 22vh;
+  left: 65%;
+  top: 35%;
+  background: linear-gradient(to top, transparent, #1B717455, transparent);
+  animation: auroraFade 15s ease-in-out infinite 5s;
+}
+@keyframes auroraFade {
+  0%, 100% { opacity: 0; transform: scaleX(1) translateY(0); }
+  40%       { opacity: 1; transform: scaleX(4) translateY(-10px); }
+  70%       { opacity: 0.4; transform: scaleX(2) translateY(-20px); }
+}
+
 .grid-overlay {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(101,224,205,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(101,224,205,0.04) 1px, transparent 1px);
+    linear-gradient(rgba(101,224,205,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(101,224,205,0.03) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 .top-shine {
   position: absolute;
   top: 0; left: 20%; width: 60%; height: 1px;
-  background: linear-gradient(90deg, transparent, #65E0CD55, transparent);
+  background: linear-gradient(90deg, transparent, #65E0CD44, transparent);
 }
 
 .scrollbar-hide::-webkit-scrollbar { display: none; }
