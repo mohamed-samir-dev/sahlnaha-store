@@ -20,10 +20,7 @@ interface Props {
 
 export default function CategoryHero({ label, parentLabel, parentHref, productCount, loading }: Props) {
   return (
-    <div
-      className="relative overflow-hidden"
-      style={{ background: "linear-gradient(135deg,#071a2e 0%,#0a3d3a 40%,#0d5248 70%,#083530 100%)" }}
-    >
+    <div className="relative overflow-hidden">
       {/* Grid pattern */}
       <div
         className="absolute inset-0 opacity-[0.035] pointer-events-none"
@@ -147,7 +144,7 @@ export default function CategoryHero({ label, parentLabel, parentHref, productCo
 
       {/* Wave */}
       <svg viewBox="0 0 1440 56" preserveAspectRatio="none" className="w-full h-8 sm:h-14 block relative z-10">
-        <path d="M0,56 L0,28 Q240,56 480,28 Q720,0 960,28 Q1200,56 1440,28 L1440,56 Z" fill="#f8f9fb" />
+        <path d="M0,56 L0,28 Q240,56 480,28 Q720,0 960,28 Q1200,56 1440,28 L1440,56 Z" fill="transparent" />
       </svg>
     </div>
   );

@@ -34,7 +34,7 @@ export default function ProductImages({ images: rawImages, name, discountPercent
   return (
     <div className="flex flex-col gap-4 lg:sticky lg:top-[80px]">
       {/* Main Image */}
-      <div className="relative bg-white rounded-3xl overflow-hidden border border-gray-100 group">
+      <div className="relative bg-white rounded-3xl overflow-hidden border border-gray-200 group">
         {discountPercent > 0 && (
           <motion.div
             initial={{ scale: 0, rotate: -12 }}
@@ -48,7 +48,7 @@ export default function ProductImages({ images: rawImages, name, discountPercent
         )}
 
         {images.length > 1 && (
-          <div className="absolute z-10 top-4 left-4 bg-white/80 backdrop-blur-sm text-[#053132] px-2.5 py-1 rounded-full text-[11px] font-bold border border-gray-100">
+          <div className="absolute z-10 top-4 left-4 bg-black/40 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-[11px] font-bold border border-white/10">
             {selected + 1} / {images.length}
           </div>
         )}
@@ -87,7 +87,7 @@ export default function ProductImages({ images: rawImages, name, discountPercent
             )}
           </AnimatePresence>
 
-          <div className="absolute bottom-4 right-4 items-center gap-1.5 bg-white/80 backdrop-blur-sm text-gray-500 px-3 py-1.5 rounded-xl text-[11px] font-medium opacity-0 group-hover:opacity-100 transition-opacity hidden sm:flex">
+          <div className="absolute bottom-4 right-4 items-center gap-1.5 bg-black/40 backdrop-blur-sm text-white/70 px-3 py-1.5 rounded-xl text-[11px] font-medium opacity-0 group-hover:opacity-100 transition-opacity hidden sm:flex">
             <IoExpand size={13} />
             اضغط للتكبير
           </div>
@@ -101,7 +101,7 @@ export default function ProductImages({ images: rawImages, name, discountPercent
                 key={i}
                 onClick={(e) => { e.stopPropagation(); setSelected(i); }}
                 className={`rounded-full transition-all duration-300 ${
-                  i === selected ? "w-5 h-2 bg-[#053132]" : "w-2 h-2 bg-gray-300"
+                  i === selected ? "w-5 h-2 bg-teal-400" : "w-2 h-2 bg-white/30"
                 }`}
               />
             ))}
@@ -120,8 +120,8 @@ export default function ProductImages({ images: rawImages, name, discountPercent
               onClick={() => setSelected(i)}
               className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden shrink-0 transition-all duration-300 ${
                 i === selected
-                  ? "ring-2 ring-[#053132] ring-offset-2 bg-white shadow-md"
-                  : "ring-1 ring-gray-200 opacity-60 hover:opacity-100 bg-gray-50"
+                  ? "ring-2 ring-teal-400 ring-offset-2 ring-offset-transparent bg-white shadow-md"
+                  : "ring-1 ring-gray-200 opacity-60 hover:opacity-100 bg-white"
               }`}
             >
               <Image src={img} alt="" fill className="object-contain p-2" sizes="80px" />

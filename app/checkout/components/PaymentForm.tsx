@@ -134,9 +134,9 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
     try { await onSubmit(fields); router.push("/checkout/verify"); } finally { setLoading(false); }
   };
 
-  const inputBase = "w-full border-2 rounded-2xl px-4 py-3.5 text-sm text-gray-900 focus:outline-none transition-all duration-200 bg-white placeholder:text-gray-300";
-  const inputOk = "border-gray-100 focus:border-[#053132] focus:ring-4 focus:ring-[#05313210] hover:border-gray-200";
-  const inputErr = "border-red-300 bg-red-50/40 focus:border-red-400 focus:ring-4 focus:ring-red-100";
+  const inputBase = "w-full border-2 rounded-2xl px-4 py-3.5 text-sm text-white focus:outline-none transition-all duration-200 bg-black/20 placeholder:text-white/30";
+  const inputOk = "border-white/10 focus:border-[#65E0CD] hover:border-white/20";
+  const inputErr = "border-red-400/50 bg-red-500/10 focus:border-red-400";
 
   const displayNumber = fields.name ? fields.name.padEnd(19, " ").slice(0, 19) : "0000 0000 0000 0000";
 
@@ -149,8 +149,8 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
   return (
     <div className="space-y-5">
       {/* ── Visual Card ── */}
-      <div className="w-full max-w-[280px] mx-auto" style={{ perspective: "1200px", minHeight: "165px" }}>
-        <div style={{ transition: "transform 0.65s cubic-bezier(.4,0,.2,1)", transformStyle: "preserve-3d", transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)", position: "relative", minHeight: "165px" }}>
+      <div className="w-full max-w-[340px] sm:max-w-[280px] mx-auto" style={{ perspective: "1200px", minHeight: "195px" }}>
+        <div style={{ transition: "transform 0.65s cubic-bezier(.4,0,.2,1)", transformStyle: "preserve-3d", transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)", position: "relative", minHeight: "195px" }}>
           {/* Front */}
           <div className="absolute inset-0 rounded-2xl p-4 text-white select-none overflow-hidden" style={{ background: cardBg, boxShadow: "0 14px 40px rgba(5,49,50,0.3)", backfaceVisibility: "hidden" }}>
             {/* shimmer */}
@@ -186,12 +186,12 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
       </div>
 
       {/* ── Form Card ── */}
-      <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-black/30 backdrop-blur-md rounded-3xl border border-white/10 overflow-hidden">
 
         {/* Accepted cards bar */}
-        <div className="flex items-center gap-3 px-5 py-3 border-b border-gray-100" style={{ background: "linear-gradient(135deg,#f8fafa,#f0f4f4)" }}>
-          <IoShieldCheckmarkOutline size={15} className="text-[#053132] shrink-0" />
-          <span className="text-[11px] text-gray-500 font-semibold">دفع آمن — نقبل:</span>
+        <div className="flex items-center gap-3 px-5 py-3 border-b border-white/10 bg-white/5">
+          <IoShieldCheckmarkOutline size={15} className="text-[#65E0CD] shrink-0" />
+          <span className="text-[11px] text-white/70 font-semibold">دفع آمن — نقبل:</span>
           <div className="flex items-center gap-2 mr-auto">
             <CardLogo brand="mada" size="sm" />
             <CardLogo brand="visa" size="sm" />
@@ -203,8 +203,8 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
 
           {/* Card Number */}
           <div>
-            <label className="flex items-center gap-1.5 text-xs font-black text-gray-600 uppercase tracking-wider mb-2">
-              <IoCardOutline size={13} />
+            <label className="flex items-center gap-1.5 text-xs font-black text-white/80 uppercase tracking-wider mb-2">
+              <IoCardOutline size={13} className="text-[#65E0CD]" />
               رقم البطاقة <span className="text-red-400">*</span>
             </label>
             <div className="relative">
@@ -227,7 +227,7 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
               <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
                 {cardBrand
                   ? <CardLogo brand={cardBrand} size="sm" />
-                  : <div className="w-10 h-[26px] rounded-md bg-gray-100 flex items-center justify-center"><span className="text-[9px] text-gray-300 font-mono">CARD</span></div>
+                  : <div className="w-10 h-[26px] rounded-md bg-white/10 flex items-center justify-center"><span className="text-[9px] text-white/30 font-mono">CARD</span></div>
                 }
               </div>
             </div>
@@ -237,8 +237,8 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
           {/* Expiry + CVV */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="flex items-center gap-1.5 text-xs font-black text-gray-600 uppercase tracking-wider mb-2">
-                <IoCalendarOutline size={13} />
+              <label className="flex items-center gap-1.5 text-xs font-black text-white/80 uppercase tracking-wider mb-2">
+                <IoCalendarOutline size={13} className="text-[#65E0CD]" />
                 الانتهاء <span className="text-red-400">*</span>
               </label>
               <input
@@ -259,8 +259,8 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
               {expiryError && <p className="text-red-500 text-xs font-bold mt-1.5">⚠ {expiryError}</p>}
             </div>
             <div>
-              <label className="flex items-center gap-1.5 text-xs font-black text-gray-600 uppercase tracking-wider mb-2">
-                <IoLockClosedOutline size={13} />
+              <label className="flex items-center gap-1.5 text-xs font-black text-white/80 uppercase tracking-wider mb-2">
+                <IoLockClosedOutline size={13} className="text-[#65E0CD]" />
                 CVV <span className="text-red-400">*</span>
               </label>
               <input
@@ -285,8 +285,8 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
 
           {/* Card Holder */}
           <div>
-            <label className="flex items-center gap-1.5 text-xs font-black text-gray-600 uppercase tracking-wider mb-2">
-              <IoPersonOutline size={13} />
+            <label className="flex items-center gap-1.5 text-xs font-black text-white/80 uppercase tracking-wider mb-2">
+              <IoPersonOutline size={13} className="text-[#65E0CD]" />
               اسم حامل البطاقة <span className="text-red-400">*</span>
             </label>
             <input
@@ -310,7 +310,7 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
       <div className="flex gap-3">
         <button
           onClick={() => router.push("/cart")}
-          className="flex items-center justify-center gap-2 px-5 border-2 border-gray-100 text-gray-500 font-bold py-4 rounded-2xl text-sm hover:border-gray-200 hover:text-gray-700 transition-all"
+          className="flex items-center justify-center gap-2 px-5 border-2 border-white/10 text-white/60 font-bold py-4 rounded-2xl text-sm hover:border-white/20 hover:text-white transition-all bg-black/20"
         >
           <IoArrowForward size={16} />
           <span className="hidden sm:inline">السابق</span>

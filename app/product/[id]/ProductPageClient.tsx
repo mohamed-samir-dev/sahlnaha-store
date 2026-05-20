@@ -10,6 +10,7 @@ import { useCartStore } from "../../store/cartStore";
 import ProductImages from "./components/ProductImages";
 import ProductInfo from "./components/ProductInfo";
 import ProductDetails from "./components/ProductDetails";
+import AnimatedBackground from "../../components/AnimatedBackground";
 
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
@@ -31,25 +32,31 @@ export default function ProductPageClient({ id }: { id: string }) {
 
   if (loading)
     return (
-      <main className="min-h-screen bg-white" dir="rtl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-24 pb-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
-            <div className="aspect-square bg-gray-50 rounded-3xl animate-pulse" />
-            <div className="space-y-6 pt-8">
-              <div className="h-4 w-24 bg-gray-100 rounded-full animate-pulse" />
-              <div className="h-8 w-3/4 bg-gray-100 rounded-full animate-pulse" />
-              <div className="h-12 w-1/3 bg-gray-100 rounded-full animate-pulse" />
+      <>
+        <AnimatedBackground />
+        <main className="min-h-screen" dir="rtl">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-24 pb-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+              <div className="aspect-square bg-white/5 rounded-3xl animate-pulse" />
+              <div className="space-y-6 pt-8">
+                <div className="h-4 w-24 bg-white/10 rounded-full animate-pulse" />
+                <div className="h-8 w-3/4 bg-white/10 rounded-full animate-pulse" />
+                <div className="h-12 w-1/3 bg-white/10 rounded-full animate-pulse" />
+              </div>
             </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </>
     );
 
   if (!product)
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <p className="text-gray-400 text-lg">المنتج غير موجود</p>
-      </div>
+      <>
+        <AnimatedBackground />
+        <div className="min-h-screen flex items-center justify-center">
+          <p className="text-white/50 text-lg">المنتج غير موجود</p>
+        </div>
+      </>
     );
 
   const resolveImg = (src: string) =>
@@ -64,24 +71,26 @@ export default function ProductPageClient({ id }: { id: string }) {
   };
 
   return (
-    <main className="min-h-screen bg-white pb-28 lg:pb-12" dir="rtl">
+    <>
+      <AnimatedBackground />
+    <main className="min-h-screen pb-28 lg:pb-12" dir="rtl">
       {/* ─── Top Bar ─── */}
       <motion.header
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100"
+        className="sticky top-0 z-50 bg-black/30 backdrop-blur-xl border-b border-white/10"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button
               onClick={() => router.back()}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-[#053132]/5 hover:bg-[#053132]/10 text-[#053132] transition-colors"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
             >
               <IoArrowForward size={18} />
             </button>
             {/* Breadcrumb */}
-            <nav className="hidden sm:flex items-center gap-1.5 text-xs text-gray-400">
-              <Link href="/" className="hover:text-[#053132] transition flex items-center gap-1">
+            <nav className="hidden sm:flex items-center gap-1.5 text-xs text-white/50">
+              <Link href="/" className="hover:text-white transition flex items-center gap-1">
                 <IoHomeOutline size={12} />
                 الرئيسية
               </Link>
@@ -92,12 +101,12 @@ export default function ProductPageClient({ id }: { id: string }) {
                   <IoChevronBack size={10} className="opacity-50" />
                 </>
               )}
-              <span className="text-[#053132] font-medium truncate max-w-[200px]">{product.name}</span>
+              <span className="text-teal-300 font-medium truncate max-w-[200px]">{product.name}</span>
             </nav>
           </div>
           <button
             onClick={handleShare}
-            className="w-10 h-10 flex items-center justify-center rounded-full bg-[#053132]/5 hover:bg-[#053132]/10 text-[#053132] transition-colors"
+            className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
           >
             <IoShareSocial size={16} />
           </button>
@@ -157,22 +166,22 @@ export default function ProductPageClient({ id }: { id: string }) {
           transition={{ delay: 0.5, type: "spring", stiffness: 300, damping: 30 }}
           className="fixed bottom-0 left-0 right-0 z-40 lg:hidden"
         >
-          <div className="bg-white/95 backdrop-blur-xl border-t border-gray-100 px-4 py-3 shadow-[0_-8px_30px_rgba(5,49,50,.08)]">
+          <div className="bg-black/60 backdrop-blur-xl border-t border-white/10 px-4 py-3">
             <div className="flex items-center gap-3" dir="rtl">
               <div className="flex-1 min-w-0">
-                <p className="text-[10px] text-gray-400 truncate">{product.name}</p>
+                <p className="text-[10px] text-white/50 truncate">{product.name}</p>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-lg font-black text-[#053132]">
+                  <span className="text-lg font-black text-teal-300">
                     {(product.salePrice ?? product.originalPrice ?? 0).toLocaleString("en-US")}
                   </span>
-                  <span className="text-[11px] font-bold text-gray-400">ر.س</span>
+                  <span className="text-[11px] font-bold text-white/50">ر.س</span>
                 </div>
               </div>
               {!addedToCart ? (
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   onClick={() => { addItem(product, 1); setAddedToCart(true); }}
-                  className="bg-[#053132] text-white font-bold text-sm px-7 py-3.5 rounded-2xl shadow-lg shadow-[#053132]/20"
+                  className="bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-bold text-sm px-7 py-3.5 rounded-2xl shadow-lg shadow-teal-500/30"
                 >
                   أضف للسلة
                 </motion.button>
@@ -180,7 +189,7 @@ export default function ProductPageClient({ id }: { id: string }) {
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   onClick={() => router.push("/cart")}
-                  className="bg-[#053132] text-white font-bold text-sm px-7 py-3.5 rounded-2xl flex items-center gap-2"
+                  className="bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-bold text-sm px-7 py-3.5 rounded-2xl flex items-center gap-2"
                 >
                   عرض السلة ✓
                 </motion.button>
@@ -190,5 +199,6 @@ export default function ProductPageClient({ id }: { id: string }) {
         </motion.div>
       </AnimatePresence>
     </main>
+    </>
   );
 }

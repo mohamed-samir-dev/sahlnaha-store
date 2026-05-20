@@ -2,6 +2,7 @@ import HeroSection from "./components/HeroSection";
 import StaticCategories from "./components/StaticCategories";
 import HomeCategorySections from "./components/HomeCategorySections";
 import CustomerReviews from "./components/CustomerReviews";
+import AnimatedBackground from "./components/AnimatedBackground";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
 const SITE_URL = "https://madar-electronics.com";
@@ -79,7 +80,8 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
       />
-      <main className="min-h-screen bg-white" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px)", backgroundSize: "40px 40px" }}>
+      <AnimatedBackground />
+      <main className="min-h-screen">
         <HeroSection />
         <StaticCategories />
         <HomeCategorySections />

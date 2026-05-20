@@ -29,16 +29,17 @@ export default function MobileMenu({ items, isOpen, onClose }: MobileMenuProps) 
 
       {/* Panel */}
       <div
-        className={`lg:hidden fixed top-0 right-0 w-[80vw] max-w-[340px] h-dvh bg-white z-50 flex flex-col shadow-2xl transition-transform duration-300 ease-in-out ${
+        className={`lg:hidden fixed top-0 right-0 w-[80vw] max-w-[340px] h-dvh z-50 flex flex-col shadow-2xl transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
+        style={{ background: '#F5FFFF' }}
         dir="rtl"
       >
         {/* Header */}
-        <div className="bg-gray-900 px-5 py-5 flex items-center justify-between shrink-0">
+        <div className="px-5 py-5 flex items-center justify-between shrink-0" style={{ background: '#082C39' }}>
           <div>
             <p className="text-white font-black text-xl tracking-tight">مدار</p>
-            <p className="text-gray-400 text-xs">للأجهزة الإلكترونية</p>
+            <p className="text-[#20A5A1] text-xs">للأجهزة الإلكترونية</p>
           </div>
           <button
             onClick={onClose}
@@ -56,14 +57,14 @@ export default function MobileMenu({ items, isOpen, onClose }: MobileMenuProps) 
             const hasChildren = item.children || item.groups;
             const isOpen_ = openDropdown === item.label;
             return (
-              <div key={item.label} className="border-b border-gray-50 last:border-0">
+              <div key={item.label} className="border-b border-[#126066]/15 last:border-0">
                 {hasChildren ? (
                   <button
                     onClick={() => toggle(item.label)}
-                    className="w-full flex items-center justify-between px-5 py-3.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+                    className="w-full flex items-center justify-between px-5 py-3.5 text-sm font-semibold text-[#082C39] hover:bg-[#126066]/10 hover:text-[#126066] transition-colors"
                   >
                     {item.label}
-                    <span className={`text-gray-400 transition-transform duration-200 ${isOpen_ ? "rotate-180" : ""}`}>
+                    <span className={`text-[#126066] transition-transform duration-200 ${isOpen_ ? "rotate-180" : ""}`}>
                       <ChevronDownIcon />
                     </span>
                   </button>
@@ -71,7 +72,7 @@ export default function MobileMenu({ items, isOpen, onClose }: MobileMenuProps) 
                   <Link
                     href={item.href}
                     onClick={onClose}
-                    className="flex items-center px-5 py-3.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+                    className="flex items-center px-5 py-3.5 text-sm font-semibold text-[#082C39] hover:bg-[#126066]/10 hover:text-[#126066] transition-colors"
                   >
                     {item.label}
                   </Link>
@@ -79,10 +80,10 @@ export default function MobileMenu({ items, isOpen, onClose }: MobileMenuProps) 
 
                 {/* Sub items */}
                 <div className={`overflow-hidden transition-all duration-300 ${isOpen_ ? "max-h-[50vh] overflow-y-auto" : "max-h-0"}`}>
-                  <div className="bg-gray-50 pb-2">
+                  <div className="pb-2" style={{ background: '#e8f7f7' }}>
                     {item.groups?.map((group, gi) => (
                       <div key={gi}>
-                        <p className="px-5 pt-3 pb-1 text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                        <p className="px-5 pt-3 pb-1 text-[10px] font-black text-[#126066] uppercase tracking-widest">
                           {group.groupLabel}
                         </p>
                         {group.items.map((child, ci) => (
@@ -90,9 +91,9 @@ export default function MobileMenu({ items, isOpen, onClose }: MobileMenuProps) 
                             key={`${child.href}-${ci}`}
                             href={child.href}
                             onClick={onClose}
-                            className="flex items-center gap-2 px-5 py-2.5 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+                            className="flex items-center gap-2 px-5 py-2.5 text-sm text-[#082C39] hover:text-[#126066] hover:bg-[#126066]/10 transition-colors"
                           >
-                            <span className="w-1.5 h-1.5 rounded-full bg-gray-300 shrink-0" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#20A5A1] shrink-0" />
                             {child.label}
                           </Link>
                         ))}
@@ -103,9 +104,9 @@ export default function MobileMenu({ items, isOpen, onClose }: MobileMenuProps) 
                         key={`${child.href}-${ci}`}
                         href={child.href}
                         onClick={onClose}
-                        className="flex items-center gap-2 px-5 py-2.5 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+                        className="flex items-center gap-2 px-5 py-2.5 text-sm text-[#082C39] hover:text-[#126066] hover:bg-[#126066]/10 transition-colors"
                       >
-                        <span className="w-1.5 h-1.5 rounded-full bg-gray-300 shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#20A5A1] shrink-0" />
                         {child.label}
                       </Link>
                     ))}
@@ -117,8 +118,8 @@ export default function MobileMenu({ items, isOpen, onClose }: MobileMenuProps) 
         </div>
 
         {/* Footer */}
-        <div className="shrink-0 px-5 py-4 border-t border-gray-100 bg-gray-50">
-          <p className="text-xs text-gray-400 text-center">📞 0501234567 &nbsp;|&nbsp; info@madar.com</p>
+        <div className="shrink-0 px-5 py-4 border-t border-[#126066]/20" style={{ background: '#e8f7f7' }}>
+          <p className="text-xs text-[#126066] text-center">📞 0501234567 &nbsp;|&nbsp; info@madar.com</p>
         </div>
       </div>
     </>

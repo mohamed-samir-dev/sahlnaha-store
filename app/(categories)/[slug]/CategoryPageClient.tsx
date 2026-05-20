@@ -11,6 +11,7 @@ import { useProductFilters } from "./components/useProductFilters";
 import CategoryHero from "./components/CategoryHero";
 import FiltersSidebar from "./components/FiltersSidebar";
 import ProductsGrid from "./components/ProductsGrid";
+import AnimatedBackground from "../../components/AnimatedBackground";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -65,7 +66,9 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
   const parentHref = config?.parentHref ?? "/";
 
   return (
-    <main className="min-h-screen bg-[#f8f9fb]" dir="rtl">
+    <>
+    <AnimatedBackground />
+    <main className="min-h-screen" dir="rtl">
       <CategoryHero
         label={label}
         parentLabel={parentLabel}
@@ -86,12 +89,12 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
               <IoGridOutline size={18} className="text-white" />
             </div>
             <div>
-              <h2 className="text-sm sm:text-base font-black text-gray-900 leading-tight">جميع المنتجات</h2>
+              <h2 className="text-sm sm:text-base font-black text-white leading-tight">جميع المنتجات</h2>
               {!loading && (
-                <p className="text-[11px] text-gray-400 flex items-center gap-1">
-                  <span className="font-bold text-teal-600">{filtered.length}</span> منتج
+                <p className="text-[11px] text-white/50 flex items-center gap-1">
+                  <span className="font-bold text-teal-400">{filtered.length}</span> منتج
                   {activeCount > 0 && (
-                    <span className="bg-teal-50 text-teal-600 border border-teal-100 text-[10px] font-bold px-1.5 py-0.5 rounded-full">مفلتر</span>
+                    <span className="bg-teal-500/20 text-teal-300 border border-teal-400/30 text-[10px] font-bold px-1.5 py-0.5 rounded-full">مفلتر</span>
                   )}
                 </p>
               )}
@@ -102,7 +105,7 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
           <motion.button
             whileTap={{ scale: 0.96 }}
             onClick={() => setMobileFiltersOpen(true)}
-            className="lg:hidden flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white border border-gray-200 text-xs font-bold text-gray-700 hover:border-teal-400 hover:text-teal-600 transition-all shadow-sm relative"
+            className="lg:hidden flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/10 border border-white/20 text-xs font-bold text-white hover:border-teal-400 hover:text-teal-300 transition-all relative"
           >
             <IoOptions size={15} />
             فلترة وترتيب
@@ -144,5 +147,6 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
         </div>
       </div>
     </main>
+    </>
   );
 }

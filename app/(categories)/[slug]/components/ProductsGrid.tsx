@@ -18,13 +18,13 @@ interface Props {
 
 function SkeletonCard() {
   return (
-    <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
-      <div className="w-full aspect-square bg-gradient-to-br from-gray-50 to-gray-100 animate-pulse" />
+    <div className="bg-white/5 rounded-2xl overflow-hidden border border-white/10">
+      <div className="w-full aspect-square bg-white/5 animate-pulse" />
       <div className="p-3 space-y-2.5">
-        <div className="h-3.5 bg-gray-100 animate-pulse rounded-full w-3/4" />
-        <div className="h-3.5 bg-gray-100 animate-pulse rounded-full w-1/2" />
+        <div className="h-3.5 bg-white/10 animate-pulse rounded-full w-3/4" />
+        <div className="h-3.5 bg-white/10 animate-pulse rounded-full w-1/2" />
       </div>
-      <div className="h-11 bg-gray-50 animate-pulse mx-3 mb-3 rounded-xl" />
+      <div className="h-11 bg-white/5 animate-pulse mx-3 mb-3 rounded-xl" />
     </div>
   );
 }
@@ -56,17 +56,17 @@ export default function ProductsGrid({ products, loading, page, onPageChange, em
         <motion.div
           animate={{ y: [0, -8, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="w-24 h-24 rounded-3xl bg-gradient-to-br from-teal-50 to-emerald-50 flex items-center justify-center text-5xl shadow-lg border border-teal-100/50"
+          className="w-24 h-24 rounded-3xl bg-white/5 flex items-center justify-center text-5xl border border-white/10"
         >
           {emoji}
         </motion.div>
         <div>
-          <p className="text-gray-800 text-lg font-black mb-1.5">لا توجد منتجات مطابقة</p>
-          <p className="text-gray-400 text-sm">جرب تغيير الفلاتر أو مسحها</p>
+          <p className="text-white text-lg font-black mb-1.5">لا توجد منتجات مطابقة</p>
+          <p className="text-white/40 text-sm">جرب تغيير الفلاتر أو مسحها</p>
         </div>
         <Link
           href="/"
-          className="text-sm font-bold text-teal-600 hover:text-teal-800 flex items-center gap-1.5 bg-teal-50 px-5 py-2.5 rounded-full transition-all hover:shadow-md"
+          className="text-sm font-bold text-teal-300 hover:text-teal-200 flex items-center gap-1.5 bg-teal-500/10 border border-teal-400/20 px-5 py-2.5 rounded-full transition-all"
         >
           <IoArrowForward size={14} />
           العودة للرئيسية
@@ -103,7 +103,7 @@ export default function ProductsGrid({ products, loading, page, onPageChange, em
           <button
             onClick={() => goTo(Math.max(1, page - 1))}
             disabled={page === 1}
-            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white border border-gray-200 text-xs font-bold disabled:opacity-30 hover:bg-teal-50 hover:border-teal-300 hover:text-teal-700 transition-all shadow-sm"
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white/10 border border-white/20 text-xs font-bold text-white disabled:opacity-30 hover:bg-teal-500/20 hover:border-teal-400 hover:text-teal-300 transition-all"
           >
             <IoArrowForward size={14} />
             السابق
@@ -115,8 +115,8 @@ export default function ProductsGrid({ products, loading, page, onPageChange, em
               onClick={() => goTo(n)}
               className={`w-10 h-10 rounded-xl text-xs font-black transition-all ${
                 page === n
-                  ? "bg-gradient-to-br from-teal-600 to-emerald-600 text-white shadow-lg shadow-teal-200/60 scale-110"
-                  : "bg-white border border-gray-200 hover:bg-teal-50 hover:border-teal-300 hover:text-teal-700 shadow-sm"
+                  ? "bg-gradient-to-br from-teal-500 to-emerald-500 text-white shadow-lg shadow-teal-500/30 scale-110"
+                  : "bg-white/10 border border-white/20 text-white hover:bg-teal-500/20 hover:border-teal-400 hover:text-teal-300"
               }`}
             >
               {n}
@@ -126,7 +126,7 @@ export default function ProductsGrid({ products, loading, page, onPageChange, em
           <button
             onClick={() => goTo(Math.min(totalPages, page + 1))}
             disabled={page === totalPages}
-            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white border border-gray-200 text-xs font-bold disabled:opacity-30 hover:bg-teal-50 hover:border-teal-300 hover:text-teal-700 transition-all shadow-sm"
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white/10 border border-white/20 text-xs font-bold text-white disabled:opacity-30 hover:bg-teal-500/20 hover:border-teal-400 hover:text-teal-300 transition-all"
           >
             التالي
             <IoArrowBack size={14} />

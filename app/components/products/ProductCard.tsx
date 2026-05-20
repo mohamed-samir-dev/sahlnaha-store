@@ -74,7 +74,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
       >
         <Link
           href={`/product/${product._id}`}
-          className="group relative flex flex-col h-full bg-white rounded-[22px] overflow-hidden card-shadow"
+          className="group relative flex flex-col h-full bg-black/40 backdrop-blur-md rounded-[22px] overflow-hidden card-shadow"
           dir="rtl"
         >
 
@@ -102,8 +102,8 @@ export default function ProductCard({ product, priority = false }: { product: Pr
               {/* Stock */}
               <div className={`flex items-center gap-1 px-2.5 py-1 rounded-xl text-[9px] font-bold border leading-none backdrop-blur-md ${
                 inStock
-                  ? "bg-white/85 text-emerald-600 border-emerald-200/70 shadow-sm"
-                  : "bg-white/85 text-red-500 border-red-200/70 shadow-sm"
+                  ? "bg-emerald-900/60 text-emerald-300 border-emerald-500/40 shadow-sm"
+                  : "bg-red-900/60 text-red-300 border-red-500/40 shadow-sm"
               }`}>
                 <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${inStock ? "bg-emerald-500 animate-pulse" : "bg-red-400"}`} />
                 {inStock ? "متوفر" : "نفذ"}
@@ -147,43 +147,43 @@ export default function ProductCard({ product, priority = false }: { product: Pr
             {/* Brand row */}
             <div className="flex items-center gap-1.5">
               {brand && (
-                <span className="text-[9px] font-black text-teal-700 bg-teal-50 border border-teal-100/80 px-1.5 py-0.5 rounded-lg uppercase tracking-wider leading-none">
+                <span className="text-[9px] font-black text-teal-300 bg-teal-900/50 border border-teal-500/40 px-1.5 py-0.5 rounded-lg uppercase tracking-wider leading-none">
                   {brand}
                 </span>
               )}
               {storage && (
-                <span className="text-[9px] font-semibold text-gray-500 bg-gray-100/80 px-1.5 py-0.5 rounded-lg leading-none">
+                <span className="text-[9px] font-semibold text-gray-300 bg-white/10 px-1.5 py-0.5 rounded-lg leading-none">
                   {storage}
                 </span>
               )}
               {color && (
-                <span className="text-[9px] font-semibold text-gray-500 bg-gray-100/80 px-1.5 py-0.5 rounded-lg leading-none">
+                <span className="text-[9px] font-semibold text-gray-300 bg-white/10 px-1.5 py-0.5 rounded-lg leading-none">
                   {color}
                 </span>
               )}
             </div>
 
             {/* Product name */}
-            <h3 className="text-[13px] sm:text-[14px] font-bold text-gray-800 leading-[1.5] line-clamp-2 flex-1">
+            <h3 className="text-[13px] sm:text-[14px] font-bold text-white leading-[1.5] line-clamp-2 flex-1">
               {name}
             </h3>
 
             {/* Divider */}
-            <div className="h-px bg-gradient-to-r from-gray-100 via-gray-200/60 to-transparent" />
+            <div className="h-px bg-gradient-to-r from-white/10 via-white/20 to-transparent" />
 
             {/* Price + savings */}
             <div className="flex items-end justify-between gap-2">
               <div className="flex flex-col gap-0.5">
                 {hasDiscount && (
-                  <span className="text-[11px] text-gray-400 line-through leading-none">
+                  <span className="text-[11px] text-gray-400 line-through leading-none text-gray-500">
                     {fmt(originalPrice)} ر.س
                   </span>
                 )}
                 <div className="flex items-baseline gap-1">
-                  <span className="text-[18px] sm:text-[26px] font-black text-gray-900 leading-none tracking-tight">
+                  <span className="text-[18px] sm:text-[26px] font-black text-white leading-none tracking-tight">
                     {fmt(displayPrice!)}
                   </span>
-                  <span className="text-[9px] sm:text-[11px] font-bold text-gray-400 mb-0.5">ر.س</span>
+                  <span className="text-[9px] sm:text-[11px] font-bold text-gray-400 mb-0.5 text-teal-300/70">ر.س</span>
                 </div>
               </div>
 
@@ -195,7 +195,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
                   className="shrink-0 text-center"
                 >
                   <div className="text-[9px] text-gray-400 leading-none mb-0.5">وفّرت</div>
-                  <div className="text-[11px] font-black text-red-500 bg-red-50 border border-red-100 px-2 py-0.5 rounded-lg leading-none whitespace-nowrap">
+                  <div className="text-[11px] font-black text-red-400 bg-red-900/40 border border-red-500/40 px-2 py-0.5 rounded-lg leading-none whitespace-nowrap">
                     {fmt(savings)} ر.س
                   </div>
                 </motion.div>
@@ -206,13 +206,13 @@ export default function ProductCard({ product, priority = false }: { product: Pr
             {(warrantyYears > 0 || freeDelivery) && (
               <div className="flex items-center gap-1.5 -mt-0.5">
                 {warrantyYears > 0 && (
-                  <span className="flex items-center gap-0.5 text-[8px] font-bold text-violet-600 bg-violet-50 border border-violet-100 px-1.5 py-0.5 rounded-lg leading-none">
+                  <span className="flex items-center gap-0.5 text-[8px] font-bold text-violet-300 bg-violet-900/40 border border-violet-500/40 px-1.5 py-0.5 rounded-lg leading-none">
                     <IoShieldCheckmarkOutline size={8} className="shrink-0" />
                     ضمان {warrantyYears} سنة
                   </span>
                 )}
                 {freeDelivery && (
-                  <span className="flex items-center gap-0.5 text-[8px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-1.5 py-0.5 rounded-lg leading-none">
+                  <span className="flex items-center gap-0.5 text-[8px] font-bold text-emerald-300 bg-emerald-900/40 border border-emerald-500/40 px-1.5 py-0.5 rounded-lg leading-none">
                     <IoCarOutline size={8} className="shrink-0" />
                     توصيل مجاني
                   </span>

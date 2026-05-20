@@ -18,7 +18,7 @@ export default function DesktopNav({ items }: { items: NavItem[] }) {
             <Link
               href={item.href}
               className={`flex items-center gap-1 px-3.5 py-4 text-[13px] font-semibold whitespace-nowrap transition-colors relative
-                ${isActive ? "text-gray-900" : "text-gray-500 hover:text-gray-900"}
+                ${isActive ? "text-white" : "text-[#F5FFFF]/70 hover:text-white"}
               `}
             >
               {item.label}
@@ -28,8 +28,8 @@ export default function DesktopNav({ items }: { items: NavItem[] }) {
                 </span>
               )}
               {/* active underline */}
-              <span className={`absolute bottom-0 right-0 left-0 h-0.5 bg-gray-900 rounded-full transition-all duration-200
-                ${isActive ? "opacity-100" : "opacity-0 group-hover:opacity-40"}
+              <span className={`absolute bottom-0 right-0 left-0 h-0.5 bg-[#20A5A1] rounded-full transition-all duration-200
+                ${isActive ? "opacity-100" : "opacity-0 group-hover:opacity-60"}
               `} />
             </Link>
             {(item.children || item.groups) && (

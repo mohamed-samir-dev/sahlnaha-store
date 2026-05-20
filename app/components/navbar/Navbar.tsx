@@ -96,7 +96,7 @@ export default function Navbar() {
     <nav className={`sticky top-0 z-50 transition-shadow duration-300 ${scrolled ? "shadow-lg" : ""}`} dir="rtl">
 
       {/* ── Row 1: Top bar ── */}
-      <div className="border-b border-[#042f2e]" style={{ background: 'linear-gradient(135deg, #022c22, #042f2e, #134e4a, #0f766e, #115e59)' }}>
+      <div className="border-b border-[#082C39]" style={{ background: 'linear-gradient(135deg, #000000, #082C39, #126066)' }}>
         <div className="max-w-7xl mx-auto px-2 sm:px-4 h-9 flex items-center justify-between text-xs gap-1 sm:gap-3">
 
           {/* Right: WhatsApp */}
@@ -126,14 +126,14 @@ export default function Navbar() {
       </div>
 
       {/* ── Row 2: Logo + Search + Icons ── */}
-      <div className="bg-white border-b border-gray-100">
+      <div className="border-b border-[#126066]/20" style={{ background: '#F5FFFF' }}>
         <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between gap-3">
 
           {/* Right: Hamburger + Logo */}
           <div className="flex items-center gap-2 shrink-0">
             <button
               aria-label="القائمة"
-              className="lg:hidden p-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+              className="lg:hidden p-2 rounded-xl text-[#082C39] hover:text-[#126066] hover:bg-[#126066]/10 transition-colors"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
               {mobileOpen ? <CloseIcon /> : <MenuIcon />}
@@ -150,7 +150,7 @@ export default function Navbar() {
                 />
               ) : (
                 <div className="flex flex-col">
-                  <span className="text-2xl sm:text-[28px] font-black text-gray-900 group-hover:text-yellow-500 transition-colors tracking-tight">
+                  <span className="text-2xl sm:text-[28px] font-black text-[#082C39] group-hover:text-[#20A5A1] transition-colors tracking-tight">
                     {nameAr || "مدار"}
                   </span>
                   <span className="text-[10px] sm:text-[11px] text-gray-400 font-medium">للأجهزة الإلكترونية</span>
@@ -164,7 +164,7 @@ export default function Navbar() {
 
             {/* Desktop Search */}
             <div ref={searchWrapRef} className="hidden sm:block relative w-48 md:w-64 lg:w-80">
-              <div className="flex items-center rounded-2xl border-2 border-gray-100 bg-gray-50 focus-within:border-gray-900 focus-within:bg-white transition-all duration-200 overflow-hidden">
+              <div className="flex items-center rounded-2xl border-2 border-[#126066]/30 bg-white focus-within:border-[#20A5A1] transition-all duration-200 overflow-hidden">
                 <input
                   ref={searchInputRef}
                   type="text"
@@ -172,15 +172,15 @@ export default function Navbar() {
                   onChange={(e) => { setSearchQuery(e.target.value); setSearchOpen(true); }}
                   onFocus={() => setSearchOpen(true)}
                   placeholder="ابحث..."
-                  className="flex-1 min-w-0 px-3 py-2.5 text-sm bg-transparent outline-none text-gray-800 placeholder-gray-400"
+                  className="flex-1 min-w-0 px-3 py-2.5 text-sm bg-transparent outline-none text-[#082C39] placeholder-[#126066]/50"
                 />
                 {searching ? (
-                  <div className="px-3"><div className="w-4 h-4 border-2 border-gray-900 border-t-transparent rounded-full animate-spin" /></div>
+                  <div className="px-3"><div className="w-4 h-4 border-2 border-[#126066] border-t-transparent rounded-full animate-spin" /></div>
                 ) : (
                   <button
                     aria-label="بحث"
                     onClick={() => fetchResults(searchQuery)}
-                    className="m-1.5 px-3 py-2 bg-gray-900 hover:bg-yellow-500 text-white rounded-xl transition-colors flex items-center gap-1 text-sm font-semibold shrink-0"
+                    className="m-1.5 px-3 py-2 bg-[#126066] hover:bg-[#20A5A1] text-white rounded-xl transition-colors flex items-center gap-1 text-sm font-semibold shrink-0"
                   >
                     <SearchIcon />
                     <span className="hidden lg:inline">بحث</span>
@@ -224,7 +224,7 @@ export default function Navbar() {
             {/* Mobile search icon */}
             <button
               aria-label="بحث"
-              className="sm:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors shrink-0"
+              className="sm:hidden p-2 text-[#082C39] hover:text-[#20A5A1] transition-colors shrink-0"
               onClick={() => { setSearchOpen(!searchOpen); setTimeout(() => searchInputRef.current?.focus(), 50); }}
             >
               <SearchIcon />
@@ -234,12 +234,12 @@ export default function Navbar() {
             <Link
               href="/cart"
               aria-label="السلة"
-              className="relative flex flex-col items-center gap-0.5 p-2 text-gray-600 hover:text-gray-900 transition-colors shrink-0 group"
+              className="relative flex flex-col items-center gap-0.5 p-2 text-[#082C39] hover:text-[#20A5A1] transition-colors shrink-0 group"
             >
               <div className="relative">
                 <CartIcon />
                 {mounted && itemCount > 0 && (
-                  <span className="absolute -top-1.5 -left-1.5 bg-yellow-500 text-white text-[10px] font-bold min-w-[18px] h-[18px] flex items-center justify-center rounded-full px-0.5">
+                  <span className="absolute -top-1.5 -left-1.5 bg-[#20A5A1] text-white text-[10px] font-bold min-w-[18px] h-[18px] flex items-center justify-center rounded-full px-0.5">
                     {itemCount}
                   </span>
                 )}
@@ -253,9 +253,9 @@ export default function Navbar() {
       </div>
 
       {/* ── Mobile search bar (expands below header on small screens) ── */}
-      <div className={`sm:hidden bg-white border-b border-gray-100 transition-all duration-200 overflow-hidden ${searchOpen ? "max-h-24" : "max-h-0"}`}>
+      <div className={`sm:hidden border-b border-[#126066]/20 transition-all duration-200 overflow-hidden ${searchOpen ? "max-h-24" : "max-h-0"}`} style={{ background: '#F5FFFF' }}>
         <div ref={mobileSearchRef} className="px-4 py-2 relative">
-          <div className="flex items-center rounded-2xl border-2 border-gray-100 bg-gray-50 focus-within:border-gray-900 focus-within:bg-white transition-all duration-200 overflow-hidden">
+          <div className="flex items-center rounded-2xl border-2 border-[#126066]/30 bg-white focus-within:border-[#20A5A1] transition-all duration-200 overflow-hidden">
             <input
               ref={searchInputRef}
               type="text"
@@ -263,15 +263,15 @@ export default function Navbar() {
               onChange={(e) => { setSearchQuery(e.target.value); setSearchOpen(true); }}
               onFocus={() => setSearchOpen(true)}
               placeholder="ابحث عن منتج..."
-              className="flex-1 px-3 py-2.5 text-sm bg-transparent outline-none text-gray-800 placeholder-gray-400"
+              className="flex-1 px-3 py-2.5 text-sm bg-transparent outline-none text-[#082C39] placeholder-[#126066]/50"
             />
             {searching ? (
-              <div className="px-3"><div className="w-4 h-4 border-2 border-gray-900 border-t-transparent rounded-full animate-spin" /></div>
+              <div className="px-3"><div className="w-4 h-4 border-2 border-[#126066] border-t-transparent rounded-full animate-spin" /></div>
             ) : (
               <button
                 aria-label="بحث"
                 onClick={() => fetchResults(searchQuery)}
-                className="m-1.5 px-3 py-2 bg-gray-900 hover:bg-yellow-500 text-white rounded-xl transition-colors flex items-center gap-1 text-sm font-semibold shrink-0"
+                className="m-1.5 px-3 py-2 bg-[#126066] hover:bg-[#20A5A1] text-white rounded-xl transition-colors flex items-center gap-1 text-sm font-semibold shrink-0"
               >
                 <SearchIcon />
               </button>
@@ -313,7 +313,7 @@ export default function Navbar() {
       </div>
 
       {/* ── Row 3: Desktop nav ── */}
-      <div className="bg-white border-b border-gray-100 hidden lg:block">
+      <div className="hidden lg:block border-b border-[#082C39]/80" style={{ background: '#082C39' }}>
         <div className="max-w-7xl mx-auto px-4">
           <DesktopNav items={navItems} />
         </div>

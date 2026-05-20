@@ -31,7 +31,7 @@ function SectionTitle({ icon, title }: { icon: React.ReactNode; title: string })
       <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-teal-500 to-emerald-500 flex items-center justify-center shadow-sm shadow-teal-200/60">
         {icon}
       </div>
-      <span className="text-xs font-black text-gray-700 tracking-wide">{title}</span>
+      <span className="text-xs font-black text-white/80 tracking-wide">{title}</span>
     </div>
   );
 }
@@ -40,7 +40,7 @@ function Toggle({ active, onClick }: { active: boolean; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className={`relative w-11 h-6 rounded-full transition-all duration-300 focus:outline-none ${active ? "bg-gradient-to-r from-teal-500 to-emerald-500 shadow-md shadow-teal-200/60" : "bg-gray-200"}`}
+      className={`relative w-11 h-6 rounded-full transition-all duration-300 focus:outline-none ${active ? "bg-gradient-to-r from-teal-500 to-emerald-500 shadow-md shadow-teal-200/60" : "bg-white/20"}`}
     >
       <motion.div
         layout
@@ -65,7 +65,7 @@ function FiltersContent({ filters, storageOptions, maxProductPrice, activeCount,
             <IoOptions size={15} className="text-white" />
           </div>
           <div>
-            <span className="font-black text-gray-800 text-sm block leading-tight">الفلاتر</span>
+            <span className="font-black text-white text-sm block leading-tight">الفلاتر</span>
             {activeCount > 0 && (
               <span className="text-[10px] text-teal-600 font-bold">{activeCount} فلتر نشط</span>
             )}
@@ -78,7 +78,7 @@ function FiltersContent({ filters, storageOptions, maxProductPrice, activeCount,
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               onClick={onReset}
-              className="flex items-center gap-1.5 text-[11px] font-bold text-red-400 hover:text-red-600 bg-red-50 hover:bg-red-100 px-2.5 py-1.5 rounded-lg transition-all"
+              className="flex items-center gap-1.5 text-[11px] font-bold text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 px-2.5 py-1.5 rounded-lg transition-all"
             >
               <IoRefresh size={12} />
               مسح الكل
@@ -101,11 +101,11 @@ function FiltersContent({ filters, storageOptions, maxProductPrice, activeCount,
                 className={`relative text-right text-[11px] font-bold px-2.5 py-2 rounded-xl transition-all overflow-hidden ${
                   active
                     ? "bg-gradient-to-br from-teal-500 to-emerald-500 text-white shadow-md shadow-teal-200/50"
-                    : "bg-gray-50 text-gray-600 hover:bg-teal-50 hover:text-teal-700 border border-gray-100"
+                    : "bg-white/10 text-white/70 hover:bg-teal-500/20 hover:text-teal-300 border border-white/10"
                 }`}
               >
                 <span className="flex items-center gap-1.5">
-                  <span className={`text-base leading-none ${active ? "text-white/80" : "text-gray-400"}`}>{opt.icon}</span>
+                  <span className={`text-base leading-none ${active ? "text-white/80" : "text-white/40"}`}>{opt.icon}</span>
                   {opt.label}
                 </span>
                 {active && (
@@ -120,9 +120,10 @@ function FiltersContent({ filters, storageOptions, maxProductPrice, activeCount,
         </div>
       </div>
 
-      <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+      <div className="h-px bg-linear-to-r from-transparent via-white/10 to-transparent" />
 
       {/* Availability */}
+      {/* cSpell:disable */}
       <div>
         <SectionTitle icon={<IoStorefront size={12} className="text-white" />} title="الحالة" />
         <div className="flex flex-col gap-3">
@@ -130,10 +131,10 @@ function FiltersContent({ filters, storageOptions, maxProductPrice, activeCount,
             { key: "inStockOnly" as const, label: "متوفر فقط", sub: "إخفاء المنتجات المنتهية" },
             { key: "installmentOnly" as const, label: "تقسيط متاح", sub: "منتجات بخيار التقسيط" },
           ].map(({ key, label, sub }) => (
-            <div key={key} className={`flex items-center justify-between p-2.5 rounded-xl transition-all ${filters[key] ? "bg-teal-50 border border-teal-100" : "bg-gray-50 border border-transparent"}`}>
+            <div key={key} className={`flex items-center justify-between p-2.5 rounded-xl transition-all ${filters[key] ? "bg-teal-500/20 border border-teal-400/30" : "bg-white/5 border border-transparent"}`}>
               <div>
-                <p className="text-xs font-bold text-gray-800">{label}</p>
-                <p className="text-[10px] text-gray-400">{sub}</p>
+                <p className="text-xs font-bold text-white/90">{label}</p>
+                <p className="text-[10px] text-white/40">{sub}</p>
               </div>
               <Toggle active={!!filters[key]} onClick={() => onToggle(key, !filters[key])} />
             </div>
@@ -141,25 +142,25 @@ function FiltersContent({ filters, storageOptions, maxProductPrice, activeCount,
         </div>
       </div>
 
-      <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+      <div className="h-px bg-linear-to-r from-transparent via-white/10 to-transparent" />
 
       {/* Price range */}
       <div>
         <SectionTitle icon={<IoPricetag size={12} className="text-white" />} title="نطاق السعر" />
-        <div className="bg-gray-50 rounded-xl p-3 border border-gray-100">
+        <div className="bg-white/5 rounded-xl p-3 border border-white/10">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-[10px] text-gray-400">من 0</span>
+            <span className="text-[10px] text-white/40">من 0</span>
             <motion.span
               key={priceVal}
               initial={{ scale: 1.1 }}
               animate={{ scale: 1 }}
-              className="text-xs font-black text-teal-700 bg-teal-50 border border-teal-100 px-2 py-0.5 rounded-lg"
+              className="text-xs font-black text-teal-300 bg-teal-500/20 border border-teal-400/30 px-2 py-0.5 rounded-lg"
             >
               {filters.maxPrice !== null ? `${fmt(filters.maxPrice)} ر.س` : "الكل"}
             </motion.span>
           </div>
           <div className="relative h-5 flex items-center">
-            <div className="absolute inset-x-0 h-1.5 rounded-full bg-gray-200" />
+            <div className="absolute inset-x-0 h-1.5 rounded-full bg-white/20" />
             <div
               className="absolute right-0 h-1.5 rounded-full bg-gradient-to-l from-teal-500 to-emerald-400 transition-all"
               style={{ width: `${pct}%` }}
@@ -181,7 +182,7 @@ function FiltersContent({ filters, storageOptions, maxProductPrice, activeCount,
               style={{ right: `calc(${pct}% - 10px)` }}
             />
           </div>
-          <div className="flex justify-between text-[10px] text-gray-400 mt-2">
+          <div className="flex justify-between text-[10px] text-white/40 mt-2">
             <span>0 ر.س</span>
             <span>{fmt(priceMax)} ر.س</span>
           </div>
@@ -191,7 +192,7 @@ function FiltersContent({ filters, storageOptions, maxProductPrice, activeCount,
       {/* Storage */}
       {storageOptions.length > 0 && (
         <>
-          <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+          <div className="h-px bg-linear-to-r from-transparent via-white/10 to-transparent" />
           <div>
             <SectionTitle icon={<IoFlash size={12} className="text-white" />} title="سعة التخزين" />
             <div className="flex flex-wrap gap-1.5">
@@ -205,7 +206,7 @@ function FiltersContent({ filters, storageOptions, maxProductPrice, activeCount,
                     className={`relative text-[11px] font-bold px-3 py-1.5 rounded-xl border transition-all ${
                       active
                         ? "bg-gradient-to-br from-teal-500 to-emerald-500 text-white border-transparent shadow-md shadow-teal-200/50"
-                        : "bg-white text-gray-600 border-gray-200 hover:border-teal-300 hover:text-teal-700"
+                        : "bg-white/10 text-white/70 border-white/10 hover:border-teal-400/50 hover:text-teal-300"
                     }`}
                   >
                     {active && (
@@ -240,7 +241,7 @@ export default function FiltersSidebar(props: Props) {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4 }}
-          className="sticky top-24 bg-white rounded-2xl border border-gray-100 shadow-sm shadow-gray-200/50 p-4"
+          className="sticky top-24 bg-white/10 backdrop-blur-md rounded-2xl border border-white/10 shadow-sm p-4"
         >
           <FiltersContent {...rest} />
         </motion.div>

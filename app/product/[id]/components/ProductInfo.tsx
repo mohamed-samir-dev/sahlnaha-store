@@ -36,7 +36,7 @@ export default function ProductInfo({ product, addedToCart, onAddToCart, onBuyNo
   return (
     <div className="flex flex-col gap-5">
       {/* Name */}
-      <h1 className="text-lg sm:text-2xl md:text-3xl font-black text-[#053132] leading-tight">
+      <h1 className="text-lg sm:text-2xl md:text-3xl font-black text-white leading-tight">
         {name}
       </h1>
 
@@ -52,19 +52,19 @@ export default function ProductInfo({ product, addedToCart, onAddToCart, onBuyNo
               />
             ))}
           </div>
-          <span className="text-sm font-bold text-[#053132]">{rating.average}</span>
-          <span className="text-xs text-gray-400">({rating.count} تقييم)</span>
+          <span className="text-sm font-bold text-white">{rating.average}</span>
+          <span className="text-xs text-white/70">({rating.count} تقييم)</span>
         </div>
       )}
 
       {/* Price */}
       <div>
         <div className="flex items-baseline gap-3">
-          <span className="text-2xl sm:text-3xl font-black text-[#053132]">{fmt(finalPrice)}</span>
-          <span className="text-xs sm:text-sm font-bold text-[#053132]/50">ر.س</span>
+          <span className="text-2xl sm:text-3xl font-black text-teal-300">{fmt(finalPrice)}</span>
+          <span className="text-xs sm:text-sm font-bold text-white/70">ر.س</span>
           {hasDiscount && (
             <>
-              <span className="text-sm text-gray-400 line-through">{fmt(originalPrice)} ر.س</span>
+              <span className="text-sm text-white/60 line-through">{fmt(originalPrice)} ر.س</span>
               <span className="text-[11px] font-bold text-white bg-red-500 px-2 py-0.5 rounded-md">
                 -{savingsPercent}%
               </span>
@@ -72,29 +72,29 @@ export default function ProductInfo({ product, addedToCart, onAddToCart, onBuyNo
           )}
         </div>
         {taxIncluded && (
-          <p className="text-[11px] text-gray-400 mt-1">شامل ضريبة القيمة المضافة</p>
+          <p className="text-[11px] text-white/60 mt-1">شامل ضريبة القيمة المضافة</p>
         )}
       </div>
 
       {/* Brief */}
       {brief && (
-        <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">{brief}</p>
+        <p className="text-xs sm:text-sm text-white/80 leading-relaxed">{brief}</p>
       )}
 
       {/* Color */}
       {colors && colors.length > 0 && (
         <div className="flex items-center gap-3">
-          <span className="text-xs font-bold text-[#053132]">اللون:</span>
+          <span className="text-xs font-bold text-white/90">اللون:</span>
           <div className="flex items-center gap-2">
             {colors.map((c, i) => (
               <div
                 key={i}
-                className="w-7 h-7 rounded-full border-2 border-[#053132]/20"
+                className="w-7 h-7 rounded-full border-2 border-white/20"
                 style={{ backgroundColor: c.code }}
                 title={c.name}
               />
             ))}
-            <span className="text-xs text-gray-500">{color}</span>
+            <span className="text-xs text-white/80">{color}</span>
           </div>
         </div>
       )}
@@ -102,8 +102,8 @@ export default function ProductInfo({ product, addedToCart, onAddToCart, onBuyNo
       {/* Storage */}
       {storage && (
         <div className="flex items-center gap-3">
-          <span className="text-xs font-bold text-[#053132]">الذاكرة:</span>
-          <span className="text-xs bg-[#053132]/5 text-[#053132] px-3 py-1.5 rounded-lg font-medium border border-[#053132]/10">
+          <span className="text-xs font-bold text-white/90">الذاكرة:</span>
+          <span className="text-xs bg-white/10 text-teal-300 px-3 py-1.5 rounded-lg font-medium border border-white/10">
             {storage}
           </span>
         </div>
@@ -111,18 +111,18 @@ export default function ProductInfo({ product, addedToCart, onAddToCart, onBuyNo
 
       {/* Quantity */}
       <div className="flex items-center gap-3">
-        <span className="text-xs font-bold text-[#053132]">الكمية:</span>
-        <div className="flex items-center border border-gray-200 rounded-xl overflow-hidden">
+        <span className="text-xs font-bold text-white/90">الكمية:</span>
+        <div className="flex items-center border border-white/20 rounded-xl overflow-hidden">
           <button
             onClick={() => setQty((q) => Math.max(1, q - 1))}
-            className="w-9 h-9 flex items-center justify-center hover:bg-gray-50 transition"
+            className="w-9 h-9 flex items-center justify-center hover:bg-white/10 text-white transition"
           >
             <IoRemove size={14} />
           </button>
-          <span className="w-10 text-center text-sm font-bold text-[#053132]">{qty}</span>
+          <span className="w-10 text-center text-sm font-bold text-white">{qty}</span>
           <button
             onClick={() => setQty((q) => q + 1)}
-            className="w-9 h-9 flex items-center justify-center hover:bg-gray-50 transition"
+            className="w-9 h-9 flex items-center justify-center hover:bg-white/10 text-white transition"
           >
             <IoAdd size={14} />
           </button>
@@ -134,35 +134,35 @@ export default function ProductInfo({ product, addedToCart, onAddToCart, onBuyNo
         <motion.button
           whileTap={{ scale: 0.98 }}
           onClick={() => onAddToCart(qty)}
-          className="w-full bg-[#053132] text-white font-bold text-sm py-4 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-[#053132]/15 hover:shadow-xl transition-shadow"
+          className="w-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-bold text-sm py-4 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-teal-500/30 hover:shadow-xl transition-shadow"
         >
           <IoCartOutline size={20} />
           {addedToCart ? "تمت الإضافة ✓" : "أضف للسلة"}
         </motion.button>
         <button
           onClick={() => onBuyNow(qty)}
-          className="w-full bg-white text-[#053132] font-bold text-sm py-4 rounded-2xl border-2 border-[#053132] hover:bg-[#053132]/5 transition"
+          className="w-full bg-white/10 text-white font-bold text-sm py-4 rounded-2xl border border-white/20 hover:bg-white/20 transition"
         >
           شراء الآن
         </button>
       </div>
 
       {/* Trust Features - 3 items with dividers */}
-      <div className="flex items-center justify-between divide-x divide-x-reverse divide-gray-200 border border-gray-100 rounded-2xl p-4 mt-1">
+      <div className="flex items-center justify-between divide-x divide-x-reverse divide-white/10 border border-white/10 rounded-2xl p-4 mt-1 bg-white/5">
         <div className="flex-1 flex flex-col items-center gap-1.5 px-2">
-          <IoRefresh size={20} className="text-[#053132]" />
-          <span className="text-[10px] font-bold text-[#053132] text-center">إرجاع مجاني</span>
-          <span className="text-[9px] text-gray-400 text-center">خلال 14 يوم</span>
+          <IoRefresh size={20} className="text-teal-400" />
+          <span className="text-[10px] font-bold text-white text-center">إرجاع مجاني</span>
+          <span className="text-[9px] text-white/60 text-center">خلال 14 يوم</span>
         </div>
         <div className="flex-1 flex flex-col items-center gap-1.5 px-2">
-          <IoCarOutline size={20} className="text-[#053132]" />
-          <span className="text-[10px] font-bold text-[#053132] text-center">شحن سريع</span>
-          <span className="text-[9px] text-gray-400 text-center">من 2 إلى 3 أيام عمل</span>
+          <IoCarOutline size={20} className="text-teal-400" />
+          <span className="text-[10px] font-bold text-white text-center">شحن سريع</span>
+          <span className="text-[9px] text-white/60 text-center">من 2 إلى 3 أيام عمل</span>
         </div>
         <div className="flex-1 flex flex-col items-center gap-1.5 px-2">
-          <IoShieldCheckmark size={20} className="text-[#053132]" />
-          <span className="text-[10px] font-bold text-[#053132] text-center">دفع آمن</span>
-          <span className="text-[9px] text-gray-400 text-center">ومشفر</span>
+          <IoShieldCheckmark size={20} className="text-teal-400" />
+          <span className="text-[10px] font-bold text-white text-center">دفع آمن</span>
+          <span className="text-[9px] text-white/60 text-center">ومشفر</span>
         </div>
       </div>
 

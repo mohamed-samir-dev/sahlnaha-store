@@ -25,17 +25,17 @@ export default function CheckoutStepper({ active }: { active: "cart" | "payment"
                 className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-300"
                 style={
                   current
-                    ? { background: "linear-gradient(135deg,#053132,#0D202E)", color: "#fff", boxShadow: "0 4px 14px #05313240" }
+                    ? { background: "linear-gradient(135deg,#65E0CD,#1B7174)", color: "#053132", boxShadow: "0 4px 14px #65E0CD40" }
                     : done
-                    ? { background: "linear-gradient(135deg,#053132,#0D202E)", color: "#fff" }
-                    : { background: "#f3f4f6", color: "#d1d5db" }
+                    ? { background: "linear-gradient(135deg,#65E0CD,#1B7174)", color: "#053132" }
+                    : { background: "rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.3)" }
                 }
               >
                 {done ? <IoCheckmarkSharp size={20} /> : <Icon size={current ? 21 : 19} />}
               </div>
               <span
                 className="text-[11px] sm:text-xs font-bold transition-colors"
-                style={{ color: current ? "#053132" : done ? "#0B2631" : "#9ca3af" }}
+                style={{ color: current ? "#65E0CD" : done ? "#65E0CD" : "rgba(255,255,255,0.3)" }}
               >
                 {step.label}
               </span>
@@ -44,7 +44,7 @@ export default function CheckoutStepper({ active }: { active: "cart" | "payment"
             {i < steps.length - 1 && (
               <div
                 className="w-12 sm:w-20 h-0.5 rounded-full mx-2 sm:mx-3 mb-5 transition-all duration-300"
-                style={{ background: i < activeIdx ? "linear-gradient(to left,#053132,#0D202E)" : "#e5e7eb" }}
+                style={{ background: i < activeIdx ? "linear-gradient(to left,#65E0CD,#1B7174)" : "rgba(255,255,255,0.1)" }}
               />
             )}
           </div>

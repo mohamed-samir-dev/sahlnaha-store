@@ -74,15 +74,15 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
   const isContactDone = whatsapp.trim() && address.trim() && !errors.whatsapp && !errors.address;
 
   return (
-    <div ref={formRef} className="bg-white rounded-2xl sm:rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+    <div ref={formRef} className="bg-black/20 backdrop-blur-md rounded-2xl sm:rounded-3xl border border-white/10 overflow-hidden">
 
       {/* ═══ STEP 1: All Info ═══ */}
       <div className="p-4 sm:p-6 lg:p-7">
         <div className="flex items-center gap-2.5 sm:gap-3 mb-5 sm:mb-6">
           <StepDot done={!!isPersonalDone && !!isContactDone} number={1} />
           <div>
-            <h3 className="text-sm sm:text-base font-black text-gray-900">معلوماتك</h3>
-            <p className="text-[10px] sm:text-[11px] text-gray-400 mt-0.5">الاسم والهوية والتواصل والعنوان</p>
+            <h3 className="text-sm sm:text-base font-black text-white">معلوماتك</h3>
+            <p className="text-[10px] sm:text-[11px] text-white/70 mt-0.5">الاسم والهوية والتواصل والعنوان</p>
           </div>
         </div>
 
@@ -130,20 +130,20 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
       </div>
 
       {/* Divider */}
-      <div className="h-px bg-gradient-to-l from-transparent via-gray-200 to-transparent mx-4 sm:mx-6" />
+      <div className="h-px bg-gradient-to-l from-transparent via-white/10 to-transparent mx-4 sm:mx-6" />
 
       {/* ═══ STEP 2: Payment ═══ */}
       <div className="p-4 sm:p-6 lg:p-7">
         <div className="flex items-center gap-2.5 sm:gap-3 mb-5 sm:mb-6">
           <StepDot done={false} number={2} />
           <div>
-            <h3 className="text-sm sm:text-base font-black text-gray-900">طريقة الدفع</h3>
-            <p className="text-[10px] sm:text-[11px] text-gray-400 mt-0.5">اختر الطريقة المناسبة لك</p>
+            <h3 className="text-sm sm:text-base font-black text-white">طريقة الدفع</h3>
+            <p className="text-[10px] sm:text-[11px] text-white/70 mt-0.5">اختر الطريقة المناسبة لك</p>
           </div>
         </div>
 
         {/* Payment Tabs */}
-        <div className="flex bg-gray-100 rounded-xl sm:rounded-2xl p-1 sm:p-1.5 mb-4 sm:mb-5">
+        <div className="flex bg-black/20 rounded-xl sm:rounded-2xl p-1 sm:p-1.5 mb-4 sm:mb-5">
           {([
             { key: "installment" as const, label: "تقسيط شهري", icon: <Calendar size={14} /> },
             { key: "full" as const, label: "دفع كامل", icon: <CreditCard size={14} /> },
@@ -156,8 +156,8 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
                 onClick={() => setInstallmentType(key)}
                 className={`flex-1 py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2 ${
                   active
-                    ? "bg-white text-[#053132] shadow-sm"
-                    : "text-gray-400 hover:text-gray-600"
+                    ? "bg-white/15 text-white shadow-sm"
+                    : "text-white/70 hover:text-white"
                 }`}
               >
                 {icon}
@@ -168,9 +168,9 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
         </div>
 
         {installmentType === "full" ? (
-          <div className="text-center py-5 sm:py-6 bg-gradient-to-br from-emerald-50 to-green-50 rounded-xl sm:rounded-2xl border border-emerald-100">
-            <p className="text-2xl sm:text-3xl font-black text-[#053132]">{fmt(total)} <span className="text-xs sm:text-sm text-gray-400">ر.س</span></p>
-            <p className="text-[11px] sm:text-xs text-gray-500 mt-1.5 sm:mt-2">دفعة واحدة عند الاستلام</p>
+          <div className="text-center py-5 sm:py-6 bg-black/20 rounded-xl sm:rounded-2xl border border-white/10">
+            <p className="text-2xl sm:text-3xl font-black text-[#65E0CD]">{fmt(total)} <span className="text-xs sm:text-sm text-white/70">ر.س</span></p>
+            <p className="text-[11px] sm:text-xs text-white/80 mt-1.5 sm:mt-2">دفعة واحدة عند الاستلام</p>
           </div>
         ) : (
           <div className="space-y-4 sm:space-y-5">
@@ -204,19 +204,19 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
             {months > 0 && (
               <div>
                 <div className="flex items-center gap-2 mb-2.5 sm:mb-3">
-                  <Calendar size={13} className="text-[#053132]" />
-                  <span className="text-[11px] sm:text-xs font-bold text-gray-600">جدول السداد</span>
-                  <div className="flex-1 h-px bg-gray-100" />
-                  <span className="text-[9px] sm:text-[10px] text-gray-400 bg-gray-50 px-1.5 sm:px-2 py-0.5 rounded-full">{months} دفعة</span>
+                  <Calendar size={13} className="text-[#65E0CD]" />
+                  <span className="text-[11px] sm:text-xs font-bold text-white/80">جدول السداد</span>
+                  <div className="flex-1 h-px bg-white/10" />
+                  <span className="text-[9px] sm:text-[10px] text-white/70 bg-white/10 px-1.5 sm:px-2 py-0.5 rounded-full">{months} دفعة</span>
                 </div>
-                <div className="max-h-44 sm:max-h-52 overflow-y-auto rounded-lg sm:rounded-xl border border-gray-100 divide-y divide-gray-50">
+                <div className="max-h-44 sm:max-h-52 overflow-y-auto rounded-lg sm:rounded-xl border border-white/10 divide-y divide-white/5 bg-black/20">
                   {schedule.map((row) => (
-                    <div key={row.index} className="flex items-center px-3 sm:px-4 py-2 sm:py-2.5 hover:bg-gray-50/50 transition">
-                      <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gray-100 flex items-center justify-center text-[9px] sm:text-[10px] font-black text-gray-400 shrink-0">
+                    <div key={row.index} className="flex items-center px-3 sm:px-4 py-2 sm:py-2.5 hover:bg-white/5 transition">
+                      <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white/10 flex items-center justify-center text-[9px] sm:text-[10px] font-black text-white/50 shrink-0">
                         {row.index}
                       </span>
-                      <span className="text-[11px] sm:text-xs text-gray-500 mr-2.5 sm:mr-3 flex-1">{row.date}</span>
-                      <span className="text-[11px] sm:text-xs font-black text-gray-800">{fmt(row.amount)} ر.س</span>
+                      <span className="text-[11px] sm:text-xs text-white/70 mr-2.5 sm:mr-3 flex-1">{row.date}</span>
+                      <span className="text-[11px] sm:text-xs font-black text-white">{fmt(row.amount)} ر.س</span>
                     </div>
                   ))}
                 </div>
@@ -230,13 +230,13 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
       <div className="p-4 sm:p-6 lg:p-7 pt-0 sm:pt-0 lg:pt-0">
         <button
           onClick={handleSubmit}
-          className="w-full py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-white font-black text-sm sm:text-base transition-all duration-200 hover:scale-[1.01] hover:shadow-lg active:scale-[0.99] flex items-center justify-center gap-2"
-          style={{ background: "linear-gradient(135deg, #053132 0%, #0a5456 100%)" }}
+          className="w-full py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-[#053132] font-black text-sm sm:text-base transition-all duration-200 hover:scale-[1.01] hover:shadow-lg active:scale-[0.99] flex items-center justify-center gap-2"
+          style={{ background: "linear-gradient(135deg, #65E0CD 0%, #1B7174 100%)" }}
         >
           تأكيد ومتابعة الطلب
           <ArrowLeft size={16} />
         </button>
-        <p className="text-center text-[9px] sm:text-[10px] text-gray-400 mt-2.5 sm:mt-3 flex items-center justify-center gap-1">
+        <p className="text-center text-[9px] sm:text-[10px] text-white/60 mt-2.5 sm:mt-3 flex items-center justify-center gap-1">
           <Lock size={10} /> بياناتك محمية ومشفرة بالكامل
         </p>
       </div>
@@ -249,12 +249,12 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
 function StepDot({ done, number }: { done: boolean; number: number }) {
   return (
     <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center shrink-0 transition-all ${
-      done ? "bg-emerald-500" : "bg-gradient-to-br from-[#053132] to-[#0a5456]"
+      done ? "bg-emerald-500" : "bg-gradient-to-br from-[#65E0CD] to-[#1B7174]"
     }`}>
       {done ? (
         <CheckCircle2 size={16} className="text-white sm:w-[18px] sm:h-[18px]" />
       ) : (
-        <span className="text-white text-xs sm:text-sm font-black">{number}</span>
+        <span className="text-[#053132] text-xs sm:text-sm font-black">{number}</span>
       )}
     </div>
   );
@@ -269,8 +269,8 @@ function FloatingInput({
 }) {
   return (
     <div data-field={fieldName}>
-      <label className="flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-gray-500 mb-1.5 sm:mb-2">
-        <span className="text-[#053132]">{icon}</span>
+      <label className="flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-white/80 mb-1.5 sm:mb-2">
+        <span className="text-[#65E0CD]">{icon}</span>
         {label}
       </label>
       <input
@@ -279,13 +279,13 @@ function FloatingInput({
         placeholder={placeholder}
         maxLength={maxLength}
         dir={dir}
-        className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium text-gray-900 bg-gray-50 border-2 transition-all duration-200 focus:outline-none placeholder:text-gray-300 ${
+        className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium text-white bg-black/20 border-2 transition-all duration-200 focus:outline-none placeholder:text-white/30 ${
           error
-            ? "border-red-200 bg-red-50/50 focus:border-red-400"
-            : "border-transparent focus:border-[#053132] focus:bg-white focus:shadow-sm"
+            ? "border-red-400/50 bg-red-500/20 focus:border-red-400"
+            : "border-transparent focus:border-[#65E0CD] focus:bg-black/40"
         }`}
       />
-      {error && <p className="text-red-500 text-[9px] sm:text-[10px] font-bold mt-1 sm:mt-1.5">⚠ {error}</p>}
+      {error && <p className="text-red-400 text-[9px] sm:text-[10px] font-bold mt-1 sm:mt-1.5">⚠ {error}</p>}
     </div>
   );
 }
@@ -296,16 +296,16 @@ function SelectField({ label, value, onChange, options }: {
 }) {
   return (
     <div>
-      <label className="block text-[10px] sm:text-[11px] font-bold text-gray-500 mb-1 sm:mb-1.5">{label}</label>
+      <label className="block text-[10px] sm:text-[11px] font-bold text-white/80 mb-1 sm:mb-1.5">{label}</label>
       <div className="relative">
         <select
           value={String(value)}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full appearance-none bg-gray-50 border-2 border-transparent rounded-lg sm:rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-gray-900 focus:outline-none focus:border-[#053132] focus:bg-white cursor-pointer transition-all"
+          className="w-full appearance-none bg-black/20 border-2 border-transparent rounded-lg sm:rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-white focus:outline-none focus:border-[#65E0CD] focus:bg-black/40 cursor-pointer transition-all"
         >
-          {options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+          {options.map((o) => <option key={o.value} value={o.value} className="bg-[#051e1f] text-white">{o.label}</option>)}
         </select>
-        <ChevronDown size={13} className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+        <ChevronDown size={13} className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" />
       </div>
     </div>
   );
@@ -315,12 +315,12 @@ function PaymentCard({ label, value, unit, highlight }: { label: string; value: 
   return (
     <div className={`rounded-lg sm:rounded-xl p-2.5 sm:p-3 text-center transition-all ${
       highlight
-        ? "bg-gradient-to-br from-[#053132] to-[#0a5456] text-white shadow-lg shadow-[#05313220]"
-        : "bg-gray-50 border border-gray-100"
+        ? "bg-gradient-to-br from-[#65E0CD] to-[#1B7174] text-[#053132] shadow-lg shadow-[#65E0CD20]"
+        : "bg-black/20 border border-white/10"
     }`}>
-      <p className={`text-[9px] sm:text-[10px] font-medium mb-0.5 sm:mb-1 ${highlight ? "text-white/60" : "text-gray-400"}`}>{label}</p>
-      <p className={`text-sm sm:text-lg font-black leading-tight ${highlight ? "text-white" : "text-gray-900"}`}>{value}</p>
-      <p className={`text-[9px] sm:text-[10px] ${highlight ? "text-white/50" : "text-gray-400"}`}>{unit}</p>
+      <p className={`text-[9px] sm:text-[10px] font-medium mb-0.5 sm:mb-1 ${highlight ? "text-[#053132]/60" : "text-white/70"}`}>{label}</p>
+      <p className={`text-sm sm:text-lg font-black leading-tight ${highlight ? "text-[#053132]" : "text-white"}`}>{value}</p>
+      <p className={`text-[9px] sm:text-[10px] ${highlight ? "text-[#053132]/50" : "text-white/70"}`}>{unit}</p>
     </div>
   );
 }
