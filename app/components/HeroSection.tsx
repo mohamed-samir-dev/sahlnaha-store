@@ -90,7 +90,7 @@ export default function HeroSection() {
         <p className="hero-desc">{s.desc}</p>
         <div className="hero-actions">
           <Link href={s.btnHref} className="btn-primary">{s.btnText}</Link>
-          <Link href="/store" className="btn-outline">كل المنتجات</Link>
+          <Link href="/smartphones" className="btn-outline">كل المنتجات</Link>
         </div>
       </div>
 
