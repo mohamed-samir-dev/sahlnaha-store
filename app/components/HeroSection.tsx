@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const slides = [
   {
-    img: "/May 20, 2026, 01_28_46 PM.webp",
+    img: "/hero39.webp",
     badge: "🛒 أحدث الأجهزة الإلكترونية",
     title: "تقنية المستقبل",
     titleSpan: "بين يديك الآن",
@@ -17,7 +17,7 @@ const slides = [
     features: null,
   },
   {
-    img: "/ChatGPT Image May 20, 2026, 01_42_23 PM.webp",
+    img: "/hero40.webp",
     badge: "🔥 إصدار حصري",
     title: "iPhone 17 Pro Max",
     titleSpan: "قوة لا حدود لها",
@@ -29,7 +29,7 @@ const slides = [
     features: null,
   },
   {
-    img: "/ChatGPT Image May 20, 2026, 01_57_03 PM.webp",
+    img: "/hero38.webp",
     badge: "✨ الأحدث من سامسونج",
     title: "Samsung Galaxy S26 Ultra",
     titleSpan: "اكتشف مستقبل التقنية",
