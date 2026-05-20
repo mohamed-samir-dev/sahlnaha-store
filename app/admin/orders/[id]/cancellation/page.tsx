@@ -67,7 +67,6 @@ export default function CancellationPage() {
   if (!order) return <div style={{ textAlign: "center", padding: 40, fontFamily: "Arial" }}>جاري التحميل...</div>;
 
   const currency = company.currencyAr || "ر.س";
-  const remaining = order.total - order.downPayment;
 
   return (
     <div style={{ fontFamily: "Arial, sans-serif", padding: 24, maxWidth: 900, margin: "0 auto", direction: "rtl", position: "relative", backgroundColor: "#fff", minHeight: "100vh" }}>

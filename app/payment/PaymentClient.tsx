@@ -32,12 +32,6 @@ const IconInstallment = () => (
     <circle cx="34" cy="30" r="5" fill={TEAL} fillOpacity=".2" stroke={TEAL}/><path d="M32 30l1.5 1.5L35 28.5" strokeWidth="1.5"/>
   </svg>
 );
-const IconCash = () => (
-  <svg viewBox="0 0 48 48" className="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke={TEAL} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="4" y="14" width="40" height="24" rx="4"/><circle cx="24" cy="26" r="6"/>
-    <path d="M4 20h6M38 20h6M4 32h6M38 32h6"/><path d="M24 22v8M21 24.5c0-1.4 1.3-2.5 3-2.5s3 1.1 3 2.5-1.3 2.5-3 2.5-3 1.1-3 2.5 1.3 2.5 3 2.5 3-1.1 3-2.5"/>
-  </svg>
-);
 const IconShield = () => (
   <svg viewBox="0 0 48 48" className="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke={TEAL} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M24 4l16 6v12c0 9-7 17-16 20C8 39 1 31 1 22V10l16-6z" fill={TEAL} fillOpacity=".15"/><path d="M17 24l5 5 9-10"/>

@@ -1,4 +1,4 @@
-import { IoRocketOutline, IoTimeOutline, IoWalletOutline } from "react-icons/io5";
+import { IoTimeOutline, IoWalletOutline } from "react-icons/io5";
 
 const fmt = (n: number) => n.toLocaleString("en-US");
 
