@@ -33,7 +33,7 @@ export default function ProductDetails({ description, gallery, specifications, r
             key={tab.key}
             onClick={() => setActive(tab.key)}
             className={`relative px-5 py-3 text-sm font-bold transition-colors ${
-              active === tab.key ? "text-teal-300" : "text-white/70 hover:text-white"
+              active === tab.key ? "text-teal-300" : "text-white hover:text-teal-200"
             }`}
           >
             {tab.label}
