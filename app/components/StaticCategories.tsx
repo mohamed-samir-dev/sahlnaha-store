@@ -41,12 +41,12 @@ export default function StaticCategories() {
 
         {/* Header */}
         <div className="text-center mb-6 sm:mb-10 lg:mb-14">
-          <span className="inline-block px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold tracking-widest text-teal-600 border border-teal-500/30 bg-teal-500/10 mb-3 sm:mb-4">
+          <span className="inline-block px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold tracking-widest text-teal-300 border border-teal-400/40 bg-teal-400/10 mb-3 sm:mb-4">
             🛍️ تسوق حسب الأقسام
           </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black text-gray-900 leading-tight">
+          <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black text-white leading-tight">
             اختر القسم
-            <span className="block bg-gradient-to-l from-teal-500 to-cyan-400 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-l from-teal-400 to-cyan-300 bg-clip-text text-transparent">
               المناسب لك
             </span>
           </h2>

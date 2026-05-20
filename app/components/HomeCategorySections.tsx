@@ -143,7 +143,7 @@ export default async function HomeCategorySections() {
               products={section.products}
             />
             {idx < visible.length - 1 && (
-              <div className="mt-14 sm:mt-20 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+              <div className="mt-14 sm:mt-20 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
             )}
           </div>
         ))}

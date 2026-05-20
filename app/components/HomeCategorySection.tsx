@@ -126,9 +126,9 @@ export default function HomeCategorySection({ categoryName, categoryHref, banner
         <div className="flex items-center gap-3">
           {/* Blue accent bar */}
           <div className="w-1 h-6 sm:h-7 rounded-full shrink-0" style={{ background: "linear-gradient(to bottom, #053132, #042628)" }} />
-          <h2 className="text-base sm:text-xl font-black text-gray-900 leading-tight">{categoryName}</h2>
+          <h2 className="text-base sm:text-xl font-black text-white leading-tight">{categoryName}</h2>
           {hasProducts && (
-            <span className="hidden sm:inline-flex text-[11px] font-bold px-2.5 py-1 rounded-full" style={{ color: "#053132", background: "rgba(5,49,50,0.07)", border: "1px solid rgba(5,49,50,0.15)" }}>
+            <span className="hidden sm:inline-flex text-[11px] font-bold px-2.5 py-1 rounded-full" style={{ color: "#65E0CD", background: "rgba(101,224,205,0.08)", border: "1px solid rgba(101,224,205,0.2)" }}>
               {products.length} منتج
             </span>
           )}
