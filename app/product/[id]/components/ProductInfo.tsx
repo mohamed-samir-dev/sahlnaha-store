@@ -168,37 +168,53 @@ export default function ProductInfo({ product, addedToCart, onAddToCart, onBuyNo
 
       {/* Installment */}
       {product.installment?.available && (
-        <div className="bg-amber-50/60 rounded-2xl p-4 border border-amber-100/50">
-          <div className="flex items-center gap-2 mb-3">
-            <IoFlash size={18} className="text-amber-600" />
-            <span className="text-sm font-bold text-amber-800">تقسيط متاح</span>
-            {product.installment.months && (
-              <span className="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold">
-                {product.installment.months} شهر
-              </span>
-            )}
-          </div>
-          {product.installment.downPayment && (
-            <p className="text-xs text-amber-700 font-medium mb-2">
-              دفعة أولى: <span className="font-bold">{fmt(product.installment.downPayment)} ر.س</span>
-            </p>
-          )}
-          {product.installment.note && (
-            <p className="text-[11px] text-amber-600/80 mb-3">{product.installment.note}</p>
-          )}
-          {product.installment.conditions && product.installment.conditions.length > 0 && (
-            <div className="space-y-1.5 mb-3">
-              {product.installment.conditions.map((c, i) => (
-                <div key={i} className="flex items-start gap-1.5">
-                  <IoCheckmarkCircle size={13} className="text-amber-600 mt-0.5 shrink-0" />
-                  <span className="text-[11px] text-amber-800/80">{c}</span>
-                </div>
-              ))}
+        <div className="relative rounded-2xl overflow-hidden border border-amber-400/40">
+          {/* gradient background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-amber-500/20 via-orange-500/10 to-amber-600/20" />
+          <div className="relative p-4">
+            {/* Header */}
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 rounded-xl bg-amber-400/20 flex items-center justify-center">
+                <IoFlash size={16} className="text-amber-300" />
+              </div>
+              <span className="text-sm font-black text-amber-300">تقسيط متاح</span>
+              {product.installment.months && (
+                <span className="mr-auto text-[11px] bg-amber-400 text-black px-2.5 py-0.5 rounded-full font-black">
+                  {product.installment.months} شهر
+                </span>
+              )}
             </div>
-          )}
-          {product.installment.policy && (
-            <p className="text-[10px] text-amber-500 border-t border-amber-100 pt-2">{product.installment.policy}</p>
-          )}
+
+            {/* Down Payment */}
+            {product.installment.downPayment && (
+              <div className="bg-white/10 rounded-xl px-4 py-3 mb-3 flex items-center justify-between">
+                <span className="text-xs font-bold text-white">الدفعة الأولى</span>
+                <span className="text-base font-black text-amber-300">{fmt(product.installment.downPayment)} <span className="text-xs font-bold text-white">ر.س</span></span>
+              </div>
+            )}
+
+            {/* Note */}
+            {product.installment.note && (
+              <p className="text-xs text-white leading-relaxed mb-3">{product.installment.note}</p>
+            )}
+
+            {/* Conditions */}
+            {product.installment.conditions && product.installment.conditions.length > 0 && (
+              <div className="space-y-2 mb-3">
+                {product.installment.conditions.map((c, i) => (
+                  <div key={i} className="flex items-start gap-2">
+                    <IoCheckmarkCircle size={14} className="text-amber-400 mt-0.5 shrink-0" />
+                    <span className="text-xs text-white">{c}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Policy */}
+            <p className="text-xs text-white/80 border-t border-white/10 pt-3 mt-1 leading-relaxed">
+              يتم تفعيل التقسيط بعد مراجعة البيانات والموافقة، وفي حال التأخير يحق للمتجر اتخاذ الإجراءات اللازمة.
+            </p>
+          </div>
         </div>
       )}
     </div>
