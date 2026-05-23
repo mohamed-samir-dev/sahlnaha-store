@@ -13,6 +13,7 @@ export default function OrderDetailPage() {
   const [loading, setLoading] = useState(true);
   const [fin, setFin] = useState({ total: 0, downPayment: 0, months: 0, monthlyPayment: 0 });
   const [saving, setSaving] = useState(false);
+  const [confirmCancel, setConfirmCancel] = useState(false);
 
   useEffect(() => {
     fetch(`/api/admin/orders/${id}`)
@@ -222,7 +223,7 @@ export default function OrderDetailPage() {
             حفظ الأرقام
           </button>
           <div className="flex gap-2">
-            {(["pending", "confirmed", "cancelled"] as const).map((s) => (
+            {(["pending", "confirmed"] as const).map((s) => (
               <button
                 key={s}
                 onClick={() => changeStatus(s)}
@@ -234,6 +235,32 @@ export default function OrderDetailPage() {
                 {STATUS[s].label}
               </button>
             ))}
+            {confirmCancel ? (
+              <>
+                <button
+                  onClick={() => { changeStatus("cancelled"); setConfirmCancel(false); }}
+                  className="flex-1 py-2.5 rounded-lg text-xs font-bold bg-red-500 hover:bg-red-600 text-white border border-red-500 transition-all"
+                >
+                  تأكيد الإلغاء
+                </button>
+                <button
+                  onClick={() => setConfirmCancel(false)}
+                  className="flex-1 py-2.5 rounded-lg text-xs font-bold border border-gray-200 text-gray-500 hover:bg-gray-50 transition-all"
+                >
+                  تراجع
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => setConfirmCancel(true)}
+                className={`flex-1 py-2.5 rounded-lg text-xs font-bold transition-all border flex items-center justify-center gap-1 ${
+                  order.status === "cancelled" ? `${STATUS["cancelled"].cls} shadow-sm` : "border-gray-200 text-gray-500 hover:bg-gray-50"
+                }`}
+              >
+                {order.status === "cancelled" && <IconCheck />}
+                {STATUS["cancelled"].label}
+              </button>
+            )}
           </div>
         </div>
       </Section>
