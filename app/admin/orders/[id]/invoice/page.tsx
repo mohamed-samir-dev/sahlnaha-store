@@ -42,8 +42,16 @@ export default function InvoicePrintPage() {
   const [company, setCompany] = useState<Company>({});
 
   useEffect(() => {
-    if (order) setTimeout(() => window.print(), 500);
-  }, [order]);
+    if (!order) return;
+    const images = [company.header, company.footer, company.stamp].filter(Boolean) as string[];
+    if (images.length === 0) { window.print(); return; }
+    let loaded = 0;
+    images.forEach((src) => {
+      const img = new Image();
+      img.onload = img.onerror = () => { if (++loaded === images.length) window.print(); };
+      img.src = src;
+    });
+  }, [order, company]);
 
   useEffect(() => {
     Promise.all([
