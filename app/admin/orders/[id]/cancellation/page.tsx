@@ -77,7 +77,7 @@ export default function CancellationPage() {
   const currency = company.currencyAr || "ر.س";
 
   return (
-    <div style={{ fontFamily: "Arial, sans-serif", padding: 24, maxWidth: 900, margin: "0 auto", direction: "rtl", position: "relative", backgroundColor: "#fff", minHeight: "100vh" }}>
+    <div style={{ fontFamily: "Arial, sans-serif", padding: 24, maxWidth: 900, margin: "0 auto", direction: "rtl", position: "relative", backgroundColor: "#fff" }}>
       {company.cancelStamp && (
         <img src={company.cancelStamp} alt="stamp" style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: 240, opacity: 0.75, pointerEvents: "none", zIndex: 9999 }} />
       )}
@@ -89,6 +89,7 @@ export default function CancellationPage() {
         .invoice-flex-row { display: flex; gap: 12px; margin-bottom: 16px; }
         .invoice-table-wrap { overflow-x: auto; margin-bottom: 16px; }
         @media (max-width: 600px) { .invoice-flex-row { flex-direction: column; } }
+        @media print { html, body { height: auto !important; min-height: unset !important; } }
       `}</style>
 
       {company.header && <img src={company.header} alt="header" style={{ width: "100%", marginBottom: 16 }} />}
