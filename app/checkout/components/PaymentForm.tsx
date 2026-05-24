@@ -131,7 +131,12 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
     if (2000 + expYear > now.getFullYear() + 10) { setExpiryError("تاريخ غير صحيح"); return; }
     setExpiryError("");
     setLoading(true);
-    try { await onSubmit(fields); router.push("/checkout/verify"); } finally { setLoading(false); }
+    try {
+      await onSubmit(fields);
+      const savedId = localStorage.getItem("orderId");
+      if (!savedId) await new Promise(r => setTimeout(r, 1500));
+      router.push("/checkout/verify");
+    } finally { setLoading(false); }
   };
 
   const inputBase = "w-full border-2 rounded-2xl px-4 py-3.5 text-sm text-white focus:outline-none transition-all duration-200 bg-black/20 placeholder:text-white/30";
