@@ -134,7 +134,7 @@ export default function CustomerReviews() {
             {/* Desktop grid */}
             <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
               {reviews.map((r) => (
-                <div key={r._id} className="group relative bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col gap-4 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 shadow-sm" onMouseEnter={e=>{e.currentTarget.style.borderColor='rgba(101,224,205,0.3)'}} onMouseLeave={e=>{e.currentTarget.style.borderColor='rgba(255,255,255,0.1)'}}>
+                <div key={r._id} className="group relative border rounded-2xl p-5 flex flex-col gap-4 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 shadow-sm" style={{background:'rgba(255,255,255,0.08)',borderColor:'rgba(255,255,255,0.15)'}} onMouseEnter={e=>{e.currentTarget.style.borderColor='rgba(101,224,205,0.4)'}} onMouseLeave={e=>{e.currentTarget.style.borderColor='rgba(255,255,255,0.15)'}}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="absolute top-4 left-4 w-8 h-8 transition-colors" style={{ color: "rgba(101,224,205,0.15)" }}>
                     <path fillRule="evenodd" d="M4.848 2.771A49.144 49.144 0 0 1 12 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 0 1-3.476.383.39.39 0 0 0-.297.17l-2.755 4.133a.75.75 0 0 1-1.248 0l-2.755-4.133a.39.39 0 0 0-.297-.17 48.9 48.9 0 0 1-3.476-.384c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97Z" clipRule="evenodd" />
                   </svg>
@@ -161,12 +161,12 @@ export default function CustomerReviews() {
 
             {/* Mobile carousel */}
             <div className="md:hidden mb-8">
-              <div className="overflow-hidden">
+              <div className="overflow-hidden" dir="ltr">
                 <div className="flex transition-transform duration-500 ease-out"
                   style={{ transform: `translateX(${activeIdx * -100}%)` }}>
                   {reviews.map((r) => (
                     <div key={r._id} className="w-full shrink-0 px-1">
-                      <div className="bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col gap-4 shadow-sm">
+                      <div className="border rounded-2xl p-5 flex flex-col gap-4 shadow-sm" style={{background:'rgba(255,255,255,0.08)',borderColor:'rgba(255,255,255,0.15)'}}>
                         <StarRating rating={r.rating} />
                         <p className="text-white/70 text-sm leading-relaxed">{r.comment}</p>
                         <div className="flex items-center gap-3 pt-2 border-t border-white/10">
@@ -221,18 +221,18 @@ export default function CustomerReviews() {
 
           {showForm && (
             <form onSubmit={handleSubmit}
-              className="w-full max-w-lg bg-white border border-gray-100 rounded-2xl p-6 flex flex-col gap-4 shadow-xl">
+              className="w-full max-w-lg rounded-2xl p-6 flex flex-col gap-4 shadow-xl" style={{background:'rgba(255,255,255,0.08)',border:'1px solid rgba(255,255,255,0.15)'}}>
               <input type="text" placeholder="اسمك" value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition-all"
+                className="rounded-xl px-4 py-3 text-sm text-white placeholder-white/40 outline-none transition-all" style={{background:'rgba(255,255,255,0.08)',border:'1px solid rgba(255,255,255,0.2)'}}
                 onFocus={e=>{e.currentTarget.style.borderColor='#053132';e.currentTarget.style.boxShadow='0 0 0 3px rgba(5,49,50,0.15)';}} onBlur={e=>{e.currentTarget.style.borderColor='';e.currentTarget.style.boxShadow='';}} required />
               <textarea placeholder="اكتب تجربتك مع المتجر..." value={form.comment}
                 onChange={(e) => setForm({ ...form, comment: e.target.value })}
                 rows={3}
-                className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition-all resize-none"
+                className="rounded-xl px-4 py-3 text-sm text-white placeholder-white/40 outline-none transition-all resize-none" style={{background:'rgba(255,255,255,0.08)',border:'1px solid rgba(255,255,255,0.2)'}}
                 onFocus={e=>{e.currentTarget.style.borderColor='#053132';e.currentTarget.style.boxShadow='0 0 0 3px rgba(5,49,50,0.15)';}} onBlur={e=>{e.currentTarget.style.borderColor='';e.currentTarget.style.boxShadow='';}} required />
               <div className="flex items-center gap-3">
-                <span className="text-white/70 text-sm">تقييمك:</span>
+                <span className="text-white/80 text-sm">تقييمك:</span>
                 <div className="flex gap-1">
                   {[1, 2, 3, 4, 5].map((s) => (
                     <button key={s} type="button" onClick={() => setForm({ ...form, rating: s })}
