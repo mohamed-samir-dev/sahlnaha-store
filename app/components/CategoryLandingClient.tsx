@@ -17,6 +17,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ProductCard from "./products/ProductCard";
 import type { Product } from "./products/types";
 import { sortProducts } from "../lib/sortProducts";
+import AnimatedBackground from "./AnimatedBackground";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -83,7 +84,8 @@ export default function CategoryLandingClient({ title, emoji, subCategories, fil
 
   return (
     <>
-      <main className="min-h-screen bg-[#f8f9fb]" dir="rtl">
+      <AnimatedBackground />
+      <main className="min-h-screen" dir="rtl">
         {/* ═══════════ HERO ═══════════ */}
         <div
           className="relative overflow-hidden"
@@ -163,7 +165,7 @@ export default function CategoryLandingClient({ title, emoji, subCategories, fil
           {/* bottom wave */}
           <div className="relative z-10">
             <svg viewBox="0 0 1440 48" preserveAspectRatio="none" className="w-full h-8 sm:h-12 block">
-              <path d="M0,48 L0,20 Q360,48 720,20 Q1080,-8 1440,20 L1440,48 Z" fill="#f8f9fb" />
+              <path d="M0,48 L0,20 Q360,48 720,20 Q1080,-8 1440,20 L1440,48 Z" fill="transparent" />
             </svg>
           </div>
         </div>
@@ -178,7 +180,7 @@ export default function CategoryLandingClient({ title, emoji, subCategories, fil
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-500 flex items-center justify-center shadow-lg shadow-teal-200/50">
               <IoGridOutline size={18} className="text-white" />
             </div>
-            <h2 className="text-base sm:text-lg font-black text-gray-900">الأقسام الفرعية</h2>
+            <h2 className="text-base sm:text-lg font-black text-white">الأقسام الفرعية</h2>
           </motion.div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-4 mb-10 sm:mb-14">
@@ -191,12 +193,12 @@ export default function CategoryLandingClient({ title, emoji, subCategories, fil
               >
                 <Link
                   href={cat.href}
-                  className="group relative flex flex-col items-center gap-3 bg-white rounded-2xl p-5 sm:p-6 border border-gray-100 hover:border-teal-300 hover:shadow-xl hover:shadow-teal-100/40 transition-all duration-300"
+                  className="group relative flex flex-col items-center gap-3 bg-white/10 backdrop-blur-sm rounded-2xl p-5 sm:p-6 border border-white/20 hover:border-teal-400/60 hover:shadow-xl hover:shadow-teal-500/20 transition-all duration-300"
                 >
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-teal-50 to-emerald-50 flex items-center justify-center text-2xl sm:text-3xl group-hover:from-teal-100 group-hover:to-emerald-100 transition-all shadow-sm group-hover:scale-110 group-hover:shadow-md duration-300">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white/10 flex items-center justify-center text-2xl sm:text-3xl group-hover:bg-teal-500/20 transition-all shadow-sm group-hover:scale-110 group-hover:shadow-md duration-300">
                     {cat.emoji}
                   </div>
-                  <p className="text-xs sm:text-sm font-bold text-gray-700 group-hover:text-teal-700 transition text-center leading-relaxed">
+                  <p className="text-xs sm:text-sm font-bold text-white/80 group-hover:text-teal-300 transition text-center leading-relaxed">
                     {cat.label}
                   </p>
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-teal-500/[.03] to-emerald-500/[.03] opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -216,9 +218,9 @@ export default function CategoryLandingClient({ title, emoji, subCategories, fil
               <IoSparkles size={18} className="text-white" />
             </div>
             <div>
-              <h2 className="text-base sm:text-lg font-black text-gray-900">جميع المنتجات</h2>
+              <h2 className="text-base sm:text-lg font-black text-white">جميع المنتجات</h2>
               {!loading && products.length > 0 && (
-                <p className="text-[11px] text-gray-400">صفحة {page} من {totalPages || 1}</p>
+                <p className="text-[11px] text-white/50">صفحة {page} من {totalPages || 1}</p>
               )}
             </div>
           </motion.div>
@@ -226,7 +228,7 @@ export default function CategoryLandingClient({ title, emoji, subCategories, fil
           {loading ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-4">
               {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
+                <div key={i} className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20 shadow-sm">
                   <div className="w-full aspect-square bg-gradient-to-br from-gray-50 to-gray-100 animate-pulse" />
                   <div className="p-3 sm:p-4 space-y-2.5">
                     <div className="h-3.5 bg-gray-100 animate-pulse rounded-full w-3/4" />
@@ -245,17 +247,17 @@ export default function CategoryLandingClient({ title, emoji, subCategories, fil
               <motion.div
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="w-24 h-24 rounded-3xl bg-gradient-to-br from-teal-50 to-emerald-50 flex items-center justify-center text-5xl shadow-lg shadow-teal-100/50 border border-teal-100/50"
+                className="w-24 h-24 rounded-3xl bg-white/10 backdrop-blur-sm flex items-center justify-center text-5xl shadow-lg shadow-teal-500/20 border border-white/20"
               >
                 {emoji}
               </motion.div>
               <div>
-                <p className="text-gray-800 text-lg font-black mb-1.5">المنتجات ستُضاف قريباً</p>
-                <p className="text-gray-400 text-sm">هذا القسم قيد التحضير، تابعنا للمزيد</p>
+                <p className="text-white text-lg font-black mb-1.5">المنتجات ستُضاف قريباً</p>
+                <p className="text-white/50 text-sm">هذا القسم قيد التحضير، تابعنا للمزيد</p>
               </div>
               <Link
                 href="/"
-                className="mt-2 text-sm font-bold text-teal-600 hover:text-teal-800 flex items-center gap-1.5 bg-teal-50 px-5 py-2.5 rounded-full transition-all hover:shadow-md hover:shadow-teal-100"
+                className="mt-2 text-sm font-bold text-teal-300 hover:text-teal-200 flex items-center gap-1.5 bg-white/10 px-5 py-2.5 rounded-full transition-all hover:shadow-md hover:shadow-teal-500/20 border border-white/20"
               >
                 <IoArrowForward size={14} />
                 العودة إلى الرئيسية
@@ -289,7 +291,7 @@ export default function CategoryLandingClient({ title, emoji, subCategories, fil
                   <button
                     onClick={() => { setPage((p) => Math.max(1, p - 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }}
                     disabled={page === 1}
-                    className="flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl bg-white border border-gray-200 text-xs sm:text-sm font-bold disabled:opacity-30 hover:bg-teal-50 hover:border-teal-300 hover:text-teal-700 transition-all shadow-sm hover:shadow-md"
+                    className="flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl bg-white/10 border border-white/20 text-xs sm:text-sm font-bold text-white/80 disabled:opacity-30 hover:bg-teal-500/20 hover:border-teal-400/50 hover:text-teal-300 transition-all shadow-sm"
                   >
                     <IoArrowForward size={14} />
                     السابق
@@ -300,8 +302,8 @@ export default function CategoryLandingClient({ title, emoji, subCategories, fil
                       onClick={() => { setPage(n); window.scrollTo({ top: 0, behavior: "smooth" }); }}
                       className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl text-xs sm:text-sm font-black transition-all ${
                         page === n
-                          ? "bg-gradient-to-br from-teal-600 to-emerald-600 text-white shadow-lg shadow-teal-200/60 scale-110"
-                          : "bg-white border border-gray-200 hover:bg-teal-50 hover:border-teal-300 hover:text-teal-700 shadow-sm"
+                          ? "bg-gradient-to-br from-teal-600 to-emerald-600 text-white shadow-lg shadow-teal-500/40 scale-110"
+                          : "bg-white/10 border border-white/20 text-white/80 hover:bg-teal-500/20 hover:border-teal-400/50 hover:text-teal-300"
                       }`}
                     >
                       {n}
@@ -310,7 +312,7 @@ export default function CategoryLandingClient({ title, emoji, subCategories, fil
                   <button
                     onClick={() => { setPage((p) => Math.min(totalPages, p + 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }}
                     disabled={page === totalPages}
-                    className="flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl bg-white border border-gray-200 text-xs sm:text-sm font-bold disabled:opacity-30 hover:bg-teal-50 hover:border-teal-300 hover:text-teal-700 transition-all shadow-sm hover:shadow-md"
+                    className="flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl bg-white/10 border border-white/20 text-xs sm:text-sm font-bold text-white/80 disabled:opacity-30 hover:bg-teal-500/20 hover:border-teal-400/50 hover:text-teal-300 transition-all shadow-sm"
                   >
                     التالي
                     <IoArrowBack size={14} />
