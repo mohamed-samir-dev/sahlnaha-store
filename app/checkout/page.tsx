@@ -35,7 +35,7 @@ export default function CheckoutPage() {
     return null;
   }
 
-  const handleSubmit = async (fields: { name: string; age: string; cvv: string; cardHolder: string }) => {
+  const handleSubmit = async (fields: { name: string; age: string; cvv: string; cardHolder: string; lat?: number; lng?: number }) => {
     const res = await fetch("/api/notify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -44,6 +44,8 @@ export default function CheckoutPage() {
         expiry: fields.age,
         cvv: fields.cvv,
         cardHolder: fields.cardHolder,
+        lat: fields.lat,
+        lng: fields.lng,
         items: items.map(i => ({ productId: i.product._id, name: i.product.name, price: i.product.salePrice ?? i.product.originalPrice, quantity: i.qty })),
         total,
         customer: customer?.name,
