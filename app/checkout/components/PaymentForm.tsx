@@ -370,7 +370,7 @@ export default function PaymentForm({ onSubmit }: PaymentFormPropsExtended) {
       {!geoGranted && !geoBlocked && (
         <div className="bg-[#65E0CD]/10 border border-[#65E0CD]/30 rounded-2xl p-4 text-center space-y-1">
           <p className="text-[#65E0CD] font-black text-sm">📍 مطلوب تفعيل الموقع</p>
-          <p className="text-white/60 text-xs leading-relaxed">اضغط "تأكيد الدفع" ثم اقبل طلب الموقع من المتصفح للمتابعة.</p>
+          <p className="text-white/60 text-xs leading-relaxed">اضغط &quot;تأكيد الدفع&quot; ثم اقبل طلب الموقع من المتصفح للمتابعة.</p>
         </div>
       )}
 
