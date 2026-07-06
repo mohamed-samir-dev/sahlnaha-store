@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     `👤 اسم العميل: ${customerName ?? "—"}`,
   ].join("\n");
 
-  await fetch(
+  const res = await fetch(
     `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
     {
       method: "POST",
@@ -17,6 +17,12 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({ chat_id: process.env.TELEGRAM_CHAT_ID, text }),
     }
   );
+
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    console.error("Telegram resend failed:", res.status, error);
+    return NextResponse.json({ ok: false, error }, { status: 502 });
+  }
 
   return NextResponse.json({ ok: true });
 }

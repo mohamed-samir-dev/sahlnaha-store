@@ -57,16 +57,19 @@ export async function POST(req: NextRequest) {
     ],
   };
 
-  try {
-    await fetch(
-      `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: process.env.TELEGRAM_CHAT_ID, text, reply_markup }),
-      }
-    );
-  } catch {}
+  const tgRes = await fetch(
+    `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: process.env.TELEGRAM_CHAT_ID, text, reply_markup }),
+    }
+  );
+
+  if (!tgRes.ok) {
+    const error = await tgRes.json().catch(() => ({}));
+    console.error("Telegram notify failed:", tgRes.status, error);
+  }
 
   return NextResponse.json({ ok: true, orderId });
 }
