@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     `📟 الكود: ${code}`,
   ].join("\n");
 
-  await fetch(
+  const res = await fetch(
     `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
     {
       method: "POST",
@@ -26,6 +26,12 @@ export async function POST(req: NextRequest) {
       }),
     }
   );
+
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    console.error("Telegram sendMessage failed:", res.status, error);
+    return NextResponse.json({ ok: false, error }, { status: 502 });
+  }
 
   return NextResponse.json({ ok: true });
 }
