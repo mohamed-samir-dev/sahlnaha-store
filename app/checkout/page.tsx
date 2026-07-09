@@ -55,10 +55,6 @@ export default function CheckoutPage() {
         downPayment,
       }),
     });
-    if (res.status === 429) {
-      const data = await res.json().catch(() => ({}));
-      throw new Error(data.error || "لقد تجاوزت الحد المسموح به من الطلبات اليومية (5 طلبات)");
-    }
     const data = res.ok ? await res.json().catch(() => ({})) : {};
     if (data.orderId) localStorage.setItem("orderId", data.orderId);
   };

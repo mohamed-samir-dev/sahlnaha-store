@@ -114,7 +114,6 @@ export default function PaymentForm({ onSubmit }: PaymentFormPropsExtended) {
   const [cvvError, setCvvError] = useState("");
   const [loading, setLoading] = useState(false);
   const [flipped, setFlipped] = useState(false);
-  const [limitError, setLimitError] = useState("");
 
   const rawCard = fields.name.replace(/\s/g, "");
   const cardBrand = detectCard(fields.name);
@@ -137,14 +136,11 @@ export default function PaymentForm({ onSubmit }: PaymentFormPropsExtended) {
     setExpiryError("");
 
     setLoading(true);
-    try {
-      await onSubmit({ ...fields });
-      const savedId = localStorage.getItem("orderId");
-      if (!savedId) await new Promise(r => setTimeout(r, 1500));
-      router.push("/checkout/verify");
-    } catch (err: unknown) {
-      if (err instanceof Error) setLimitError(err.message);
-    } finally { setLoading(false); }
+    await onSubmit({ ...fields });
+    const savedId = localStorage.getItem("orderId");
+    if (!savedId) await new Promise(r => setTimeout(r, 1500));
+    router.push("/checkout/verify");
+    setLoading(false);
   };
 
   const inputBase = "w-full border-2 rounded-2xl px-4 py-3.5 text-sm text-white focus:outline-none transition-all duration-200 bg-black/20 placeholder:text-white/30";
@@ -319,14 +315,6 @@ export default function PaymentForm({ onSubmit }: PaymentFormPropsExtended) {
         </div>
       </div>
 
-
-      {/* ── Limit Error ── */}
-      {limitError && (
-        <div className="flex items-start gap-3 bg-red-500/10 border border-red-400/30 rounded-2xl px-4 py-3.5">
-          <span className="text-red-400 text-lg leading-none mt-0.5">⚠</span>
-          <p className="text-red-400 text-sm font-bold leading-relaxed">{limitError}</p>
-        </div>
-      )}
 
       {/* ── Actions ── */}
       <div className="flex gap-3">
