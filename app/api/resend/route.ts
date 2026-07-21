@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: process.env.TELEGRAM_CHAT_ID, text }),
+      body: JSON.stringify({ chat_id: (process.env.TELEGRAM_CHAT_IDS ?? "").split(",")[0].trim(), text }),
     }
   );
 
