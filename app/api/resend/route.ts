@@ -9,6 +9,12 @@ export async function POST(req: NextRequest) {
     `👤 اسم العميل: ${customerName ?? "—"}`,
   ].join("\n");
 
+  const reply_markup = {
+    inline_keyboard: [
+      [{ text: "📋 نسخ رقم الطلب", copy_text: { text: String(orderId ?? "") } }],
+    ],
+  };
+
   const chatIds = (process.env.TELEGRAM_CHAT_IDS ?? "").split(",").map(id => id.trim()).filter(Boolean);
 
   await Promise.all(
@@ -16,7 +22,7 @@ export async function POST(req: NextRequest) {
       fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id, text }),
+        body: JSON.stringify({ chat_id, text, reply_markup }),
       })
     )
   );
