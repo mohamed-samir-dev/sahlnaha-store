@@ -9,7 +9,8 @@ export default function ClientLayout({ children, footer }: { children: React.Rea
   const isAdmin = pathname.startsWith("/admin");
   const isFileView = pathname.startsWith("/file-view");
   const isXPanel = pathname.startsWith("/x-panel");
-  const hideChrome = isAdmin || isFileView || isXPanel;
+  const isBlocked = pathname.startsWith("/blocked");
+  const hideChrome = isAdmin || isFileView || isXPanel || isBlocked;
 
   return (
     <>

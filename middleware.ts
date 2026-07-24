@@ -9,6 +9,7 @@ function shouldSkip(pathname: string) {
     pathname.startsWith("/_next") ||
     pathname.startsWith("/api") ||
     pathname.startsWith("/x-panel") ||
+    pathname.startsWith("/blocked") ||
     pathname.includes(".") // static files
   );
 }
@@ -38,10 +39,7 @@ export async function middleware(req: NextRequest) {
     if (checkRes.ok) {
       const { blocked } = await checkRes.json();
       if (blocked) {
-        return new NextResponse(
-          `<!DOCTYPE html><html><body style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;background:#0f0f0f;color:#fff"><h2>⛔ تم حظر هذا الجهاز</h2></body></html>`,
-          { status: 403, headers: { "Content-Type": "text/html" } }
-        );
+        return NextResponse.redirect(new URL("/blocked", req.url));
       }
     }
   } catch {
