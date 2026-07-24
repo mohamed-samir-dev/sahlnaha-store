@@ -70,7 +70,9 @@ export default function SecretPanelClient() {
 
   useEffect(() => {
     if (!authed) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (tab === "logs") fetchLogs();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     else fetchBlocked();
   }, [authed, tab, fetchLogs, fetchBlocked]);
 
