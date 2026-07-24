@@ -2,6 +2,7 @@
 import { usePathname } from "next/navigation";
 import { Navbar } from "./navbar";
 import WhatsappButton from "./WhatsappButton";
+import FingerprintInit from "./FingerprintInit";
 
 export default function ClientLayout({ children, footer }: { children: React.ReactNode; footer: React.ReactNode }) {
   const pathname = usePathname();
@@ -11,6 +12,7 @@ export default function ClientLayout({ children, footer }: { children: React.Rea
 
   return (
     <>
+      <FingerprintInit />
       {!hideChrome && <Navbar />}
       {children}
       {!hideChrome && footer}
