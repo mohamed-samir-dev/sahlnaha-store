@@ -132,10 +132,13 @@ export default function SecretPanelClient() {
     fetchLogs();
   }
 
-  function blockFromLog(log: DeviceLog) {
-    setBlockForm({ fingerprint: log.fingerprint || "", ip: log.ip || "", userAgent: log.userAgent || "", reason: "" });
-    setTab("blocked");
-    setShowBlockForm(true);
+  async function blockFromLog(log: DeviceLog) {
+    await fetch("/api/secret/blocked-devices", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fingerprint: log.fingerprint || "", ip: log.ip || "", userAgent: log.userAgent || "", reason: "blocked from logs" }),
+    });
+    fetchBlocked();
   }
 
   if (authed === null) {
