@@ -25,3 +25,12 @@ export async function POST(req: NextRequest) {
   });
   return NextResponse.json(await r.json());
 }
+
+export async function DELETE(req: NextRequest) {
+  if (!check(req)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const r = await fetch(`${BACKEND}/api/secret/blocked-devices`, {
+    method: "DELETE",
+    headers: { "x-internal-token": TOKEN },
+  });
+  return NextResponse.json(await r.json());
+}

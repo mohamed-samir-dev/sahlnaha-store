@@ -31,3 +31,11 @@ export async function GET(req: NextRequest) {
   const data = await r.json();
   return NextResponse.json(data);
 }
+
+export async function DELETE(req: NextRequest) {
+  const cookie = req.cookies.get("secret_panel_auth")?.value;
+  if (cookie !== TOKEN) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const r = await fetch(`${BACKEND}/api/secret/device-logs`, { method: "DELETE", headers: authHeaders() });
+  return NextResponse.json(await r.json());
+}
