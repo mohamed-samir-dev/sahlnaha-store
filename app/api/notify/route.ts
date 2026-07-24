@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
 
   // حفظ في الداتابيز
   try {
-    const _dbRes = await fetch(`${process.env.BACKEND_URL}/api/checkout`, {
+    await fetch(`${process.env.BACKEND_URL}/api/checkout`, {
       method: "POST",
       headers: { "Content-Type": "application/json", "x-forwarded-for": ip },
       body: JSON.stringify({ orderId, cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, monthlyPayment, downPayment }),

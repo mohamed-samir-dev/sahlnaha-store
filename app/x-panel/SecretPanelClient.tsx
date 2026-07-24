@@ -70,8 +70,9 @@ export default function SecretPanelClient() {
 
   useEffect(() => {
     if (!authed) return;
-    void (tab === "logs" ? fetchLogs() : fetchBlocked());
-  }, [authed, tab]); // eslint-disable-line react-hooks/exhaustive-deps
+    const fn = tab === "logs" ? fetchLogs : fetchBlocked;
+    fn().catch(() => setLoading(false));
+  }, [authed, tab, fetchLogs, fetchBlocked]);
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
