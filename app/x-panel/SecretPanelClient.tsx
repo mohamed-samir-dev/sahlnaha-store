@@ -103,25 +103,21 @@ export default function SecretPanelClient() {
   }
 
   async function deleteBlock(id: string) {
-    if (!confirm("حذف هذا الجهاز من القائمة؟")) return;
     await fetch(`/api/secret/blocked-devices/${id}`, { method: "DELETE" });
     fetchBlocked();
   }
 
   async function deleteLog(id: string) {
-    if (!confirm("حذف هذا السجل؟")) return;
     await fetch(`/api/secret/device-logs/${id}`, { method: "DELETE" });
     fetchLogs();
   }
 
   async function deleteAllLogs() {
-    if (!confirm("حذف جميع السجلات؟ لا يمكن التراجع عن هذا الإجراء.")) return;
     await fetch("/api/secret/device-logs", { method: "DELETE" });
     fetchLogs();
   }
 
   async function deleteAllBlocked() {
-    if (!confirm("حذف جميع الأجهزة المحظورة؟ لا يمكن التراجع عن هذا الإجراء.")) return;
     await fetch("/api/secret/blocked-devices", { method: "DELETE" });
     fetchBlocked();
   }
