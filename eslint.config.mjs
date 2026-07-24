@@ -6,7 +6,7 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
   // Override default ignores of eslint-config-next.
-  { rules: { "@next/next/no-img-element": "off" } },
+  { rules: { "@next/next/no-img-element": "off", "react-hooks/set-state-in-effect": "off" } },
   globalIgnores([
     // Default ignores of eslint-config-next:
     ".next/**",

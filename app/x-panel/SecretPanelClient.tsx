@@ -70,8 +70,8 @@ export default function SecretPanelClient() {
 
   useEffect(() => {
     if (!authed) return;
-    const fn = tab === "logs" ? fetchLogs : fetchBlocked;
-    fn().catch(() => setLoading(false));
+    if (tab === "logs") fetchLogs();
+    else fetchBlocked();
   }, [authed, tab, fetchLogs, fetchBlocked]);
 
   async function handleLogin(e: React.FormEvent) {

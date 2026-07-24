@@ -21,7 +21,8 @@ export async function middleware(req: NextRequest) {
   const ip =
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     req.headers.get("x-real-ip") ||
-    "unknown";
+    (req as any).ip ||
+    null;
 
   const fingerprint = req.cookies.get("_fp")?.value || null;
   const userAgent = req.headers.get("user-agent") || null;
